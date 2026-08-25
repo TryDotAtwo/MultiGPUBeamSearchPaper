@@ -116,6 +116,16 @@ def test_release_assets_match_when_staged_locally() -> None:
         assert sha256(path) == expected_sha
 
 
+def test_repository_checksum_paths_are_posix() -> None:
+    checksum_file = ROOT / "artifacts" / "checksums.sha256"
+    for line in checksum_file.read_text(encoding="utf-8").splitlines():
+        digest, separator, relative = line.partition("  ")
+        assert separator == "  "
+        assert len(digest) == 64
+        assert "\\" not in relative
+        assert (ROOT / relative).is_file()
+
+
 def test_no_literature_pdfs_or_secrets_are_packaged() -> None:
     assert not (ROOT / "paper" / "sources").exists()
     forbidden_names = {
