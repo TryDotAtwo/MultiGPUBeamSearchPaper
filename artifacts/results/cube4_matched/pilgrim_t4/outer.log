@@ -1,0 +1,74 @@
+[{"stream_name":"stdout","time":7.592772447,"data":"known_scramble= ['-f0', 'f1', '-r0', 'd2', '-d1', 'd3', '-r2', 'd1', '-r0', '-f3', '-f0', '-r3', '-f2', 'd3', '-d2', 'r3', 'd1', '-r1', '-f2', '-d1']\n"}
+,{"stream_name":"stdout","time":7.817115245,"data":"torch= 2.10.0+cu128 cuda= 12.8 cudnn= 91002 arches= ['sm_70', 'sm_75', 'sm_80', 'sm_86', 'sm_90', 'sm_100', 'sm_120']\n"}
+,{"stream_name":"stdout","time":21.750101723,"data":"[2026-08-12 16:11:03] Evaluation config:\n"}
+,{"stream_name":"stdout","time":21.750165785,"data":"  B               4194304\n"}
+,{"stream_name":"stdout","time":21.750172856,"data":"  best            True\n"}
+,{"stream_name":"stdout","time":21.750177349,"data":"  compile         False\n"}
+,{"stream_name":"stdout","time":21.750181854,"data":"  compile_mode    reduce-overhead\n"}
+,{"stream_name":"stdout","time":21.750186088,"data":"  compile_skip_dynamic_cudagraphs False\n"}
+,{"stream_name":"stdout","time":21.750190265,"data":"  cpu_batch_topk  None\n"}
+,{"stream_name":"stdout","time":21.750194407,"data":"  cpu_batch_topk_factor 1.25\n"}
+,{"stream_name":"stdout","time":21.750198541,"data":"  cpu_candidate_buffer_factor 1.25\n"}
+,{"stream_name":"stdout","time":21.750202834,"data":"  cpu_candidate_prune_margin 1.05\n"}
+,{"stream_name":"stdout","time":21.750206771,"data":"  cpu_no_dedup_candidates False\n"}
+,{"stream_name":"stdout","time":21.750211732,"data":"  cpu_offload_beam False\n"}
+,{"stream_name":"stdout","time":21.75021584,"data":"  cpu_visited_mode none\n"}
+,{"stream_name":"stdout","time":21.75021986,"data":"  cuda_memory_snapshot False\n"}
+,{"stream_name":"stdout","time":21.750224049,"data":"  cuda_memory_snapshot_entries 2000000\n"}
+,{"stream_name":"stdout","time":21.750228663,"data":"  cuda_memory_stats True\n"}
+,{"stream_name":"stdout","time":21.750233,"data":"  epoch           None\n"}
+,{"stream_name":"stdout","time":21.750237185,"data":"  eval_batch_size 384\n"}
+,{"stream_name":"stdout","time":21.750241294,"data":"  goal            solved\n"}
+,{"stream_name":"stdout","time":21.750245499000002,"data":"  gpu_ids         0\n"}
+,{"stream_name":"stdout","time":21.75024972,"data":"  group_id        2\n"}
+,{"stream_name":"stdout","time":21.750253953,"data":"  model_id        None\n"}
+,{"stream_name":"stdout","time":21.750258161,"data":"  model_info_path model/model.json\n"}
+,{"stream_name":"stdout","time":21.7502629,"data":"  num_attempts    1\n"}
+,{"stream_name":"stdout","time":21.750267187,"data":"  num_steps       10\n"}
+,{"stream_name":"stdout","time":21.750271831,"data":"  qshort_alpha    2.0\n"}
+,{"stream_name":"stdout","time":21.75027633,"data":"  rerank_model_id None\n"}
+,{"stream_name":"stdout","time":21.750280632,"data":"  rnd_depth       None\n"}
+,{"stream_name":"stdout","time":21.7543146,"data":"  rnd_seed        0\n"}
+,{"stream_name":"stdout","time":21.75433052,"data":"  search_seed     0\n"}
+,{"stream_name":"stdout","time":21.754334882,"data":"  search_state_dtype uint8\n"}
+,{"stream_name":"stdout","time":21.754339276,"data":"  states_path     /kaggle/working/paper_state.pt\n"}
+,{"stream_name":"stdout","time":21.754343384,"data":"  tail_bfs_depth  0\n"}
+,{"stream_name":"stdout","time":21.75434734,"data":"  target_id       0\n"}
+,{"stream_name":"stdout","time":21.754350928,"data":"  tests_num       1\n"}
+,{"stream_name":"stdout","time":21.754355112,"data":"  verbose         0\n"}
+,{"stream_name":"stdout","time":21.75435946,"data":"  weights_path    model/model.pth\n"}
+,{"stream_name":"stdout","time":21.754363806,"data":"[2026-08-12 16:11:03] Start testing with device: cuda:0.\n"}
+,{"stream_name":"stdout","time":21.754387691,"data":"Group info:\n"}
+,{"stream_name":"stdout","time":21.754392364,"data":"  # generators   24\n"}
+,{"stream_name":"stdout","time":21.754396534,"data":"  # classes      6\n"}
+,{"stream_name":"stdout","time":21.754400532,"data":"  state size     96\n"}
+,{"stream_name":"stdout","time":21.754404721,"data":"  search dtype   uint8\n"}
+,{"stream_name":"stdout","time":21.754408932,"data":"  search seed    0\n"}
+,{"stream_name":"stdout","time":21.754412948,"data":"  cuda devices   [0]\n"}
+,{"stream_name":"stdout","time":21.754416892,"data":"Loaded states from /kaggle/working/paper_state.pt: (1, 96)\n"}
+,{"stream_name":"stdout","time":21.754421168,"data":"Test dataset size: 1\n"}
+,{"stream_name":"stdout","time":21.754425694,"data":"[before solution 0] CUDA memory: allocated=0.01GiB, reserved=0.01GiB, peak_allocated=0.01GiB, peak_reserved=0.01GiB\n"}
+,{"stream_name":"stdout","time":21.754430219,"data":"PAPER_DEPTH {\"depth_index\": 0, \"frontier\": 1, \"raw_pairs\": 24, \"wall_s\": 9.420095927999995, \"raw_pairs_s\": 2.547744755832386, \"rss_bytes\": 1817944064, \"peak_allocated_bytes\": 16870912, \"peak_reserved_bytes\": 31457280}\n"}
+,{"stream_name":"stdout","time":21.761961564,"data":"PAPER_DEPTH {\"depth_index\": 1, \"frontier\": 24, \"raw_pairs\": 576, \"wall_s\": 0.00952336800000353, \"raw_pairs_s\": 60482.80398277023, \"rss_bytes\": 1818497024, \"peak_allocated_bytes\": 27628032, \"peak_reserved_bytes\": 35651584}\n"}
+,{"stream_name":"stdout","time":21.824047923,"data":"PAPER_DEPTH {\"depth_index\": 2, \"frontier\": 468, \"raw_pairs\": 11232, \"wall_s\": 0.061015900999990436, \"raw_pairs_s\": 184083.1621908158, \"rss_bytes\": 1826234368, \"peak_allocated_bytes\": 196538368, \"peak_reserved_bytes\": 289406976}\n"}
+,{"stream_name":"stdout","time":22.373676797,"data":"PAPER_DEPTH {\"depth_index\": 3, \"frontier\": 8999, \"raw_pairs\": 215976, \"wall_s\": 0.5480932560000156, \"raw_pairs_s\": 394049.7308363047, \"rss_bytes\": 1826664448, \"peak_allocated_bytes\": 198083584, \"peak_reserved_bytes\": 289406976}\n"}
+,{"stream_name":"stdout","time":31.703423939,"data":"PAPER_DEPTH {\"depth_index\": 4, \"frontier\": 172871, \"raw_pairs\": 4148904, \"wall_s\": 9.32262490399998, \"raw_pairs_s\": 445036.032525546, \"rss_bytes\": 1829679104, \"peak_allocated_bytes\": 492616704, \"peak_reserved_bytes\": 706740224}\n"}
+,{"stream_name":"stdout","time":187.700626776,"data":"PAPER_DEPTH {\"depth_index\": 5, \"frontier\": 3315803, \"raw_pairs\": 79579272, \"wall_s\": 155.889154802, \"raw_pairs_s\": 510486.26250540826, \"rss_bytes\": 1869750272, \"peak_allocated_bytes\": 1487415296, \"peak_reserved_bytes\": 1902116864}\n"}
+,{"stream_name":"stdout","time":385.998437506,"data":"PAPER_DEPTH {\"depth_index\": 6, \"frontier\": 4194304, \"raw_pairs\": 100663296, \"wall_s\": 198.17106668300005, \"raw_pairs_s\": 507961.6196496727, \"rss_bytes\": 1903435776, \"peak_allocated_bytes\": 1927526400, \"peak_reserved_bytes\": 3110076416}\n"}
+,{"stream_name":"stdout","time":584.88024576,"data":"PAPER_DEPTH {\"depth_index\": 7, \"frontier\": 4194304, \"raw_pairs\": 100663296, \"wall_s\": 198.73558956500005, \"raw_pairs_s\": 506518.7177613009, \"rss_bytes\": 1903435776, \"peak_allocated_bytes\": 1993826816, \"peak_reserved_bytes\": 3110076416}\n"}
+,{"stream_name":"stdout","time":783.721547858,"data":"PAPER_DEPTH {\"depth_index\": 8, \"frontier\": 4194304, \"raw_pairs\": 100663296, \"wall_s\": 198.69722214900003, \"raw_pairs_s\": 506616.5239316437, \"rss_bytes\": 1903435776, \"peak_allocated_bytes\": 2059020288, \"peak_reserved_bytes\": 3110076416}\n"}
+,{"stream_name":"stdout","time":982.032724646,"data":"PAPER_DEPTH {\"depth_index\": 9, \"frontier\": 4194304, \"raw_pairs\": 100663296, \"wall_s\": 198.1533577849999, \"raw_pairs_s\": 508007.0160063679, \"rss_bytes\": 1903513600, \"peak_allocated_bytes\": 2099602432, \"peak_reserved_bytes\": 3110076416}\n"}
+,{"stream_name":"stdout","time":982.294179038,"data":"[after solution 0] CUDA memory: allocated=0.02GiB, reserved=2.90GiB, peak_allocated=1.96GiB, peak_reserved=2.90GiB\n"}
+,{"stream_name":"stdout","time":982.294208177,"data":"[2026-08-12 16:27:14] Solution 0 not found\n"}
+,{"stream_name":"stdout","time":982.294212884,"data":"Test completed in 970.24s.\n"}
+,{"stream_name":"stdout","time":982.294216833,"data":"Average solution length: 0.00.\n"}
+,{"stream_name":"stdout","time":982.294220479,"data":"95% Student t confidence interval: [0.00, 0.00]\n"}
+,{"stream_name":"stdout","time":982.294224102,"data":"Solved 0/1 scrambles.\n"}
+,{"stream_name":"stdout","time":982.294227691,"data":"Results saved to logs/test_p002-t000-paper_state_model_best_B4194304.json.\n"}
+,{"stream_name":"stderr","time":987.599361391,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":987.599431482,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":987.912986337,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":987.913014501,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":988.641186853,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":989.985467621,"data":"[NbConvertApp] Writing 287365 bytes to __results__.html\n"}
+]

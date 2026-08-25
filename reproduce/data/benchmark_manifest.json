@@ -1,0 +1,46 @@
+{
+  "manifest_version": 1,
+  "move_count": 24,
+  "output_dims": [
+    1,
+    24
+  ],
+  "fixed_state": "pilgrim_runtime/paper_state.pt",
+  "checkpoints": {
+    "1": {
+      "model_glob": "**/weights_megaminx2048_512_8_e4000.pth",
+      "sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "architecture": "Pilgrim MLP hd1=2048 hd2=512 nrd=8 scalar head",
+      "output_dim": 1,
+      "training_run_id": "megaminx2048-512-8-e4000",
+      "native_head": true
+    },
+    "24": {
+      "model_glob": "**/p900-t000-q-sym_1777988767_best.pth",
+      "sha256": "e7bda332b53acc9363edd8ec682a211c1a8b8a315ec26ff8e8928efa5d2ca670",
+      "architecture": "Pilgrim QMLP2RB hd1=1536 hd2=512 nrd=2 24-action head",
+      "output_dim": 24,
+      "training_run_id": "p900-t000-q-sym-1777988767",
+      "native_head": true
+    }
+  },
+  "sha256": {
+    "DATASET_LICENSES.md": "585414d3b8f7796c3e7c6987845445f211c3b6363fe990652cb965721559491b",
+    "pilgrim_runtime/generators/p900.json": "3e38e75ee4f3387c33917393068b2fadf7959b3490f86d6e924f266960f45dbd",
+    "pilgrim_runtime/model_output1.json": "6958fa1fa699bcbeafdda0665852298f8663560a511d884ec5b1939d56d65526",
+    "pilgrim_runtime/model_output24.json": "ed11f93cf7df7b2328c31a6217a8ebba1da8a12928cc24081f376f40ec2603ba",
+    "pilgrim_runtime/paper_state.pt": "8cbf1d728c44ca820a59990e768da78fc5ebcb6f3105a0d822c3808bfda6cc75",
+    "pilgrim_runtime/pilgrim/__init__.py": "e1e38b92bd36f4bbc76bd8491a4f14e68cd91da478a043f0b3ce945eb0e76752",
+    "pilgrim_runtime/pilgrim/factory.py": "452a5955995043c289a27a390a56ecc811cd2548ffaa1465354fae8c435380f2",
+    "pilgrim_runtime/pilgrim/model.py": "a1ffaa11ccac640cdc3ae691a98b59cada373538e0576d504267fd9838ebac60",
+    "pilgrim_runtime/pilgrim/parallel.py": "ffd7019ab0106d469dbf8ee14947a00b93a28a16f73522d068d434cd709a6ebb",
+    "pilgrim_runtime/pilgrim/qsearcher.py": "9f5f82b597b71106222a5e002122e60f1596022d007b5c5653d7f5986a6fdd31",
+    "pilgrim_runtime/pilgrim/searcher.py": "3a00e6f10c966cf465baab6774b690d61984c1489959cf59cf3cfdfbbb32d888",
+    "pilgrim_runtime/pilgrim/utils.py": "e3d98369a8146a0a8f6bbf792f9efa7ca0b48a21d8ee47a2388e385a66be28fd",
+    "pilgrim_runtime/targets/p900-t000.pt": "1781d00c063e7acd98be2f0a26600b7030cb18001bc5467f8a37dd87bacdb2a1",
+    "pilgrim_runtime/test.py": "792f00ec7fe27aa3bd8fa6d5051868b29ac4eb46579759e3ff37a83b50970b83",
+    "third_party/AnanasClassic-Apache-2.0-LICENSE.txt": "c9631fda6a6f6f665d96c3f00b7e68d5a5f530bedfe79f14640dc2af2b1d8ea8",
+    "workers/multigpu_beam_search.py": "73cd28258f9616bfd4d3a418ec970c91074601cc34bbf62fae176f4ac2f69ea4",
+    "workers/pilgrim.py": "e1a2bbc756a3bb65099f8e53e4430a2b0f061b11a7d60aee4bd9a022a3590505"
+  }
+}

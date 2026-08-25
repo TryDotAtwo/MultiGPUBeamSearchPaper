@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "package_version": "v1.0.0",
+  "paper_repository": "https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper",
+  "implementation_repository": "https://github.com/TryDotAtwo/MultiGPUBeamSearch",
+  "implementation_revisions": {
+    "measured_one_t4": "a1db0e6d9bb5458c8a842b37dfa99572d3025667",
+    "matched_cube4": "df534ebb1ef624abd42443211778b5588916d6d2",
+    "cluster_capacity_launcher": "2d5f978fcfc1f018813fc49e9d9aeec32ea5e22c",
+    "native_cayleypy": "5b2b53f",
+    "deepcubea": "919489f14ecbbc80dc1bf1539ac0a462ffaca7c5",
+    "alphacube_package": "0.1.6",
+    "alphacube_evidence_reported_commit": "d549835d62f56cf7816b0f02a3281fd6f7ff686f"
+  },
+  "release_assets": [
+    {
+      "name": "weights_megaminx2048_512_8_e4000.pth",
+      "sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "bytes": 139196146,
+      "role": "shared scalar eight-residual-block Megaminx checkpoint"
+    },
+    {
+      "name": "p900-t000-q-sym_1777988767_best.pth",
+      "sha256": "e7bda332b53acc9363edd8ec682a211c1a8b8a315ec26ff8e8928efa5d2ca670",
+      "bytes": 95961231,
+      "role": "shared native 24-output Megaminx checkpoint"
+    },
+    {
+      "name": "cube4_piece_transformer_24out.pth",
+      "sha256": "58af301a4f2b77d503b6e12d450589c64c076624d3e1ff291128c23663ad3164",
+      "bytes": 13555825,
+      "role": "shared 24-output Cube4 piece-transformer checkpoint"
+    }
+  ],
+  "paper_artifacts": [
+    {
+      "name": "main.pdf",
+      "path": "paper/main.pdf",
+      "sha256": "1cf17064e9dea0b26cf79f0099151619e8e70d1b1bdeb4ffce793719060b13d9",
+      "bytes": 404467,
+      "language": "English"
+    },
+    {
+      "name": "main_ru.pdf",
+      "path": "paper/main_ru.pdf",
+      "sha256": "6a2e55a660a1f8d552a78966677c78314d6d8b914e666cc780468b3e46a489cf",
+      "bytes": 486662,
+      "language": "Russian"
+    }
+  ],
+  "capacity_record": "artifacts/a100x8_capacity.json",
+  "benchmark_matrix": "artifacts/BENCHMARK_MATRIX.md",
+  "claim_ledger": "artifacts/CLAIMS.md",
+  "prior_art_audit": "artifacts/PRIOR_ART.md",
+  "raw_result_root": "artifacts/results",
+  "superflip_submission": "artifacts/superflip/submission_69749.csv",
+  "reproduction_root": "reproduce"
+}

@@ -1,0 +1,35 @@
+{
+  "hardware": {
+    "gpu": "Tesla P100-PCIE-16GB",
+    "gpu_count": 1,
+    "cuda_visible_devices": "0",
+    "total_vram_bytes": 17059545088,
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "torch": "2.7.1+cu126",
+    "cuda_runtime": "12.6",
+    "cudnn": 90501,
+    "compiled_cuda_arches": [
+      "sm_50",
+      "sm_60",
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90"
+    ],
+    "alphacube_version": "0.1.6",
+    "alphacube_commit": "d549835d62f56cf7816b0f02a3281fd6f7ff686f",
+    "model": "large",
+    "network": "MLP: one-hot 324; width 4096; 8 hidden Linear-ReLU-BN blocks; 18 outputs",
+    "move_set": "3x3x3 HTM, 18 moves, no wide moves",
+    "scramble": "D U F2 L2 U' B2 F2 D L2 U R' F' D R' F' U L D' F' D R2",
+    "internal_max_dnn_batch": 65536
+  },
+  "rows": [
+    {
+      "beam_width": 1835008,
+      "status": "process_exit",
+      "returncode": -9
+    }
+  ]
+}

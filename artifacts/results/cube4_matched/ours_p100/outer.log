@@ -1,0 +1,391 @@
+[{"stream_name":"stdout","time":4.027030154,"data":"Looking in indexes: https://download.pytorch.org/whl/cu126\n"}
+,{"stream_name":"stdout","time":4.226446553,"data":"Collecting torch==2.7.1\n"}
+,{"stream_name":"stdout","time":4.330850986,"data":"  Downloading https://download-r2.pytorch.org/whl/cu126/torch-2.7.1%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (29 kB)\n"}
+,{"stream_name":"stdout","time":4.345352418,"data":"Requirement already satisfied: filelock in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (3.29.0)\n"}
+,{"stream_name":"stdout","time":4.34666918,"data":"Requirement already satisfied: typing-extensions\u003e=4.10.0 in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (4.15.0)\n"}
+,{"stream_name":"stdout","time":4.348339826,"data":"Requirement already satisfied: setuptools in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (81.0.0)\n"}
+,{"stream_name":"stdout","time":4.35027717,"data":"Requirement already satisfied: sympy\u003e=1.13.3 in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (1.14.0)\n"}
+,{"stream_name":"stdout","time":4.351778618,"data":"Requirement already satisfied: networkx in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (3.6.1)\n"}
+,{"stream_name":"stdout","time":4.353152435,"data":"Requirement already satisfied: jinja2 in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (3.1.6)\n"}
+,{"stream_name":"stdout","time":4.355395026,"data":"Requirement already satisfied: fsspec in /usr/local/lib/python3.12/dist-packages (from torch==2.7.1) (2025.3.0)\n"}
+,{"stream_name":"stdout","time":4.444426818,"data":"Collecting nvidia-cuda-nvrtc-cu12==12.6.77 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":4.530403612,"data":"  Downloading https://pypi.nvidia.com/nvidia-cuda-nvrtc-cu12/nvidia_cuda_nvrtc_cu12-12.6.77-py3-none-manylinux2014_x86_64.whl (23.7 MB)\n"}
+,{"stream_name":"stdout","time":4.783413713,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 23.7/23.7 MB 111.2 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":4.989144463,"data":"Collecting nvidia-cuda-runtime-cu12==12.6.77 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":5.015049126,"data":"  Downloading https://pypi.nvidia.com/nvidia-cuda-runtime-cu12/nvidia_cuda_runtime_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (897 kB)\n"}
+,{"stream_name":"stdout","time":5.022224336,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 897.7/897.7 kB 222.2 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":5.170210818,"data":"Collecting nvidia-cuda-cupti-cu12==12.6.80 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":5.193923768,"data":"  Downloading https://pypi.nvidia.com/nvidia-cuda-cupti-cu12/nvidia_cuda_cupti_cu12-12.6.80-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.9 MB)\n"}
+,{"stream_name":"stdout","time":5.254623585,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.9/8.9 MB 154.2 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":5.431937798,"data":"Collecting nvidia-cudnn-cu12==9.5.1.17 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":5.452735984,"data":"  Downloading https://pypi.nvidia.com/nvidia-cudnn-cu12/nvidia_cudnn_cu12-9.5.1.17-py3-none-manylinux_2_28_x86_64.whl (571.0 MB)\n"}
+,{"stream_name":"stdout","time":9.411903975,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 571.0/571.0 MB 145.0 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":11.461389284,"data":"Collecting nvidia-cublas-cu12==12.6.4.1 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":11.488095792,"data":"  Downloading https://pypi.nvidia.com/nvidia-cublas-cu12/nvidia_cublas_cu12-12.6.4.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (393.1 MB)\n"}
+,{"stream_name":"stdout","time":14.152198361,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 393.1/393.1 MB 174.2 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":15.524461475,"data":"Collecting nvidia-cufft-cu12==11.3.0.4 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":15.543704624,"data":"  Downloading https://pypi.nvidia.com/nvidia-cufft-cu12/nvidia_cufft_cu12-11.3.0.4-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (200.2 MB)\n"}
+,{"stream_name":"stdout","time":17.042550656,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 200.2/200.2 MB 171.3 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":17.780678339,"data":"Collecting nvidia-curand-cu12==10.3.7.77 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":17.80048572,"data":"  Downloading https://pypi.nvidia.com/nvidia-curand-cu12/nvidia_curand_cu12-10.3.7.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (56.3 MB)\n"}
+,{"stream_name":"stdout","time":18.15956109,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 56.3/56.3 MB 137.9 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":18.416869065,"data":"Collecting nvidia-cusolver-cu12==11.7.1.2 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":18.43847202,"data":"  Downloading https://pypi.nvidia.com/nvidia-cusolver-cu12/nvidia_cusolver_cu12-11.7.1.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (158.2 MB)\n"}
+,{"stream_name":"stdout","time":19.520697384,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 158.2/158.2 MB 174.3 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":20.140744689,"data":"Collecting nvidia-cusparse-cu12==12.5.4.2 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":20.162197862,"data":"  Downloading https://pypi.nvidia.com/nvidia-cusparse-cu12/nvidia_cusparse_cu12-12.5.4.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (216.6 MB)\n"}
+,{"stream_name":"stdout","time":21.726265932,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.6/216.6 MB 168.1 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":22.514700361,"data":"Collecting nvidia-cusparselt-cu12==0.6.3 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":22.60485323,"data":"  Downloading https://pypi.nvidia.com/nvidia-cusparselt-cu12/nvidia_cusparselt_cu12-0.6.3-py3-none-manylinux2014_x86_64.whl (156.8 MB)\n"}
+,{"stream_name":"stdout","time":23.679125013,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 156.8/156.8 MB 146.6 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":24.25826779,"data":"Collecting nvidia-nccl-cu12==2.26.2 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":24.34894278,"data":"  Downloading https://pypi.nvidia.com/nvidia-nccl-cu12/nvidia_nccl_cu12-2.26.2-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (201.3 MB)\n"}
+,{"stream_name":"stdout","time":25.619725264,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 201.3/201.3 MB 169.8 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":26.360769917,"data":"Collecting nvidia-nvtx-cu12==12.6.77 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":26.385781674,"data":"  Downloading https://pypi.nvidia.com/nvidia-nvtx-cu12/nvidia_nvtx_cu12-12.6.77-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (89 kB)\n"}
+,{"stream_name":"stdout","time":26.391768393,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 89.3/89.3 kB 205.6 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":26.476440672,"data":"Collecting nvidia-nvjitlink-cu12==12.6.85 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":26.499160691,"data":"  Downloading https://pypi.nvidia.com/nvidia-nvjitlink-cu12/nvidia_nvjitlink_cu12-12.6.85-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (19.7 MB)\n"}
+,{"stream_name":"stdout","time":26.618703537000002,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 19.7/19.7 MB 167.4 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":26.75340942,"data":"Collecting nvidia-cufile-cu12==1.11.1.6 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":26.784853942,"data":"  Downloading https://pypi.nvidia.com/nvidia-cufile-cu12/nvidia_cufile_cu12-1.11.1.6-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.1 MB)\n"}
+,{"stream_name":"stdout","time":26.814137922,"data":"     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 42.6 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":26.868063122,"data":"Collecting triton==3.3.1 (from torch==2.7.1)\n"}
+,{"stream_name":"stdout","time":26.891416762,"data":"  Downloading https://download-r2.pytorch.org/whl/triton-3.3.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.5 kB)\n"}
+,{"stream_name":"stdout","time":26.917944525,"data":"Requirement already satisfied: mpmath\u003c1.4,\u003e=1.1.0 in /usr/local/lib/python3.12/dist-packages (from sympy\u003e=1.13.3-\u003etorch==2.7.1) (1.3.0)\n"}
+,{"stream_name":"stdout","time":26.93227564,"data":"Requirement already satisfied: MarkupSafe\u003e=2.0 in /usr/local/lib/python3.12/dist-packages (from jinja2-\u003etorch==2.7.1) (3.0.3)\n"}
+,{"stream_name":"stdout","time":26.973089638,"data":"Downloading https://download-r2.pytorch.org/whl/cu126/torch-2.7.1%2Bcu126-cp312-cp312-manylinux_2_28_x86_64.whl (822.0 MB)\n"}
+,{"stream_name":"stdout","time":32.424987357,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 822.0/822.0 MB 239.0 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":32.449092515,"data":"Downloading https://download-r2.pytorch.org/whl/triton-3.3.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (155.7 MB)\n"}
+,{"stream_name":"stdout","time":33.353627249,"data":"   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.7/155.7 MB 195.3 MB/s eta 0:00:00\n"}
+,{"stream_name":"stdout","time":39.075895406,"data":"Installing collected packages: nvidia-cusparselt-cu12, triton, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, nvidia-cusolver-cu12, torch\n"}
+,{"stream_name":"stdout","time":39.076302054,"data":"  Attempting uninstall: nvidia-cusparselt-cu12\n"}
+,{"stream_name":"stdout","time":39.199154359,"data":"    Found existing installation: nvidia-cusparselt-cu12 0.7.1\n"}
+,{"stream_name":"stdout","time":39.205099642,"data":"    Uninstalling nvidia-cusparselt-cu12-0.7.1:\n"}
+,{"stream_name":"stdout","time":41.215333514,"data":"      Successfully uninstalled nvidia-cusparselt-cu12-0.7.1\n"}
+,{"stream_name":"stdout","time":44.77981535,"data":"  Attempting uninstall: triton\n"}
+,{"stream_name":"stdout","time":45.055234449,"data":"    Found existing installation: triton 3.6.0\n"}
+,{"stream_name":"stdout","time":45.104750917,"data":"    Uninstalling triton-3.6.0:\n"}
+,{"stream_name":"stdout","time":48.377235342,"data":"      Successfully uninstalled triton-3.6.0\n"}
+,{"stream_name":"stdout","time":52.418354786,"data":"  Attempting uninstall: nvidia-nvtx-cu12\n"}
+,{"stream_name":"stdout","time":52.704137507,"data":"    Found existing installation: nvidia-nvtx-cu12 12.8.90\n"}
+,{"stream_name":"stdout","time":52.7113585,"data":"    Uninstalling nvidia-nvtx-cu12-12.8.90:\n"}
+,{"stream_name":"stdout","time":52.820709848999996,"data":"      Successfully uninstalled nvidia-nvtx-cu12-12.8.90\n"}
+,{"stream_name":"stdout","time":52.8458087,"data":"  Attempting uninstall: nvidia-nvjitlink-cu12\n"}
+,{"stream_name":"stdout","time":53.238749374,"data":"    Found existing installation: nvidia-nvjitlink-cu12 12.8.93\n"}
+,{"stream_name":"stdout","time":53.242860186,"data":"    Uninstalling nvidia-nvjitlink-cu12-12.8.93:\n"}
+,{"stream_name":"stdout","time":53.560851378,"data":"      Successfully uninstalled nvidia-nvjitlink-cu12-12.8.93\n"}
+,{"stream_name":"stdout","time":53.932522888,"data":"  Attempting uninstall: nvidia-nccl-cu12\n"}
+,{"stream_name":"stdout","time":54.27261241,"data":"    Found existing installation: nvidia-nccl-cu12 2.27.5\n"}
+,{"stream_name":"stdout","time":54.276753018,"data":"    Uninstalling nvidia-nccl-cu12-2.27.5:\n"}
+,{"stream_name":"stdout","time":55.909054194,"data":"      Successfully uninstalled nvidia-nccl-cu12-2.27.5\n"}
+,{"stream_name":"stdout","time":59.256198449,"data":"  Attempting uninstall: nvidia-curand-cu12\n"}
+,{"stream_name":"stdout","time":59.648718877,"data":"    Found existing installation: nvidia-curand-cu12 10.3.9.90\n"}
+,{"stream_name":"stdout","time":59.653153018,"data":"    Uninstalling nvidia-curand-cu12-10.3.9.90:\n"}
+,{"stream_name":"stdout","time":60.172881979,"data":"      Successfully uninstalled nvidia-curand-cu12-10.3.9.90\n"}
+,{"stream_name":"stdout","time":60.677026319,"data":"  Attempting uninstall: nvidia-cufile-cu12\n"}
+,{"stream_name":"stdout","time":60.802964788,"data":"    Found existing installation: nvidia-cufile-cu12 1.13.1.3\n"}
+,{"stream_name":"stdout","time":60.80703649,"data":"    Uninstalling nvidia-cufile-cu12-1.13.1.3:\n"}
+,{"stream_name":"stdout","time":60.838320813,"data":"      Successfully uninstalled nvidia-cufile-cu12-1.13.1.3\n"}
+,{"stream_name":"stdout","time":60.891959169,"data":"  Attempting uninstall: nvidia-cuda-runtime-cu12\n"}
+,{"stream_name":"stdout","time":61.014851987,"data":"    Found existing installation: nvidia-cuda-runtime-cu12 12.8.90\n"}
+,{"stream_name":"stdout","time":61.021672949,"data":"    Uninstalling nvidia-cuda-runtime-cu12-12.8.90:\n"}
+,{"stream_name":"stdout","time":61.111301616,"data":"      Successfully uninstalled nvidia-cuda-runtime-cu12-12.8.90\n"}
+,{"stream_name":"stdout","time":61.996560526,"data":"  Attempting uninstall: nvidia-cuda-nvrtc-cu12\n"}
+,{"stream_name":"stdout","time":62.470955014,"data":"    Found existing installation: nvidia-cuda-nvrtc-cu12 12.8.93\n"}
+,{"stream_name":"stdout","time":62.475018434,"data":"    Uninstalling nvidia-cuda-nvrtc-cu12-12.8.93:\n"}
+,{"stream_name":"stdout","time":63.297332737,"data":"      Successfully uninstalled nvidia-cuda-nvrtc-cu12-12.8.93\n"}
+,{"stream_name":"stdout","time":64.348151476,"data":"  Attempting uninstall: nvidia-cuda-cupti-cu12\n"}
+,{"stream_name":"stdout","time":64.478594492,"data":"    Found existing installation: nvidia-cuda-cupti-cu12 12.8.90\n"}
+,{"stream_name":"stdout","time":64.483872516,"data":"    Uninstalling nvidia-cuda-cupti-cu12-12.8.90:\n"}
+,{"stream_name":"stdout","time":64.660470799,"data":"      Successfully uninstalled nvidia-cuda-cupti-cu12-12.8.90\n"}
+,{"stream_name":"stdout","time":64.881520704,"data":"  Attempting uninstall: nvidia-cublas-cu12\n"}
+,{"stream_name":"stdout","time":65.088864056,"data":"    Found existing installation: nvidia-cublas-cu12 12.8.4.1\n"}
+,{"stream_name":"stdout","time":65.092975559,"data":"    Uninstalling nvidia-cublas-cu12-12.8.4.1:\n"}
+,{"stream_name":"stdout","time":68.488049769,"data":"      Successfully uninstalled nvidia-cublas-cu12-12.8.4.1\n"}
+,{"stream_name":"stdout","time":76.34929341,"data":"  Attempting uninstall: nvidia-cusparse-cu12\n"}
+,{"stream_name":"stdout","time":76.55619083,"data":"    Found existing installation: nvidia-cusparse-cu12 12.5.8.93\n"}
+,{"stream_name":"stdout","time":76.560389908,"data":"    Uninstalling nvidia-cusparse-cu12-12.5.8.93:\n"}
+,{"stream_name":"stdout","time":78.041682554,"data":"      Successfully uninstalled nvidia-cusparse-cu12-12.5.8.93\n"}
+,{"stream_name":"stdout","time":81.61770316,"data":"  Attempting uninstall: nvidia-cufft-cu12\n"}
+,{"stream_name":"stdout","time":82.059942682,"data":"    Found existing installation: nvidia-cufft-cu12 11.3.3.83\n"}
+,{"stream_name":"stdout","time":82.064104173,"data":"    Uninstalling nvidia-cufft-cu12-11.3.3.83:\n"}
+,{"stream_name":"stdout","time":83.121938232,"data":"      Successfully uninstalled nvidia-cufft-cu12-11.3.3.83\n"}
+,{"stream_name":"stdout","time":86.699983576,"data":"  Attempting uninstall: nvidia-cudnn-cu12\n"}
+,{"stream_name":"stdout","time":87.070704907,"data":"    Found existing installation: nvidia-cudnn-cu12 9.10.2.21\n"}
+,{"stream_name":"stdout","time":87.075547351,"data":"    Uninstalling nvidia-cudnn-cu12-9.10.2.21:\n"}
+,{"stream_name":"stdout","time":91.204713743,"data":"      Successfully uninstalled nvidia-cudnn-cu12-9.10.2.21\n"}
+,{"stream_name":"stdout","time":101.109658502,"data":"  Attempting uninstall: nvidia-cusolver-cu12\n"}
+,{"stream_name":"stdout","time":101.289912011,"data":"    Found existing installation: nvidia-cusolver-cu12 11.7.3.90\n"}
+,{"stream_name":"stdout","time":101.294087218,"data":"    Uninstalling nvidia-cusolver-cu12-11.7.3.90:\n"}
+,{"stream_name":"stdout","time":102.846192882,"data":"      Successfully uninstalled nvidia-cusolver-cu12-11.7.3.90\n"}
+,{"stream_name":"stdout","time":106.786412749,"data":"  Attempting uninstall: torch\n"}
+,{"stream_name":"stdout","time":107.123604814,"data":"    Found existing installation: torch 2.10.0+cu128\n"}
+,{"stream_name":"stdout","time":107.965036774,"data":"    Uninstalling torch-2.10.0+cu128:\n"}
+,{"stream_name":"stdout","time":123.326396412,"data":"      Successfully uninstalled torch-2.10.0+cu128\n"}
+,{"stream_name":"stderr","time":147.152006499,"data":"ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.\n"}
+,{"stream_name":"stderr","time":147.152066784,"data":"torchaudio 2.10.0+cu128 requires torch==2.10.0, but you have torch 2.7.1+cu126 which is incompatible.\n"}
+,{"stream_name":"stderr","time":147.152073473,"data":"torchvision 0.25.0+cu128 requires torch==2.10.0, but you have torch 2.7.1+cu126 which is incompatible.\n"}
+,{"stream_name":"stdout","time":147.15218279,"data":"Successfully installed nvidia-cublas-cu12-12.6.4.1 nvidia-cuda-cupti-cu12-12.6.80 nvidia-cuda-nvrtc-cu12-12.6.77 nvidia-cuda-runtime-cu12-12.6.77 nvidia-cudnn-cu12-9.5.1.17 nvidia-cufft-cu12-11.3.0.4 nvidia-cufile-cu12-1.11.1.6 nvidia-curand-cu12-10.3.7.77 nvidia-cusolver-cu12-11.7.1.2 nvidia-cusparse-cu12-12.5.4.2 nvidia-cusparselt-cu12-0.6.3 nvidia-nccl-cu12-2.26.2 nvidia-nvjitlink-cu12-12.6.85 nvidia-nvtx-cu12-12.6.77 torch-2.7.1+cu126 triton-3.3.1\n"}
+,{"stream_name":"stdout","time":150.009430392,"data":"resolved_bundle_dir= /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference\n"}
+,{"stream_name":"stdout","time":150.187376964,"data":"sha256= model.pth 58af301a4f2b77d503b6e12d450589c64c076624d3e1ff291128c23663ad3164\n"}
+,{"stream_name":"stdout","time":150.193972436,"data":"sha256= model.json 87a6d644400b5f5e6c5258e7bd9562427488163d5b7542f73c86aa1948b5f17e\n"}
+,{"stream_name":"stdout","time":150.209980633,"data":"known_scramble= ['-f0', 'f1', '-r0', 'd2', '-d1', 'd3', '-r2', 'd1', '-r0', '-f3', '-f0', '-r3', '-f2', 'd3', '-d2', 'r3', 'd1', '-r1', '-f2', '-d1']\n"}
+,{"stream_name":"stdout","time":150.211671395,"data":"history_preflight= {'entry_bytes': 16, 'required_bytes_at_depth_limit': 671088640, 'ram_budget_bytes': 6734549248, 'disk_budget_bytes': 53687091200, 'total_budget_bytes': 60421640448, 'available_ram_bytes': 8234549248, 'free_tmp_bytes': 1097220399104}\n"}
+,{"stream_name":"stdout","time":150.211690775,"data":"KAGGLE_MODEL_SOURCE= trydotatwo/cube4-full-transformer-inference\n"}
+,{"stream_name":"stdout","time":150.211697615,"data":"GITHUB_BRANCH= codex/stream1-piece-transformer\n"}
+,{"stream_name":"stdout","time":150.211703847,"data":"torchrun_topology= {'nnodes': 1, 'nproc_per_node': 1, 'node_rank': 0, 'world_size': 1, 'rdzv_endpoint': '127.0.0.1:29500'}\n"}
+,{"stream_name":"stdout","time":150.211755534,"data":"derived_config= {'world_size': 1, 'beam_alignment': 8192, 'global_beam_effective': 4194304, 'local_beam_width': 4194304, 'logical_shard_size': 524288, 'shard_capacity': 589824, 'stream3_batch': 18432}\n"}
+,{"stream_name":"stdout","time":150.211772494,"data":"disk_tmp= /tmp: free=1097220399104 total=8656922775552\n"}
+,{"stream_name":"stdout","time":150.21177697,"data":"disk_working= /kaggle/working: free=20940468224 total=20957446144\n"}
+,{"stream_name":"stdout","time":150.211789358,"data":"+ nvidia-smi\n"}
+,{"stream_name":"stdout","time":150.268293804,"data":"Wed Aug 12 15:46:03 2026       \n"}
+,{"stream_name":"stdout","time":150.268331001,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":150.26833636,"data":"| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |\n"}
+,{"stream_name":"stdout","time":150.268340908,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":150.268345028,"data":"| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n"}
+,{"stream_name":"stdout","time":150.26834991,"data":"| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n"}
+,{"stream_name":"stdout","time":150.268354753,"data":"|                                         |                        |               MIG M. |\n"}
+,{"stream_name":"stdout","time":150.26835903,"data":"|=========================================+========================+======================|\n"}
+,{"stream_name":"stdout","time":150.268363571,"data":"|   0  Tesla P100-PCIE-16GB           Off |   00000000:00:04.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":150.268368127,"data":"| N/A   34C    P0             26W /  250W |       0MiB /  16384MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":150.268372967,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":150.268377338,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":150.268399261,"data":"\n"}
+,{"stream_name":"stdout","time":150.268404175,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":150.268408784,"data":"| Processes:                                                                              |\n"}
+,{"stream_name":"stdout","time":150.268413334,"data":"|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n"}
+,{"stream_name":"stdout","time":150.268418189,"data":"|        ID   ID                                                               Usage      |\n"}
+,{"stream_name":"stdout","time":150.268423032,"data":"|=========================================================================================|\n"}
+,{"stream_name":"stdout","time":150.268427706,"data":"|  No running processes found                                                             |\n"}
+,{"stream_name":"stdout","time":150.268432559,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":150.288067021,"data":"torch_cuda_device_count= 1\n"}
+,{"stream_name":"stdout","time":150.288463399,"data":"+ git clone --branch codex/stream1-piece-transformer --depth 1 https://github.com/TryDotAtwo/MultiGPUBeamSearch.git /tmp/beam_solver_cube4_libtorch\n"}
+,{"stream_name":"stderr","time":150.307876433,"data":"Cloning into '/tmp/beam_solver_cube4_libtorch'...\n"}
+,{"stream_name":"stdout","time":151.588575932,"data":"+ git rev-parse --short HEAD\n"}
+,{"stream_name":"stdout","time":151.591334295,"data":"df534eb\n"}
+,{"stream_name":"stdout","time":151.591354239,"data":"checked_out_commit= df534eb\n"}
+,{"stream_name":"stdout","time":151.62113328,"data":"selected_transformer_checkpoint= /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/model/model.pth\n"}
+,{"stream_name":"stdout","time":151.621169138,"data":"+ /usr/bin/python3 /tmp/beam_solver_cube4_libtorch/tools/export_stream1.py --weights /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/model/model.pth --out /kaggle/working/stream1_transformer_weights_fp16 --format piece-transformer --dtype fp16 --num-classes 6 --metadata /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/model/model.json --generators /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/generators/p002.json --source-root /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference\n"}
+,{"stream_name":"stdout","time":153.706287169,"data":"stream1_export_done out_dir=/kaggle/working/stream1_transformer_weights_fp16 format=piece_transformer dtype=fp16 seq_len=57 d_model=256 layers=4 output_dim=24\n"}
+,{"stream_name":"stdout","time":154.094382596,"data":"exported_manifest_summary= {'backend': 'piece_transformer', 'dtype': 'fp16', 'seq_len': 57, 'd_model': 256, 'layers': 4, 'output_dim': 24}\n"}
+,{"stream_name":"stdout","time":154.094568453,"data":"+ git clone --depth 1 https://github.com/NVIDIA/cutlass.git /tmp/cutlass\n"}
+,{"stream_name":"stderr","time":154.096917978,"data":"Cloning into '/tmp/cutlass'...\n"}
+,{"stream_name":"stderr","time":158.158759084,"data":"Updating files:  94% (7355/7787)\rUpdating files:  95% (7398/7787)\rUpdating files:  96% (7476/7787)\rUpdating files:  97% (7554/7787)\rUpdating files:  98% (7632/7787)\rUpdating files:  99% (7710/7787)\rUpdating files: 100% (7787/7787)\rUpdating files: 100% (7787/7787), done.\n"}
+,{"stream_name":"stdout","time":158.177281494,"data":"pytorch_nccl= {'library': '/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2', 'include': '/usr/local/lib/python3.12/dist-packages/nvidia/nccl/include'}\n"}
+,{"stream_name":"stdout","time":158.177316272,"data":"+ cmake -S /tmp/beam_solver_cube4_libtorch -B /tmp/beam_build_cube4_libtorch -GNinja -DCMAKE_BUILD_TYPE=Release -DBEAM_CUDA_ARCHITECTURES=60 -DBEAM_PUZZLE_INFO_JSON=/kaggle/working/cube4_data/puzzle_info.json -DBEAM_ENABLE_LIBTORCH_STREAM1=ON -DCMAKE_PREFIX_PATH=/usr/local/lib/python3.12/dist-packages/torch/share/cmake -DNCCL_LIBRARY=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2 -DNCCL_INCLUDE_DIR=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/include -DCUTLASS_DIR=/tmp/cutlass -DBEAM_ENABLE_DEBUG=ON -DBEAM_ENABLE_DEPTH_LOGS=ON -DBEAM_ENABLE_DEBUG_LOGS=OFF -DBEAM_DEBUG_STREAM_TIMING=ON -DBEAM_DEBUG_INFERENCE_TRACE=OFF -DBEAM_DEBUG_PATH_TRACE=OFF -DBEAM_DEBUG_FINAL_VALIDATE=OFF -DBEAM_DEBUG_FINAL_EXCHANGE_TRACE=OFF -DBEAM_DEBUG_FINAL_HISTOGRAM_TRACE=OFF -DBEAM_DEBUG_STREAM4_HISTOGRAM_TRACE=OFF -DBEAM_DEBUG_DEPTH_FLOW_TRACE=OFF -DBEAM_DEBUG_PIPELINE_STATS=OFF\n"}
+,{"stream_name":"stdout","time":158.533861805,"data":"-- Beam state logical bytes: 96\n"}
+,{"stream_name":"stdout","time":158.533892976,"data":"-- Beam state physical bytes: 112\n"}
+,{"stream_name":"stdout","time":158.533896797,"data":"-- Beam state alignment: 16\n"}
+,{"stream_name":"stdout","time":158.533899687,"data":"-- Beam move count: 24\n"}
+,{"stream_name":"stdout","time":158.838276766,"data":"-- The CXX compiler identification is GNU 11.4.0\n"}
+,{"stream_name":"stdout","time":160.938094956,"data":"-- The CUDA compiler identification is NVIDIA 12.8.93 with host compiler GNU 11.4.0\n"}
+,{"stream_name":"stdout","time":160.966698394,"data":"-- Detecting CXX compiler ABI info\n"}
+,{"stream_name":"stdout","time":161.075136408,"data":"-- Detecting CXX compiler ABI info - done\n"}
+,{"stream_name":"stdout","time":161.109566119,"data":"-- Check for working CXX compiler: /usr/bin/c++ - skipped\n"}
+,{"stream_name":"stdout","time":161.110977104,"data":"-- Detecting CXX compile features\n"}
+,{"stream_name":"stdout","time":161.113295747,"data":"-- Detecting CXX compile features - done\n"}
+,{"stream_name":"stdout","time":161.148819371,"data":"-- Detecting CUDA compiler ABI info\n"}
+,{"stream_name":"stdout","time":162.44150678,"data":"-- Detecting CUDA compiler ABI info - done\n"}
+,{"stream_name":"stdout","time":162.516310269,"data":"-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped\n"}
+,{"stream_name":"stdout","time":162.570388498,"data":"-- Detecting CUDA compile features\n"}
+,{"stream_name":"stdout","time":162.571189971,"data":"-- Detecting CUDA compile features - done\n"}
+,{"stream_name":"stdout","time":162.626237005,"data":"-- Found CUDA: /usr/local/cuda (found version \"12.8\") \n"}
+,{"stream_name":"stdout","time":162.630675454,"data":"-- Found CUDAToolkit: /usr/local/cuda/include (found version \"12.8.93\")\n"}
+,{"stream_name":"stdout","time":162.644418329,"data":"-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n"}
+,{"stream_name":"stdout","time":162.753524456,"data":"-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n"}
+,{"stream_name":"stdout","time":162.755329424,"data":"-- Found Threads: TRUE\n"}
+,{"stream_name":"stdout","time":162.80156836,"data":"-- PyTorch: CUDA detected: 12.8\n"}
+,{"stream_name":"stdout","time":162.801609748,"data":"-- PyTorch: CUDA nvcc is: /usr/local/cuda/bin/nvcc\n"}
+,{"stream_name":"stdout","time":162.801615478,"data":"-- PyTorch: CUDA toolkit directory: /usr/local/cuda\n"}
+,{"stream_name":"stdout","time":162.941293788,"data":"-- PyTorch: Header version is: 12.8\n"}
+,{"stream_name":"stdout","time":163.73603028,"data":"-- Found Python: /usr/local/bin/python (found version \"3.12.13\") found components: Interpreter\n"}
+,{"stream_name":"stderr","time":163.738218732,"data":"CMake Warning at /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/public/cuda.cmake:140 (message):\n"}
+,{"stream_name":"stderr","time":163.73826177,"data":"  Failed to compute shorthash for libnvrtc.so\n"}
+,{"stream_name":"stderr","time":163.738267254,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stderr","time":163.738271087,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)\n"}
+,{"stream_name":"stderr","time":163.738274773,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)\n"}
+,{"stream_name":"stderr","time":163.73827894,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":163.738282872,"data":"\n"}
+,{"stream_name":"stderr","time":163.73828656,"data":"\n"}
+,{"stream_name":"stderr","time":163.738707711,"data":"CMake Warning (dev) at /usr/local/lib/python3.12/dist-packages/cmake/data/share/cmake-3.31/Modules/FindPackageHandleStandardArgs.cmake:441 (message):\n"}
+,{"stream_name":"stderr","time":163.738726405,"data":"  The package name passed to `find_package_handle_standard_args` (nvtx3) does\n"}
+,{"stream_name":"stderr","time":163.738731016,"data":"  not match the name of the calling package (Caffe2).  This can lead to\n"}
+,{"stream_name":"stderr","time":163.738735018,"data":"  problems in calling code that expects `find_package` result variables\n"}
+,{"stream_name":"stderr","time":163.738739161,"data":"  (e.g., `_FOUND`) to follow a certain pattern.\n"}
+,{"stream_name":"stderr","time":163.738743099,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stderr","time":163.738746974,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/public/cuda.cmake:178 (find_package_handle_standard_args)\n"}
+,{"stream_name":"stderr","time":163.738751025,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)\n"}
+,{"stream_name":"stderr","time":163.738755102,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)\n"}
+,{"stream_name":"stderr","time":163.738758934,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":163.738763245,"data":"This warning is for project developers.  Use -Wno-dev to suppress it.\n"}
+,{"stream_name":"stderr","time":163.738766833,"data":"\n"}
+,{"stream_name":"stderr","time":163.738965301,"data":"CMake Warning at /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/public/cuda.cmake:184 (message):\n"}
+,{"stream_name":"stderr","time":163.738973754,"data":"  Cannot find NVTX3, find old NVTX instead\n"}
+,{"stream_name":"stderr","time":163.738977889,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stdout","time":163.738974149,"data":"-- Could NOT find nvtx3 (missing: nvtx3_dir) \n"}
+,{"stream_name":"stderr","time":163.738981789,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)\n"}
+,{"stream_name":"stderr","time":163.739000704,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)\n"}
+,{"stream_name":"stderr","time":163.739006027,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":163.739010211,"data":"\n"}
+,{"stream_name":"stderr","time":163.739013822,"data":"\n"}
+,{"stream_name":"stdout","time":163.739121303,"data":"-- USE_CUDNN is set to 0. Compiling without cuDNN support\n"}
+,{"stream_name":"stdout","time":163.739129531,"data":"-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support\n"}
+,{"stream_name":"stdout","time":163.739134263,"data":"-- USE_CUDSS is set to 0. Compiling without cuDSS support\n"}
+,{"stream_name":"stdout","time":163.739155371,"data":"-- USE_CUFILE is set to 0. Compiling without cuFile support\n"}
+,{"stream_name":"stdout","time":164.974518546,"data":"-- Autodetected CUDA architecture(s):  6.0\n"}
+,{"stream_name":"stdout","time":164.97496029,"data":"-- Added CUDA NVCC flags for: -gencode;arch=compute_60,code=sm_60\n"}
+,{"stream_name":"stderr","time":165.022777843,"data":"CMake Warning at /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:22 (message):\n"}
+,{"stream_name":"stderr","time":165.022812013,"data":"  static library kineto_LIBRARY-NOTFOUND not found.\n"}
+,{"stream_name":"stderr","time":165.02282186,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stderr","time":165.02282503,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:125 (append_torchlib_if_found)\n"}
+,{"stream_name":"stderr","time":165.022828169,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":165.022831329,"data":"\n"}
+,{"stream_name":"stderr","time":165.022833917,"data":"\n"}
+,{"stream_name":"stdout","time":165.025210516,"data":"-- Found Torch: /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch.so\n"}
+,{"stream_name":"stdout","time":165.026128972,"data":"-- Configuring done (6.5s)\n"}
+,{"stream_name":"stderr","time":165.093015858,"data":"CMake Warning:\n"}
+,{"stream_name":"stderr","time":165.093048098,"data":"  Manually-specified variables were not used by the project:\n"}
+,{"stream_name":"stderr","time":165.093054434,"data":"\n"}
+,{"stream_name":"stderr","time":165.093059296,"data":"    BEAM_DEBUG_PIPELINE_STATS\n"}
+,{"stream_name":"stderr","time":165.093064439,"data":"\n"}
+,{"stream_name":"stderr","time":165.093069298,"data":"\n"}
+,{"stream_name":"stdout","time":165.093189819,"data":"-- Generating done (0.1s)\n"}
+,{"stream_name":"stdout","time":165.093956442,"data":"-- Build files have been written to: /tmp/beam_build_cube4_libtorch\n"}
+,{"stream_name":"stdout","time":165.10757874,"data":"+ cmake --build /tmp/beam_build_cube4_libtorch --target production_runner_libtorch_stream1 -j 2\n"}
+,{"stream_name":"stdout","time":166.05286823,"data":"[1/25] Building CXX object CMakeFiles/beam_core.dir/src/state.cpp.o\n"}
+,{"stream_name":"stdout","time":166.103218022,"data":"[2/25] Building CXX object CMakeFiles/beam_core.dir/src/config.cpp.o\n"}
+,{"stream_name":"stdout","time":166.695608349,"data":"[3/25] Building CXX object CMakeFiles/beam_core.dir/src/history.cpp.o\n"}
+,{"stream_name":"stdout","time":166.743843409,"data":"[4/25] Building CXX object CMakeFiles/beam_core.dir/src/hash.cpp.o\n"}
+,{"stream_name":"stdout","time":167.636931511,"data":"[5/25] Building CXX object CMakeFiles/beam_core.dir/src/stream4.cpp.o\n"}
+,{"stream_name":"stdout","time":167.636968653,"data":"In file included from /usr/include/c++/11/bits/stl_algo.h:61,\n"}
+,{"stream_name":"stdout","time":167.6369737,"data":"                 from /usr/include/c++/11/vector:62,\n"}
+,{"stream_name":"stdout","time":167.636977439,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/stream4.hpp:5,\n"}
+,{"stream_name":"stdout","time":167.63698106,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/stream4.cpp:1:\n"}
+,{"stream_name":"stdout","time":167.63700411,"data":"/usr/include/c++/11/bits/stl_heap.h: In function ‘constexpr void std::__adjust_heap(_RandomAccessIterator, _Distance, _Distance, _Tp, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator\u003cbeam::CandidateMeta*, std::vector\u003cbeam::CandidateMeta\u003e \u003e; _Distance = long int; _Tp = beam::CandidateMeta; _Compare = __gnu_cxx::__ops::_Iter_comp_iter\u003cbeam::stream4_threshold_sort_dedup(const std::vector\u003cbeam::CandidateMeta\u003e\u0026, uint32_t)::\u003clambda(const beam::CandidateMeta\u0026, const beam::CandidateMeta\u0026)\u003e \u003e]’:\n"}
+,{"stream_name":"stdout","time":167.637028459,"data":"/usr/include/c++/11/bits/stl_heap.h:223:5: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6\n"}
+,{"stream_name":"stdout","time":167.637034916,"data":"  223 |     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,\n"}
+,{"stream_name":"stdout","time":167.637039069,"data":"      |     ^~~~~~~~~~~~~\n"}
+,{"stream_name":"stdout","time":167.73164844,"data":"[6/25] Building CXX object CMakeFiles/beam_core.dir/src/stream3.cpp.o\n"}
+,{"stream_name":"stdout","time":168.610113816,"data":"[7/25] Building CXX object CMakeFiles/beam_core.dir/src/frontier_cpu.cpp.o\n"}
+,{"stream_name":"stdout","time":168.610157839,"data":"In file included from /usr/include/c++/11/bits/stl_algo.h:61,\n"}
+,{"stream_name":"stdout","time":168.610163719,"data":"                 from /usr/include/c++/11/vector:62,\n"}
+,{"stream_name":"stdout","time":168.610168472,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/state.hpp:5,\n"}
+,{"stream_name":"stdout","time":168.610172684,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/frontier_cpu.hpp:4,\n"}
+,{"stream_name":"stdout","time":168.61017704,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/frontier_cpu.cpp:1:\n"}
+,{"stream_name":"stdout","time":168.610182696,"data":"/usr/include/c++/11/bits/stl_heap.h: In function ‘constexpr void std::__adjust_heap(_RandomAccessIterator, _Distance, _Distance, _Tp, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator\u003cbeam::CandidateMeta*, std::vector\u003cbeam::CandidateMeta\u003e \u003e; _Distance = long int; _Tp = beam::CandidateMeta; _Compare = __gnu_cxx::__ops::_Iter_comp_iter\u003cbeam::expand_depth_cpu_reference(const std::vector\u003cbeam::StatePacked\u003e\u0026, const std::vector\u003cstd::array\u003cunsigned char, 112\u003e \u003e\u0026, const State128\u0026, const ZobristTable\u0026, uint32_t, uint64_t)::\u003clambda(const beam::CandidateMeta\u0026, const beam::CandidateMeta\u0026)\u003e \u003e]’:\n"}
+,{"stream_name":"stdout","time":168.61019465,"data":"/usr/include/c++/11/bits/stl_heap.h:223:5: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6\n"}
+,{"stream_name":"stdout","time":168.610200756,"data":"  223 |     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,\n"}
+,{"stream_name":"stdout","time":168.610206329,"data":"      |     ^~~~~~~~~~~~~\n"}
+,{"stream_name":"stdout","time":168.629386823,"data":"[8/25] Linking CXX static library libbeam_core.a\n"}
+,{"stream_name":"stdout","time":182.974479406,"data":"[9/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1.cu.o\n"}
+,{"stream_name":"stdout","time":182.97451261,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":230.482455474,"data":"[10/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1_transformer_fmha.cu.o\n"}
+,{"stream_name":"stdout","time":230.482497255,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":234.763499035,"data":"[11/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream2.cu.o\n"}
+,{"stream_name":"stdout","time":234.763546551,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":256.60221953,"data":"[12/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream3.cu.o\n"}
+,{"stream_name":"stdout","time":256.602277222,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":256.602287339,"data":"/tmp/beam_solver_cube4_libtorch/cuda/stream3.cu(129): warning #177-D: function \"beam::\u003cunnamed\u003e::stream3_debug_store_count_kernel\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":256.602295291,"data":"  __attribute__((global)) void stream3_debug_store_count_kernel(\n"}
+,{"stream_name":"stdout","time":256.602302005,"data":"                               ^\n"}
+,{"stream_name":"stdout","time":256.602308686,"data":"\n"}
+,{"stream_name":"stdout","time":256.602314344,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":256.602320578,"data":"\n"}
+,{"stream_name":"stdout","time":259.735977709,"data":"[13/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1_transformer.cu.o\n"}
+,{"stream_name":"stdout","time":259.736013579,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":259.736021478,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __device__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":259.736027459,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":259.736032518,"data":"                                                             ^\n"}
+,{"stream_name":"stdout","time":259.736037294,"data":"\n"}
+,{"stream_name":"stdout","time":259.736041871,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":259.736047055,"data":"\n"}
+,{"stream_name":"stdout","time":259.736051663,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __host__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":259.736057369,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":259.736062122,"data":"                                                                                     ^\n"}
+,{"stream_name":"stdout","time":259.736067281,"data":"\n"}
+,{"stream_name":"stdout","time":259.736072283,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __device__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":259.736077789,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":259.736083075,"data":"                                                             ^\n"}
+,{"stream_name":"stdout","time":259.736088118,"data":"\n"}
+,{"stream_name":"stdout","time":259.736092812,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":259.736110363,"data":"\n"}
+,{"stream_name":"stdout","time":259.736113959,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __host__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":259.736118292,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":259.736122021,"data":"                                                                                     ^\n"}
+,{"stream_name":"stdout","time":259.736125949,"data":"\n"}
+,{"stream_name":"stdout","time":264.043193711,"data":"[14/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream5.cu.o\n"}
+,{"stream_name":"stdout","time":264.043239143,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":268.559283162,"data":"[15/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/threshold.cu.o\n"}
+,{"stream_name":"stdout","time":268.559318005,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":273.50286117,"data":"[16/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream4.cu.o\n"}
+,{"stream_name":"stdout","time":273.502900293,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":280.664780417,"data":"[17/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/final_materialize.cu.o\n"}
+,{"stream_name":"stdout","time":280.664852328,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":282.984583364,"data":"[18/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/dispatcher.cu.o\n"}
+,{"stream_name":"stdout","time":282.984612996,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":285.064168121,"data":"[19/25] Building CXX object CMakeFiles/beam_cuda.dir/cuda/runtime_config.cpp.o\n"}
+,{"stream_name":"stdout","time":306.381841211,"data":"[20/25] Building CUDA object CMakeFiles/production_runner_libtorch_stream1.dir/tools/production_runner.cu.o\n"}
+,{"stream_name":"stdout","time":306.381898606,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":306.381907834,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(4401): warning #177-D: variable \"tracked_solution\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":306.381914937,"data":"      TrackedSolutionPrefix tracked_solution;\n"}
+,{"stream_name":"stdout","time":306.381921457,"data":"                            ^\n"}
+,{"stream_name":"stdout","time":306.381927169,"data":"\n"}
+,{"stream_name":"stdout","time":306.381933197,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":306.38195009,"data":"\n"}
+,{"stream_name":"stdout","time":306.381954043,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1376): warning #177-D: function \"\u003cunnamed\u003e::build_solved_neighborhood_runtime\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":306.381959446,"data":"  SolvedNeighborhoodRuntime build_solved_neighborhood_runtime(\n"}
+,{"stream_name":"stdout","time":306.381963843,"data":"                            ^\n"}
+,{"stream_name":"stdout","time":306.381968876,"data":"\n"}
+,{"stream_name":"stdout","time":306.381972886,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1419): warning #177-D: function \"\u003cunnamed\u003e::RepairSolvedNeighborhoodPrefetch::enabled\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":306.38197703,"data":"      bool enabled() const {\n"}
+,{"stream_name":"stdout","time":306.381981614,"data":"           ^\n"}
+,{"stream_name":"stdout","time":306.381986499,"data":"\n"}
+,{"stream_name":"stdout","time":306.381991205,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1675): warning #177-D: function \"\u003cunnamed\u003e::track_location_name\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":306.381996533,"data":"  const char* track_location_name(std::uint32_t location) {\n"}
+,{"stream_name":"stdout","time":306.382000792,"data":"              ^\n"}
+,{"stream_name":"stdout","time":306.382005057,"data":"\n"}
+,{"stream_name":"stdout","time":306.382009699,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1692): warning #177-D: function \"\u003cunnamed\u003e::track_stream4_phase_name\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":306.382015626,"data":"  const char* track_stream4_phase_name(std::uint32_t phase) {\n"}
+,{"stream_name":"stdout","time":306.382019908,"data":"              ^\n"}
+,{"stream_name":"stdout","time":306.382024677,"data":"\n"}
+,{"stream_name":"stdout","time":306.382028876,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(3942): warning #177-D: function \"\u003cunnamed\u003e::NcclRuntime::operator=(\u003cunnamed\u003e::NcclRuntime \u0026\u0026) noexcept\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":306.382034903,"data":"      NcclRuntime\u0026 operator=(NcclRuntime\u0026\u0026 other) noexcept {\n"}
+,{"stream_name":"stdout","time":306.382040189,"data":"                   ^\n"}
+,{"stream_name":"stdout","time":306.382044803,"data":"\n"}
+,{"stream_name":"stdout","time":308.840761312,"data":"[21/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/static_memory.cu.o\n"}
+,{"stream_name":"stdout","time":308.840795164,"data":"nvcc warning : Support for offline compilation for architectures prior to '\u003ccompute/sm/lto\u003e_75' will be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).\n"}
+,{"stream_name":"stdout","time":308.962456025,"data":"[22/25] Linking CXX static library libbeam_cuda.a\n"}
+,{"stream_name":"stdout","time":328.619045235,"data":"[23/25] Building CXX object CMakeFiles/production_runner_libtorch_stream1.dir/tools/stream1_transformer_libtorch_backend.cpp.o\n"}
+,{"stream_name":"stdout","time":337.32950097,"data":"[24/25] Building CXX object CMakeFiles/production_runner_libtorch_stream1.dir/tools/stream1_libtorch_ring_slot_launcher.cpp.o\n"}
+,{"stream_name":"stdout","time":338.230074527,"data":"[25/25] Linking CXX executable production_runner_libtorch_stream1\n"}
+,{"stream_name":"stdout","time":338.23285193,"data":"RUN_CUBE4_LIBTORCH_2XT4_START\n"}
+,{"stream_name":"stdout","time":338.232897304,"data":"cmd= /usr/bin/python3 -m torch.distributed.run --no-python --nnodes=1 --nproc-per-node=1 --node-rank=0 --rdzv-backend=c10d --rdzv-endpoint=127.0.0.1:29500 --rdzv-id=cube4_transformer_libtorch_smoke /tmp/beam_build_cube4_libtorch/production_runner_libtorch_stream1 0 10 4194304\n"}
+,{"stream_name":"stdout","time":338.23292024,"data":"world_size_from_torchrun_shape= 1\n"}
+,{"stream_name":"stdout","time":338.232925312,"data":"global_beam= 4194304\n"}
+,{"stream_name":"stdout","time":338.232929264,"data":"history_path= /tmp/beam_history_transformer_native_10m_p990/p0_beam4194304_d10\n"}
+,{"stream_name":"stdout","time":338.2329334,"data":"weight_dir= /kaggle/working/stream1_transformer_weights_fp16\n"}
+,{"stream_name":"stdout","time":338.232937375,"data":"nccl_id_file= /kaggle/working/beam_solver_nccl_transformer_solve_p0.bin\n"}
+,{"stream_name":"stdout","time":338.233019603,"data":"log_path= /kaggle/working/cube4_transformer_libtorch_logs/torchrun_native_transformer_10m_p0_d10_b4194304.log\n"}
+,{"stream_name":"stdout","time":341.345070527,"data":"stream1_backend=piece_transformer\n"}
+,{"stream_name":"stdout","time":341.345105136,"data":"stream1_transformer_dims seq_len=57 d_model=256 nhead=8 head_dim=32 layers=4 ff_dim=1024 output_dim=24\n"}
+,{"stream_name":"stdout","time":341.903807052,"data":"depth_done=0 depth_sec=0.322138 ring_slot_jobs=1 stream3_jobs=1 stream4_jobs=8 stream4_slots_used=1 stream12_ms=206.718 stream12_max_ms=206.718 stream3_ring_ms=0.355776 stream3_ring_max_ms=0.355776 stream3_spill_drain_ms=0.039776 stream3_final_filter_ms=11.2472 stream3_final_materialize_ms=0.7352 stream3_reset_ms=0.11488 stream4_ms=33.1122 stream4_max_ms=4.15437 stream4_avg_ms=4.13903 stream5_ms=68.2794 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=24 final_request_count=24 next_frontier_size=24 history_bytes_received=768 history_bytes_stored=384 history_bytes_stored_ram=0 history_bytes_stored_disk=0 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":342.015205454,"data":"depth_done=1 depth_sec=0.1112 ring_slot_jobs=1 stream3_jobs=1 stream4_jobs=8 stream4_slots_used=1 stream12_ms=3.81008 stream12_max_ms=3.81008 stream3_ring_ms=0.289216 stream3_ring_max_ms=0.289216 stream3_spill_drain_ms=0.037504 stream3_final_filter_ms=10.8104 stream3_final_materialize_ms=0.031072 stream3_reset_ms=0.110272 stream4_ms=30.4281 stream4_max_ms=4.11098 stream4_avg_ms=3.80351 stream5_ms=64.0572 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=469 final_request_count=469 next_frontier_size=469 history_bytes_received=15776 history_bytes_stored=7888 history_bytes_stored_ram=0 history_bytes_stored_disk=384 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":342.153939672,"data":"depth_done=2 depth_sec=0.13858 ring_slot_jobs=2 stream3_jobs=1 stream4_jobs=8 stream4_slots_used=1 stream12_ms=34.5949 stream12_max_ms=34.5949 stream3_ring_ms=0.280064 stream3_ring_max_ms=0.280064 stream3_spill_drain_ms=0.0384 stream3_final_filter_ms=10.4756 stream3_final_materialize_ms=0.041312 stream3_reset_ms=0.112608 stream4_ms=29.8116 stream4_max_ms=3.79498 stream4_avg_ms=3.72644 stream5_ms=61.5682 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=9023 final_request_count=9023 next_frontier_size=9023 history_bytes_received=304512 history_bytes_stored=152256 history_bytes_stored_ram=0 history_bytes_stored_disk=7888 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":342.902172822,"data":"depth_done=3 depth_sec=0.748008 ring_slot_jobs=24 stream3_jobs=12 stream4_jobs=8 stream4_slots_used=1 stream12_ms=644.057 stream12_max_ms=55.1809 stream3_ring_ms=27.6625 stream3_ring_max_ms=6.2895 stream3_spill_drain_ms=0.028224 stream3_final_filter_ms=10.4858 stream3_final_materialize_ms=0.390112 stream3_reset_ms=0.12128 stream4_ms=29.7898 stream4_max_ms=3.77488 stream4_avg_ms=3.72372 stream5_ms=61.5802 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=173340 final_request_count=173340 next_frontier_size=173340 history_bytes_received=5851392 history_bytes_stored=2925696 history_bytes_stored_ram=0 history_bytes_stored_disk=152256 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":355.492229689,"data":"depth_done=4 depth_sec=12.5898 ring_slot_jobs=452 stream3_jobs=226 stream4_jobs=56 stream4_slots_used=1 stream12_ms=12475.1 stream12_max_ms=63.4736 stream3_ring_ms=755.7 stream3_ring_max_ms=11.9691 stream3_spill_drain_ms=0.032512 stream3_final_filter_ms=11.2675 stream3_final_materialize_ms=8.6688 stream3_reset_ms=0.189824 stream4_ms=1033.95 stream4_max_ms=22.3836 stream4_avg_ms=18.4634 stream5_ms=61.5771 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=3626154 final_request_count=3626154 next_frontier_size=3626154 history_bytes_received=121888320 history_bytes_stored=60944160 history_bytes_stored_ram=0 history_bytes_stored_disk=2925696 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":614.915013092,"data":"depth_done=5 depth_sec=259.421 ring_slot_jobs=9444 stream3_jobs=4722 stream4_jobs=328 stream4_slots_used=1 stream12_ms=259326 stream12_max_ms=57.638 stream3_ring_ms=11787.4 stream3_ring_max_ms=6.87693 stream3_spill_drain_ms=0.03216 stream3_final_filter_ms=11.4209 stream3_final_materialize_ms=10.5993 stream3_reset_ms=0.11488 stream4_ms=6950.4 stream4_max_ms=25.1894 stream4_avg_ms=21.1903 stream5_ms=374.621 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=22016 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=256106048 history_bytes_stored=128053024 history_bytes_stored_ram=0 history_bytes_stored_disk=60944160 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":915.290040517,"data":"depth_done=6 depth_sec=300.376 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=300280 stream12_max_ms=57.6884 stream3_ring_ms=13448.4 stream3_ring_max_ms=6.34 stream3_spill_drain_ms=0.033664 stream3_final_filter_ms=11.3988 stream3_final_materialize_ms=10.5947 stream3_reset_ms=0.116032 stream4_ms=7329.05 stream4_max_ms=23.9097 stream4_avg_ms=21.3054 stream5_ms=377.791 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=19616 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=390323776 history_bytes_stored=195161888 history_bytes_stored_ram=0 history_bytes_stored_disk=128053024 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":1216.240944094,"data":"depth_done=7 depth_sec=300.951 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=300855 stream12_max_ms=57.7722 stream3_ring_ms=13590 stream3_ring_max_ms=6.65363 stream3_spill_drain_ms=0.032448 stream3_final_filter_ms=11.416 stream3_final_materialize_ms=10.5731 stream3_reset_ms=0.114688 stream4_ms=7287.73 stream4_max_ms=26.3897 stream4_avg_ms=21.1853 stream5_ms=371.719 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=18224 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=524541504 history_bytes_stored=262270752 history_bytes_stored_ram=0 history_bytes_stored_disk=195161888 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":1517.842861157,"data":"depth_done=8 depth_sec=301.602 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=301506 stream12_max_ms=57.9027 stream3_ring_ms=13623 stream3_ring_max_ms=6.61376 stream3_spill_drain_ms=0.0304 stream3_final_filter_ms=11.4359 stream3_final_materialize_ms=10.6137 stream3_reset_ms=0.121664 stream4_ms=7355.91 stream4_max_ms=25.6295 stream4_avg_ms=21.3835 stream5_ms=373.067 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=17232 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=658759232 history_bytes_stored=329379616 history_bytes_stored_ram=0 history_bytes_stored_disk=262270752 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":1819.79779303,"data":"depth_done=9 depth_sec=301.955 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=301859 stream12_max_ms=57.9359 stream3_ring_ms=13682.2 stream3_ring_max_ms=8.39181 stream3_spill_drain_ms=0.030112 stream3_final_filter_ms=11.4037 stream3_final_materialize_ms=10.6102 stream3_reset_ms=0.11648 stream4_ms=7307.02 stream4_max_ms=23.1163 stream4_avg_ms=21.2413 stream5_ms=375.209 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=16376 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=792976960 history_bytes_stored=396488480 history_bytes_stored_ram=0 history_bytes_stored_disk=329379616 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":1819.8615464,"data":"puzzle_solved=0 puzzle_id=0 seconds=1478.38 solution_length=-1 solution=\n"}
+,{"stream_name":"stdout","time":1820.745850726,"data":"RUN_CUBE4_LIBTORCH_2XT4_RC 0 seconds=1482.512\n"}
+,{"stream_name":"stdout","time":1820.817952379,"data":"RUN_CUBE4_LIBTORCH_2XT4_RESULTS= [{'puzzle_id': 0, 'return_code': 0, 'seconds': 1482.5115475654602, 'log_path': '/kaggle/working/cube4_transformer_libtorch_logs/torchrun_native_transformer_10m_p0_d10_b4194304.log', 'gpu_monitor': '/kaggle/working/cube4_transformer_libtorch_logs/native_gpu_p0_b4194304.csv'}]\n"}
+,{"stream_name":"stderr","time":1823.573940004,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1823.573971177,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1823.845592593,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1823.845628872,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1824.529692141,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1825.973482859,"data":"[NbConvertApp] Writing 384562 bytes to __results__.html\n"}
+]

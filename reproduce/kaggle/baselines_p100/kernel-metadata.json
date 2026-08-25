@@ -1,0 +1,15 @@
+{
+  "id": "trydotatwo/paper-gpu-baselines-p100",
+  "title": "Paper GPU Baselines P100",
+  "code_file": "run_gpu_baselines.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": false,
+  "enable_gpu": true,
+  "machine_shape": "NvidiaTeslaP100",
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

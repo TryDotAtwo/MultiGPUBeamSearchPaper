@@ -1,0 +1,241 @@
+[{"stream_name":"stdout","time":6.190928041,"data":"resolved_bundle_dir= /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference\n"}
+,{"stream_name":"stdout","time":6.427909928,"data":"sha256= model.pth 58af301a4f2b77d503b6e12d450589c64c076624d3e1ff291128c23663ad3164\n"}
+,{"stream_name":"stdout","time":6.432567715,"data":"sha256= model.json 87a6d644400b5f5e6c5258e7bd9562427488163d5b7542f73c86aa1948b5f17e\n"}
+,{"stream_name":"stdout","time":6.479767372,"data":"known_scramble= ['-f0', 'f1', '-r0', 'd2', '-d1', 'd3', '-r2', 'd1', '-r0', '-f3', '-f0', '-r3', '-f2', 'd3', '-d2', 'r3', 'd1', '-r1', '-f2', '-d1']\n"}
+,{"stream_name":"stdout","time":6.481597096,"data":"history_preflight= {'entry_bytes': 16, 'required_bytes_at_depth_limit': 671088640, 'ram_budget_bytes': 27754021120, 'disk_budget_bytes': 53687091200, 'total_budget_bytes': 81441112320, 'available_ram_bytes': 29254021120, 'free_tmp_bytes': 1102540922880}\n"}
+,{"stream_name":"stdout","time":6.481620188,"data":"KAGGLE_MODEL_SOURCE= trydotatwo/cube4-full-transformer-inference\n"}
+,{"stream_name":"stdout","time":6.481625177,"data":"GITHUB_BRANCH= codex/stream1-piece-transformer\n"}
+,{"stream_name":"stdout","time":6.481629907,"data":"torchrun_topology= {'nnodes': 1, 'nproc_per_node': 1, 'node_rank': 0, 'world_size': 1, 'rdzv_endpoint': '127.0.0.1:29500'}\n"}
+,{"stream_name":"stdout","time":6.481635085,"data":"derived_config= {'world_size': 1, 'beam_alignment': 8192, 'global_beam_effective': 4194304, 'local_beam_width': 4194304, 'logical_shard_size': 524288, 'shard_capacity': 589824, 'stream3_batch': 18432}\n"}
+,{"stream_name":"stdout","time":6.481640063,"data":"disk_tmp= /tmp: free=1102540922880 total=8656922775552\n"}
+,{"stream_name":"stdout","time":6.481644388,"data":"disk_working= /kaggle/working: free=20940468224 total=20957446144\n"}
+,{"stream_name":"stdout","time":6.481648495,"data":"+ nvidia-smi\n"}
+,{"stream_name":"stdout","time":6.892302144,"data":"Wed Aug 12 15:43:36 2026       \n"}
+,{"stream_name":"stdout","time":6.892349595,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":6.89235327,"data":"| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |\n"}
+,{"stream_name":"stdout","time":6.892356246,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":6.892358639,"data":"| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n"}
+,{"stream_name":"stdout","time":6.892361042,"data":"| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n"}
+,{"stream_name":"stdout","time":6.892363448,"data":"|                                         |                        |               MIG M. |\n"}
+,{"stream_name":"stdout","time":6.892365863,"data":"|=========================================+========================+======================|\n"}
+,{"stream_name":"stdout","time":6.892368097,"data":"|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":6.89237041,"data":"| N/A   36C    P8              9W /   70W |       0MiB /  15360MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":6.89237263,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":6.892374955,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":6.892377191,"data":"|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":6.892392553,"data":"| N/A   48C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":6.892395184,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":6.8923974690000005,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":6.892399752,"data":"\n"}
+,{"stream_name":"stdout","time":6.892401947,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":6.892404207,"data":"| Processes:                                                                              |\n"}
+,{"stream_name":"stdout","time":6.892406467,"data":"|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n"}
+,{"stream_name":"stdout","time":6.8924087499999995,"data":"|        ID   ID                                                               Usage      |\n"}
+,{"stream_name":"stdout","time":6.892411097,"data":"|=========================================================================================|\n"}
+,{"stream_name":"stdout","time":6.892413365,"data":"|  No running processes found                                                             |\n"}
+,{"stream_name":"stdout","time":6.892416531,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":6.919357042,"data":"torch_cuda_device_count= 1\n"}
+,{"stream_name":"stdout","time":6.91958627,"data":"+ git clone --branch codex/stream1-piece-transformer --depth 1 https://github.com/TryDotAtwo/MultiGPUBeamSearch.git /tmp/beam_solver_cube4_libtorch\n"}
+,{"stream_name":"stderr","time":6.947268216,"data":"Cloning into '/tmp/beam_solver_cube4_libtorch'...\n"}
+,{"stream_name":"stdout","time":8.005727264,"data":"+ git rev-parse --short HEAD\n"}
+,{"stream_name":"stdout","time":8.009833601,"data":"df534eb\n"}
+,{"stream_name":"stdout","time":8.009855142,"data":"checked_out_commit= df534eb\n"}
+,{"stream_name":"stdout","time":8.064321353,"data":"selected_transformer_checkpoint= /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/model/model.pth\n"}
+,{"stream_name":"stdout","time":8.064346296,"data":"+ /usr/bin/python3 /tmp/beam_solver_cube4_libtorch/tools/export_stream1.py --weights /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/model/model.pth --out /kaggle/working/stream1_transformer_weights_fp16 --format piece-transformer --dtype fp16 --num-classes 6 --metadata /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/model/model.json --generators /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference/generators/p002.json --source-root /kaggle/input/datasets/trydotatwo/cube4-full-transformer-inference\n"}
+,{"stream_name":"stdout","time":10.051420666,"data":"stream1_export_done out_dir=/kaggle/working/stream1_transformer_weights_fp16 format=piece_transformer dtype=fp16 seq_len=57 d_model=256 layers=4 output_dim=24\n"}
+,{"stream_name":"stdout","time":11.669246097,"data":"exported_manifest_summary= {'backend': 'piece_transformer', 'dtype': 'fp16', 'seq_len': 57, 'd_model': 256, 'layers': 4, 'output_dim': 24}\n"}
+,{"stream_name":"stdout","time":11.669430594,"data":"+ git clone --depth 1 https://github.com/NVIDIA/cutlass.git /tmp/cutlass\n"}
+,{"stream_name":"stderr","time":11.672054294,"data":"Cloning into '/tmp/cutlass'...\n"}
+,{"stream_name":"stdout","time":14.567828014,"data":"pytorch_nccl= {'library': '/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2', 'include': '/usr/local/lib/python3.12/dist-packages/nvidia/nccl/include'}\n"}
+,{"stream_name":"stdout","time":14.567885255,"data":"+ cmake -S /tmp/beam_solver_cube4_libtorch -B /tmp/beam_build_cube4_libtorch -GNinja -DCMAKE_BUILD_TYPE=Release -DBEAM_CUDA_ARCHITECTURES=75 -DBEAM_PUZZLE_INFO_JSON=/kaggle/working/cube4_data/puzzle_info.json -DBEAM_ENABLE_LIBTORCH_STREAM1=ON -DCMAKE_PREFIX_PATH=/usr/local/lib/python3.12/dist-packages/torch/share/cmake -DNCCL_LIBRARY=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/lib/libnccl.so.2 -DNCCL_INCLUDE_DIR=/usr/local/lib/python3.12/dist-packages/nvidia/nccl/include -DCUTLASS_DIR=/tmp/cutlass -DBEAM_ENABLE_DEBUG=ON -DBEAM_ENABLE_DEPTH_LOGS=ON -DBEAM_ENABLE_DEBUG_LOGS=OFF -DBEAM_DEBUG_STREAM_TIMING=ON -DBEAM_DEBUG_INFERENCE_TRACE=OFF -DBEAM_DEBUG_PATH_TRACE=OFF -DBEAM_DEBUG_FINAL_VALIDATE=OFF -DBEAM_DEBUG_FINAL_EXCHANGE_TRACE=OFF -DBEAM_DEBUG_FINAL_HISTOGRAM_TRACE=OFF -DBEAM_DEBUG_STREAM4_HISTOGRAM_TRACE=OFF -DBEAM_DEBUG_DEPTH_FLOW_TRACE=OFF -DBEAM_DEBUG_PIPELINE_STATS=OFF\n"}
+,{"stream_name":"stdout","time":14.904613682,"data":"-- Beam state logical bytes: 96\n"}
+,{"stream_name":"stdout","time":14.904642896,"data":"-- Beam state physical bytes: 112\n"}
+,{"stream_name":"stdout","time":14.904648341,"data":"-- Beam state alignment: 16\n"}
+,{"stream_name":"stdout","time":14.90465256,"data":"-- Beam move count: 24\n"}
+,{"stream_name":"stdout","time":15.227774636,"data":"-- The CXX compiler identification is GNU 11.4.0\n"}
+,{"stream_name":"stdout","time":17.207042996,"data":"-- The CUDA compiler identification is NVIDIA 12.8.93 with host compiler GNU 11.4.0\n"}
+,{"stream_name":"stdout","time":17.232949687,"data":"-- Detecting CXX compiler ABI info\n"}
+,{"stream_name":"stdout","time":17.326744491,"data":"-- Detecting CXX compiler ABI info - done\n"}
+,{"stream_name":"stdout","time":17.348976969,"data":"-- Check for working CXX compiler: /usr/bin/c++ - skipped\n"}
+,{"stream_name":"stdout","time":17.350345847,"data":"-- Detecting CXX compile features\n"}
+,{"stream_name":"stdout","time":17.352845067,"data":"-- Detecting CXX compile features - done\n"}
+,{"stream_name":"stdout","time":17.378402255,"data":"-- Detecting CUDA compiler ABI info\n"}
+,{"stream_name":"stdout","time":18.502433787,"data":"-- Detecting CUDA compiler ABI info - done\n"}
+,{"stream_name":"stdout","time":18.578560662,"data":"-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped\n"}
+,{"stream_name":"stdout","time":18.800416395,"data":"-- Detecting CUDA compile features\n"}
+,{"stream_name":"stdout","time":18.801349028,"data":"-- Detecting CUDA compile features - done\n"}
+,{"stream_name":"stdout","time":18.863667159,"data":"-- Found CUDA: /usr/local/cuda (found version \"12.8\")\n"}
+,{"stream_name":"stdout","time":18.869121794,"data":"-- Found CUDAToolkit: /usr/local/cuda/include (found version \"12.8.93\")\n"}
+,{"stream_name":"stdout","time":18.882002319,"data":"-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n"}
+,{"stream_name":"stdout","time":18.979393539,"data":"-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n"}
+,{"stream_name":"stdout","time":18.980971477,"data":"-- Found Threads: TRUE\n"}
+,{"stream_name":"stdout","time":19.026071424,"data":"-- PyTorch: CUDA detected: 12.8\n"}
+,{"stream_name":"stdout","time":19.026100221,"data":"-- PyTorch: CUDA nvcc is: /usr/local/cuda/bin/nvcc\n"}
+,{"stream_name":"stdout","time":19.026108435,"data":"-- PyTorch: CUDA toolkit directory: /usr/local/cuda\n"}
+,{"stream_name":"stdout","time":19.15385157,"data":"-- PyTorch: Header version is: 12.8\n"}
+,{"stream_name":"stdout","time":19.857640611,"data":"-- Found Python: /usr/local/bin/python (found version \"3.12.13\") found components: Interpreter\n"}
+,{"stream_name":"stderr","time":19.859543724,"data":"CMake Warning at /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/public/cuda.cmake:149 (message):\n"}
+,{"stream_name":"stderr","time":19.859583683,"data":"  Failed to compute shorthash for libnvrtc.so\n"}
+,{"stream_name":"stderr","time":19.859589243,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stderr","time":19.859596649,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)\n"}
+,{"stream_name":"stderr","time":19.859600063,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)\n"}
+,{"stream_name":"stderr","time":19.859602589,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":19.859605059,"data":"\n"}
+,{"stream_name":"stderr","time":19.85960733,"data":"\n"}
+,{"stream_name":"stdout","time":19.859785605,"data":"-- USE_CUDNN is set to 0. Compiling without cuDNN support\n"}
+,{"stream_name":"stdout","time":19.85979595,"data":"-- USE_CUSPARSELT is set to 0. Compiling without cuSPARSELt support\n"}
+,{"stream_name":"stdout","time":19.859799577,"data":"-- USE_CUDSS is set to 0. Compiling without cuDSS support\n"}
+,{"stream_name":"stdout","time":19.859802949,"data":"-- USE_CUFILE is set to 0. Compiling without cuFile support\n"}
+,{"stream_name":"stdout","time":21.138695256,"data":"-- Autodetected CUDA architecture(s):  7.5\n"}
+,{"stream_name":"stdout","time":21.139282838,"data":"-- Added CUDA NVCC flags for: -gencode;arch=compute_75,code=sm_75\n"}
+,{"stream_name":"stderr","time":21.13931397,"data":"CMake Warning at /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/public/cuda.cmake:332 (message):\n"}
+,{"stream_name":"stderr","time":21.139327423,"data":"  pytorch is not compatible with `CMAKE_CUDA_ARCHITECTURES` and will ignore\n"}
+,{"stream_name":"stderr","time":21.139332021,"data":"  its value.  Please configure `TORCH_CUDA_ARCH_LIST` instead.\n"}
+,{"stream_name":"stderr","time":21.13933576,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stderr","time":21.139342179,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:86 (include)\n"}
+,{"stream_name":"stderr","time":21.13934611,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)\n"}
+,{"stream_name":"stderr","time":21.139350033,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":21.139354093,"data":"\n"}
+,{"stream_name":"stderr","time":21.1393577,"data":"\n"}
+,{"stream_name":"stderr","time":21.185636775,"data":"CMake Warning at /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:22 (message):\n"}
+,{"stream_name":"stderr","time":21.18565837,"data":"  static library kineto_LIBRARY-NOTFOUND not found.\n"}
+,{"stream_name":"stderr","time":21.185680587,"data":"Call Stack (most recent call first):\n"}
+,{"stream_name":"stderr","time":21.185684836,"data":"  /usr/local/lib/python3.12/dist-packages/torch/share/cmake/Torch/TorchConfig.cmake:125 (append_torchlib_if_found)\n"}
+,{"stream_name":"stderr","time":21.18568967,"data":"  CMakeLists.txt:245 (find_package)\n"}
+,{"stream_name":"stderr","time":21.185695716,"data":"\n"}
+,{"stream_name":"stderr","time":21.18569983,"data":"\n"}
+,{"stream_name":"stdout","time":21.187782181,"data":"-- Found Torch: /usr/local/lib/python3.12/dist-packages/torch/lib/libtorch.so\n"}
+,{"stream_name":"stdout","time":21.188552585,"data":"-- Configuring done (6.3s)\n"}
+,{"stream_name":"stdout","time":21.274918602,"data":"-- Generating done (0.1s)\n"}
+,{"stream_name":"stderr","time":21.275007166,"data":"CMake Warning:\n"}
+,{"stream_name":"stderr","time":21.275031922,"data":"  Manually-specified variables were not used by the project:\n"}
+,{"stream_name":"stderr","time":21.275036482,"data":"\n"}
+,{"stream_name":"stderr","time":21.275040054,"data":"    BEAM_DEBUG_PIPELINE_STATS\n"}
+,{"stream_name":"stderr","time":21.275043668,"data":"\n"}
+,{"stream_name":"stderr","time":21.275047048,"data":"\n"}
+,{"stream_name":"stdout","time":21.276206864,"data":"-- Build files have been written to: /tmp/beam_build_cube4_libtorch\n"}
+,{"stream_name":"stdout","time":21.289539149,"data":"+ cmake --build /tmp/beam_build_cube4_libtorch --target production_runner_libtorch_stream1 -j 2\n"}
+,{"stream_name":"stdout","time":22.192317556,"data":"[1/25] Building CXX object CMakeFiles/beam_core.dir/src/state.cpp.o\n"}
+,{"stream_name":"stdout","time":22.232081922,"data":"[2/25] Building CXX object CMakeFiles/beam_core.dir/src/config.cpp.o\n"}
+,{"stream_name":"stdout","time":22.78812157,"data":"[3/25] Building CXX object CMakeFiles/beam_core.dir/src/history.cpp.o\n"}
+,{"stream_name":"stdout","time":22.849983919,"data":"[4/25] Building CXX object CMakeFiles/beam_core.dir/src/hash.cpp.o\n"}
+,{"stream_name":"stdout","time":23.667716687,"data":"[5/25] Building CXX object CMakeFiles/beam_core.dir/src/stream4.cpp.o\n"}
+,{"stream_name":"stdout","time":23.66774701,"data":"In file included from /usr/include/c++/11/bits/stl_algo.h:61,\n"}
+,{"stream_name":"stdout","time":23.667753238,"data":"                 from /usr/include/c++/11/vector:62,\n"}
+,{"stream_name":"stdout","time":23.667758297,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/stream4.hpp:5,\n"}
+,{"stream_name":"stdout","time":23.667762878,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/stream4.cpp:1:\n"}
+,{"stream_name":"stdout","time":23.667767665,"data":"/usr/include/c++/11/bits/stl_heap.h: In function ‘constexpr void std::__adjust_heap(_RandomAccessIterator, _Distance, _Distance, _Tp, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator\u003cbeam::CandidateMeta*, std::vector\u003cbeam::CandidateMeta\u003e \u003e; _Distance = long int; _Tp = beam::CandidateMeta; _Compare = __gnu_cxx::__ops::_Iter_comp_iter\u003cbeam::stream4_threshold_sort_dedup(const std::vector\u003cbeam::CandidateMeta\u003e\u0026, uint32_t)::\u003clambda(const beam::CandidateMeta\u0026, const beam::CandidateMeta\u0026)\u003e \u003e]’:\n"}
+,{"stream_name":"stdout","time":23.667776551,"data":"/usr/include/c++/11/bits/stl_heap.h:223:5: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6\n"}
+,{"stream_name":"stdout","time":23.667781365,"data":"  223 |     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,\n"}
+,{"stream_name":"stdout","time":23.6677859,"data":"      |     ^~~~~~~~~~~~~\n"}
+,{"stream_name":"stdout","time":23.744005463,"data":"[6/25] Building CXX object CMakeFiles/beam_core.dir/src/stream3.cpp.o\n"}
+,{"stream_name":"stdout","time":24.561781574,"data":"[7/25] Building CXX object CMakeFiles/beam_core.dir/src/frontier_cpu.cpp.o\n"}
+,{"stream_name":"stdout","time":24.561810206,"data":"In file included from /usr/include/c++/11/bits/stl_algo.h:61,\n"}
+,{"stream_name":"stdout","time":24.561816796,"data":"                 from /usr/include/c++/11/vector:62,\n"}
+,{"stream_name":"stdout","time":24.561822258,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/state.hpp:5,\n"}
+,{"stream_name":"stdout","time":24.561827641,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/frontier_cpu.hpp:4,\n"}
+,{"stream_name":"stdout","time":24.561832934,"data":"                 from /tmp/beam_solver_cube4_libtorch/src/frontier_cpu.cpp:1:\n"}
+,{"stream_name":"stdout","time":24.56184952,"data":"/usr/include/c++/11/bits/stl_heap.h: In function ‘constexpr void std::__adjust_heap(_RandomAccessIterator, _Distance, _Distance, _Tp, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator\u003cbeam::CandidateMeta*, std::vector\u003cbeam::CandidateMeta\u003e \u003e; _Distance = long int; _Tp = beam::CandidateMeta; _Compare = __gnu_cxx::__ops::_Iter_comp_iter\u003cbeam::expand_depth_cpu_reference(const std::vector\u003cbeam::StatePacked\u003e\u0026, const std::vector\u003cstd::array\u003cunsigned char, 112\u003e \u003e\u0026, const State128\u0026, const ZobristTable\u0026, uint32_t, uint64_t)::\u003clambda(const beam::CandidateMeta\u0026, const beam::CandidateMeta\u0026)\u003e \u003e]’:\n"}
+,{"stream_name":"stdout","time":24.561867358,"data":"/usr/include/c++/11/bits/stl_heap.h:223:5: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6\n"}
+,{"stream_name":"stdout","time":24.561871276,"data":"  223 |     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,\n"}
+,{"stream_name":"stdout","time":24.561875195,"data":"      |     ^~~~~~~~~~~~~\n"}
+,{"stream_name":"stdout","time":24.581477875,"data":"[8/25] Linking CXX static library libbeam_core.a\n"}
+,{"stream_name":"stdout","time":37.926422383,"data":"[9/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1.cu.o\n"}
+,{"stream_name":"stdout","time":83.564402054,"data":"[10/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1_transformer_fmha.cu.o\n"}
+,{"stream_name":"stdout","time":87.471026604,"data":"[11/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream2.cu.o\n"}
+,{"stream_name":"stdout","time":109.177328781,"data":"[12/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream3.cu.o\n"}
+,{"stream_name":"stdout","time":109.177364044,"data":"/tmp/beam_solver_cube4_libtorch/cuda/stream3.cu(129): warning #177-D: function \"beam::\u003cunnamed\u003e::stream3_debug_store_count_kernel\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":109.17738082,"data":"  __attribute__((global)) void stream3_debug_store_count_kernel(\n"}
+,{"stream_name":"stdout","time":109.177386605,"data":"                               ^\n"}
+,{"stream_name":"stdout","time":109.17739157,"data":"\n"}
+,{"stream_name":"stdout","time":109.177396201,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":109.177401295,"data":"\n"}
+,{"stream_name":"stdout","time":114.482356778,"data":"[13/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1_transformer.cu.o\n"}
+,{"stream_name":"stdout","time":114.482388426,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __device__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":114.4823997,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":114.482404714,"data":"                                                             ^\n"}
+,{"stream_name":"stdout","time":114.482409576,"data":"\n"}
+,{"stream_name":"stdout","time":114.48241428,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":114.482419631,"data":"\n"}
+,{"stream_name":"stdout","time":114.482425115,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __host__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":114.48243083,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":114.482447258,"data":"                                                                                     ^\n"}
+,{"stream_name":"stdout","time":114.482451236,"data":"\n"}
+,{"stream_name":"stdout","time":114.48245467,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __device__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":114.482458905,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":114.482462635,"data":"                                                             ^\n"}
+,{"stream_name":"stdout","time":114.48246625,"data":"\n"}
+,{"stream_name":"stdout","time":114.482469672,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":114.482473437,"data":"\n"}
+,{"stream_name":"stdout","time":114.482476907,"data":"/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __host__ annotation is ignored on a function(\"StaticPersistentTileScheduler100\") that is explicitly defaulted on its first declaration\n"}
+,{"stream_name":"stdout","time":114.482481113,"data":"    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))\n"}
+,{"stream_name":"stdout","time":114.482484785,"data":"                                                                                     ^\n"}
+,{"stream_name":"stdout","time":114.482488472,"data":"\n"}
+,{"stream_name":"stdout","time":118.3197114,"data":"[14/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream5.cu.o\n"}
+,{"stream_name":"stdout","time":122.706677839,"data":"[15/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/threshold.cu.o\n"}
+,{"stream_name":"stdout","time":125.456492828,"data":"[16/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream4.cu.o\n"}
+,{"stream_name":"stdout","time":133.945335405,"data":"[17/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/final_materialize.cu.o\n"}
+,{"stream_name":"stdout","time":134.120154571,"data":"[18/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/dispatcher.cu.o\n"}
+,{"stream_name":"stdout","time":136.018968162,"data":"[19/25] Building CXX object CMakeFiles/beam_cuda.dir/cuda/runtime_config.cpp.o\n"}
+,{"stream_name":"stdout","time":155.522915809,"data":"[20/25] Building CUDA object CMakeFiles/production_runner_libtorch_stream1.dir/tools/production_runner.cu.o\n"}
+,{"stream_name":"stdout","time":155.522952162,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(4401): warning #177-D: variable \"tracked_solution\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":155.522957858,"data":"      TrackedSolutionPrefix tracked_solution;\n"}
+,{"stream_name":"stdout","time":155.522961454,"data":"                            ^\n"}
+,{"stream_name":"stdout","time":155.522964847,"data":"\n"}
+,{"stream_name":"stdout","time":155.522981966,"data":"Remark: The warnings can be suppressed with \"-diag-suppress \u003cwarning-number\u003e\"\n"}
+,{"stream_name":"stdout","time":155.522988923,"data":"\n"}
+,{"stream_name":"stdout","time":155.522995269,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1376): warning #177-D: function \"\u003cunnamed\u003e::build_solved_neighborhood_runtime\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":155.523002225,"data":"  SolvedNeighborhoodRuntime build_solved_neighborhood_runtime(\n"}
+,{"stream_name":"stdout","time":155.523018714,"data":"                            ^\n"}
+,{"stream_name":"stdout","time":155.523022753,"data":"\n"}
+,{"stream_name":"stdout","time":155.523026308,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1419): warning #177-D: function \"\u003cunnamed\u003e::RepairSolvedNeighborhoodPrefetch::enabled\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":155.52303083,"data":"      bool enabled() const {\n"}
+,{"stream_name":"stdout","time":155.523034626,"data":"           ^\n"}
+,{"stream_name":"stdout","time":155.523038303,"data":"\n"}
+,{"stream_name":"stdout","time":155.523041993,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1675): warning #177-D: function \"\u003cunnamed\u003e::track_location_name\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":155.523046466,"data":"  const char* track_location_name(std::uint32_t location) {\n"}
+,{"stream_name":"stdout","time":155.523050306,"data":"              ^\n"}
+,{"stream_name":"stdout","time":155.523053826,"data":"\n"}
+,{"stream_name":"stdout","time":155.52305728,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(1692): warning #177-D: function \"\u003cunnamed\u003e::track_stream4_phase_name\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":155.523061279,"data":"  const char* track_stream4_phase_name(std::uint32_t phase) {\n"}
+,{"stream_name":"stdout","time":155.52306518,"data":"              ^\n"}
+,{"stream_name":"stdout","time":155.523068953,"data":"\n"}
+,{"stream_name":"stdout","time":155.523072677,"data":"/tmp/beam_solver_cube4_libtorch/tools/production_runner.cu(3942): warning #177-D: function \"\u003cunnamed\u003e::NcclRuntime::operator=(\u003cunnamed\u003e::NcclRuntime \u0026\u0026) noexcept\" was declared but never referenced\n"}
+,{"stream_name":"stdout","time":155.523077771,"data":"      NcclRuntime\u0026 operator=(NcclRuntime\u0026\u0026 other) noexcept {\n"}
+,{"stream_name":"stdout","time":155.523082437,"data":"                   ^\n"}
+,{"stream_name":"stdout","time":155.523086539,"data":"\n"}
+,{"stream_name":"stdout","time":160.212190314,"data":"[21/25] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/static_memory.cu.o\n"}
+,{"stream_name":"stdout","time":160.32191013,"data":"[22/25] Linking CXX static library libbeam_cuda.a\n"}
+,{"stream_name":"stdout","time":179.042298206,"data":"[23/25] Building CXX object CMakeFiles/production_runner_libtorch_stream1.dir/tools/stream1_transformer_libtorch_backend.cpp.o\n"}
+,{"stream_name":"stdout","time":186.958295947,"data":"[24/25] Building CXX object CMakeFiles/production_runner_libtorch_stream1.dir/tools/stream1_libtorch_ring_slot_launcher.cpp.o\n"}
+,{"stream_name":"stdout","time":187.86118279,"data":"[25/25] Linking CXX executable production_runner_libtorch_stream1\n"}
+,{"stream_name":"stdout","time":187.863686903,"data":"RUN_CUBE4_LIBTORCH_2XT4_START\n"}
+,{"stream_name":"stdout","time":187.863711698,"data":"cmd= /usr/bin/python3 -m torch.distributed.run --no-python --nnodes=1 --nproc-per-node=1 --node-rank=0 --rdzv-backend=c10d --rdzv-endpoint=127.0.0.1:29500 --rdzv-id=cube4_transformer_libtorch_smoke /tmp/beam_build_cube4_libtorch/production_runner_libtorch_stream1 0 10 4194304\n"}
+,{"stream_name":"stdout","time":187.863720604,"data":"world_size_from_torchrun_shape= 1\n"}
+,{"stream_name":"stdout","time":187.863725131,"data":"global_beam= 4194304\n"}
+,{"stream_name":"stdout","time":187.863729626,"data":"history_path= /tmp/beam_history_transformer_native_10m_p990/p0_beam4194304_d10\n"}
+,{"stream_name":"stdout","time":187.863736019,"data":"weight_dir= /kaggle/working/stream1_transformer_weights_fp16\n"}
+,{"stream_name":"stdout","time":187.863752814,"data":"nccl_id_file= /kaggle/working/beam_solver_nccl_transformer_solve_p0.bin\n"}
+,{"stream_name":"stdout","time":187.863755752,"data":"log_path= /kaggle/working/cube4_transformer_libtorch_logs/torchrun_native_transformer_10m_p0_d10_b4194304.log\n"}
+,{"stream_name":"stdout","time":191.689379952,"data":"stream1_backend=piece_transformer\n"}
+,{"stream_name":"stdout","time":191.689409799,"data":"stream1_transformer_dims seq_len=57 d_model=256 nhead=8 head_dim=32 layers=4 ff_dim=1024 output_dim=24\n"}
+,{"stream_name":"stdout","time":192.553254488,"data":"depth_done=0 depth_sec=0.632382 ring_slot_jobs=1 stream3_jobs=1 stream4_jobs=8 stream4_slots_used=1 stream12_ms=434.887 stream12_max_ms=434.887 stream3_ring_ms=0.349152 stream3_ring_max_ms=0.349152 stream3_spill_drain_ms=0.034848 stream3_final_filter_ms=6.13802 stream3_final_materialize_ms=0.741376 stream3_reset_ms=0.192096 stream4_ms=97.4836 stream4_max_ms=12.2068 stream4_avg_ms=12.1855 stream5_ms=91.0366 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=24 final_request_count=24 next_frontier_size=24 history_bytes_received=768 history_bytes_stored=384 history_bytes_stored_ram=0 history_bytes_stored_disk=0 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":192.662729721,"data":"depth_done=1 depth_sec=0.109302 ring_slot_jobs=1 stream3_jobs=1 stream4_jobs=8 stream4_slots_used=1 stream12_ms=2.85286 stream12_max_ms=2.85286 stream3_ring_ms=0.17152 stream3_ring_max_ms=0.17152 stream3_spill_drain_ms=0.025952 stream3_final_filter_ms=6.05389 stream3_final_materialize_ms=0.018912 stream3_reset_ms=0.193376 stream4_ms=52.5754 stream4_max_ms=6.68288 stream4_avg_ms=6.57192 stream5_ms=46.0755 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=469 final_request_count=469 next_frontier_size=469 history_bytes_received=15776 history_bytes_stored=7888 history_bytes_stored_ram=0 history_bytes_stored_disk=384 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":192.778406489,"data":"depth_done=2 depth_sec=0.115316 ring_slot_jobs=2 stream3_jobs=1 stream4_jobs=8 stream4_slots_used=1 stream12_ms=14.6164 stream12_max_ms=14.6164 stream3_ring_ms=0.177472 stream3_ring_max_ms=0.177472 stream3_spill_drain_ms=0.024928 stream3_final_filter_ms=5.18381 stream3_final_materialize_ms=0.030176 stream3_reset_ms=0.198976 stream4_ms=52.142 stream4_max_ms=6.66624 stream4_avg_ms=6.51775 stream5_ms=41.7371 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=9023 final_request_count=9023 next_frontier_size=9023 history_bytes_received=304512 history_bytes_stored=152256 history_bytes_stored_ram=0 history_bytes_stored_disk=7888 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":193.176569395,"data":"depth_done=3 depth_sec=0.397901 ring_slot_jobs=24 stream3_jobs=12 stream4_jobs=8 stream4_slots_used=1 stream12_ms=292.066 stream12_max_ms=25.9832 stream3_ring_ms=39.7008 stream3_ring_max_ms=4.01197 stream3_spill_drain_ms=0.038784 stream3_final_filter_ms=5.33786 stream3_final_materialize_ms=0.501952 stream3_reset_ms=0.20256 stream4_ms=51.658 stream4_max_ms=6.93658 stream4_avg_ms=6.45724 stream5_ms=46.6921 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=173340 final_request_count=173340 next_frontier_size=173340 history_bytes_received=5851392 history_bytes_stored=2925696 history_bytes_stored_ram=0 history_bytes_stored_disk=152256 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":199.310786299,"data":"depth_done=4 depth_sec=6.13314 ring_slot_jobs=452 stream3_jobs=226 stream4_jobs=56 stream4_slots_used=1 stream12_ms=6014.94 stream12_max_ms=40.7328 stream3_ring_ms=1009.02 stream3_ring_max_ms=10.5328 stream3_spill_drain_ms=0.025504 stream3_final_filter_ms=7.65133 stream3_final_materialize_ms=12.8512 stream3_reset_ms=0.2048 stream4_ms=766.637 stream4_max_ms=15.9188 stream4_avg_ms=13.6899 stream5_ms=42.4798 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=1 final_threshold=4294967295 final_candidate_count=3626154 final_request_count=3626154 next_frontier_size=3626154 history_bytes_received=121888320 history_bytes_stored=60944160 history_bytes_stored_ram=0 history_bytes_stored_disk=2925696 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":330.453604074,"data":"depth_done=5 depth_sec=131.143 ring_slot_jobs=9444 stream3_jobs=4722 stream4_jobs=328 stream4_slots_used=1 stream12_ms=131022 stream12_max_ms=38.2688 stream3_ring_ms=18666.2 stream3_ring_max_ms=9.33888 stream3_spill_drain_ms=0.03072 stream3_final_filter_ms=8.83091 stream3_final_materialize_ms=15.3231 stream3_reset_ms=0.21072 stream4_ms=5148.59 stream4_max_ms=20.0602 stream4_avg_ms=15.6969 stream5_ms=338.524 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=22016 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=256106048 history_bytes_stored=128053024 history_bytes_stored_ram=0 history_bytes_stored_disk=60944160 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":499.41356433,"data":"depth_done=6 depth_sec=168.96 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=168839 stream12_max_ms=41.7017 stream3_ring_ms=22510.3 stream3_ring_max_ms=9.96275 stream3_spill_drain_ms=0.030784 stream3_final_filter_ms=8.55411 stream3_final_materialize_ms=15.3509 stream3_reset_ms=0.20432 stream4_ms=6146.12 stream4_max_ms=22.4044 stream4_avg_ms=17.8666 stream5_ms=323.185 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=19616 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=390323776 history_bytes_stored=195161888 history_bytes_stored_ram=0 history_bytes_stored_disk=128053024 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":675.841974187,"data":"depth_done=7 depth_sec=176.428 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=176305 stream12_max_ms=43.8108 stream3_ring_ms=22963.8 stream3_ring_max_ms=11.0808 stream3_spill_drain_ms=0.02928 stream3_final_filter_ms=8.65645 stream3_final_materialize_ms=15.3949 stream3_reset_ms=0.208896 stream4_ms=6514.55 stream4_max_ms=22.6304 stream4_avg_ms=18.9376 stream5_ms=307.665 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=18224 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=524541504 history_bytes_stored=262270752 history_bytes_stored_ram=0 history_bytes_stored_disk=195161888 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":856.096571682,"data":"depth_done=8 depth_sec=180.254 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=180133 stream12_max_ms=43.282 stream3_ring_ms=23224.3 stream3_ring_max_ms=10.922 stream3_spill_drain_ms=0.032768 stream3_final_filter_ms=8.66992 stream3_final_materialize_ms=15.4163 stream3_reset_ms=0.208096 stream4_ms=6625.2 stream4_max_ms=22.4456 stream4_avg_ms=19.2593 stream5_ms=346.303 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=17232 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=658759232 history_bytes_stored=329379616 history_bytes_stored_ram=0 history_bytes_stored_disk=262270752 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":1037.37869141,"data":"depth_done=9 depth_sec=181.282 ring_slot_jobs=10923 stream3_jobs=5462 stream4_jobs=344 stream4_slots_used=1 stream12_ms=181157 stream12_max_ms=44.2804 stream3_ring_ms=23208 stream3_ring_max_ms=11.5082 stream3_spill_drain_ms=0.029024 stream3_final_filter_ms=8.74883 stream3_final_materialize_ms=15.3866 stream3_reset_ms=0.20944 stream4_ms=6727.7 stream4_max_ms=22.6161 stream4_avg_ms=19.5573 stream5_ms=339.21 stream4_pending_max=8 stream4_busy_max=1 global_spill_peak=0 threshold_updates_depth=6 final_threshold=16376 final_candidate_count=4194304 final_request_count=4194304 next_frontier_size=4194304 history_bytes_received=792976960 history_bytes_stored=396488480 history_bytes_stored_ram=0 history_bytes_stored_disk=329379616 history_bytes_pruned=0\n"}
+,{"stream_name":"stdout","time":1037.436792507,"data":"puzzle_solved=0 puzzle_id=0 seconds=845.612 solution_length=-1 solution=\n"}
+,{"stream_name":"stdout","time":1038.314897286,"data":"RUN_CUBE4_LIBTORCH_2XT4_RC 0 seconds=850.450\n"}
+,{"stream_name":"stdout","time":1038.388779116,"data":"RUN_CUBE4_LIBTORCH_2XT4_RESULTS= [{'puzzle_id': 0, 'return_code': 0, 'seconds': 850.4503011703491, 'log_path': '/kaggle/working/cube4_transformer_libtorch_logs/torchrun_native_transformer_10m_p0_d10_b4194304.log', 'gpu_monitor': '/kaggle/working/cube4_transformer_libtorch_logs/native_gpu_p0_b4194304.csv'}]\n"}
+,{"stream_name":"stderr","time":1040.978946005,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":1040.978971565,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":1041.260759128,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":1041.260799219,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":1041.921452775,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":1043.270255071,"data":"[NbConvertApp] Writing 383653 bytes to __results__.html\n"}
+]

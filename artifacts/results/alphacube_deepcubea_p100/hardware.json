@@ -1,0 +1,20 @@
+{
+  "gpu": "Tesla P100-PCIE-16GB",
+  "gpu_count": 1,
+  "cuda_visible_devices": "0",
+  "total_vram_bytes": 17059545088,
+  "initial_free_vram_bytes": 16788881408,
+  "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+  "torch": "2.7.1+cu126",
+  "cuda_runtime": "12.6",
+  "cudnn": 90501,
+  "compiled_cuda_arches": [
+    "sm_50",
+    "sm_60",
+    "sm_70",
+    "sm_75",
+    "sm_80",
+    "sm_86",
+    "sm_90"
+  ]
+}

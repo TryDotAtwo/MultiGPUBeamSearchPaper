@@ -1,0 +1,15 @@
+{
+  "id": "trydotatwo/paper-gpu-baselines-t4",
+  "title": "Paper GPU Baselines T4",
+  "code_file": "run_gpu_baselines.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": false,
+  "enable_gpu": true,
+  "machine_shape": "NvidiaTeslaT4",
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

@@ -1,0 +1,12 @@
+{
+  "group_id": 900,
+  "target_id": 0,
+  "hd1": 2048,
+  "hd2": 512,
+  "nrd": 8,
+  "dropout": 0.0,
+  "model_name": "megaminx2048-512-8-e4000",
+  "model_mode": "MLP2RB",
+  "model_id": 4000,
+  "n_gens": 24
+}

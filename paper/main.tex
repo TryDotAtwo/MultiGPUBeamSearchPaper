@@ -1,0 +1,760 @@
+% Canonical English version. Keep section/formula/citation structure identical
+% to main_ru.tex.
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.72in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,microtype,url}
+\usepackage[hidelinks]{hyperref}
+
+\title{One Global Beam Across Many GPUs:\\
+Exact High-Throughput Beam Search at Near-Billion Frontier Scale}
+\author{Anonymous authors}
+\date{}
+
+\newcommand{\beam}{B}
+\newcommand{\frontier}{\mathcal{F}}
+\newcommand{\cand}{\mathcal{C}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present the first published high-throughput multi-GPU beam-search system
+that physically shards one logical frontier across devices and jointly
+constructs one next beam.  Candidate generation, scoring, 128-bit-key
+de-duplication, routing, and frontier storage remain on the GPUs; only compact
+control and ancestry metadata reach the host.  With no shard-local semantic
+caps, the streamed procedure returns the same global reduced-key top-$B$ as a
+monolithic implementation under the same score quantization, fixed-layout tie
+order, and stated 128-bit identity model.  On eight A100 40GB GPUs, the
+capacity result records a requested retained frontier of
+$B_{\rm req}=770{,}883{,}178$; alignment gives
+$B_{\rm eff}\geq B_{\rm req}$ and therefore at least
+$18{,}501{,}196{,}272$ nominal pre-de-duplication children per saturated depth
+for 24 generators.  That result contains no wall time or exact $B_{\rm eff}$
+and is used only as capacity evidence.  Separately, a measured two-T4 run at
+$B_{\rm eff}=82{,}837{,}504$ has $1{,}988{,}100{,}096$ nominal children per
+saturated depth; depths 7--10 averaged $65.670$ s, or $30.274$ million logical
+children/s end to end.  This throughput result covers two GPUs and does not
+establish strong scaling beyond them.  The novelty is the full system-level
+conjunction, not parallel, GPU, or distributed beam search in isolation.
+\end{abstract}
+
+\section{Introduction and Problem}
+Beam search becomes a distributed-systems problem once the retained frontier
+exceeds one GPU's memory.  Expansion, scoring, de-duplication, global
+selection, and ancestry must be distributed without turning one search into
+independent replicas or staging the frontier through host memory.  We ask
+whether a GPU cluster can preserve the semantics of one monolithic beam while
+scaling retained capacity with aggregate device memory.
+
+Let $G=(V,E)$ be an implicit directed graph, $A_a(x)$ the child of state $x$
+under generator $a\in\{1,\ldots,m\}$, and $\sigma(x,a)$ a deterministic
+floating-point scoring oracle.  The mathematical contract and Streams~2--5
+permit a learned or hand-engineered oracle provided Stream~1 emits deterministic
+quantized keys; the shipped production Stream~1 backends and reported
+experiments are neural.  The implementation ranks only the clipped and
+quantized integer key $s(x,a)$ defined in Eq.~\eqref{eq:score}.  A
+scalar state scorer is the special case $\sigma(x,a)=q(A_a(x))$, where
+$q:V\rightarrow\mathbb{R}$; an output-$m$ scorer emits all action scores from
+one parent evaluation.  At depth $d$, beam search computes
+\begin{align}
+  \cand_d &= \{(x,a,A_a(x)):x\in\frontier_{d-1},\ a\in[m]\},\nonumber\\
+  U_d &= \operatorname{Reduce}_{z}
+  (\cand_d;\,\operatorname{lexmin}(s,\mathrm{payload})),\\
+  \frontier_d &= \operatorname{Top}_{\beam}
+  \left(U_d;\,s_d^*,\tau_L\right),
+  \label{eq:beam}
+\end{align}
+where $z$ is the 128-bit child-state key,
+$s_d^*(z)=\min\{s(x,a):z(A_a(x))=z\}$, and $\tau_L$ is the
+deterministic tie order induced by a fixed rank/shard layout $L$.  Thus
+de-duplication keeps the best candidate for each key before the global cut.
+For a saturated layer in which every retained parent is expanded by all $m$
+generators, the nominal pre-de-duplication count is $m\beam_{\rm eff}$.  Since
+runtime alignment gives $\beam_{\rm eff}\geq\beam_{\rm req}$, the measured
+capacity request $\beam_{\rm req}=770{,}883{,}178$ with $m=24$ implies at least
+$18{,}501{,}196{,}272$ nominal logical children in one depth.
+Materializing its full 120-byte logical child states would require at least
+$2.220$ TB before metadata; the design avoids that host staging and any
+single-device global sort.
+
+Our requirement is stronger than GPU-accelerated heuristic evaluation.  During
+one depth, the candidate and frontier arrays in Eq.~\eqref{eq:beam} remain in
+device memory.  The host receives only $O(p)$ control counts and compact
+selected-candidate metadata, never the full state or frontier arrays.
+Here ``one coherent search'' has an operational meaning: every GPU contributes
+to Eq.~\eqref{eq:beam}, and the ranks collectively commit disjoint shards of
+one globally defined next frontier.  It is not an ensemble of independent
+beams or replicas.
+
+\paragraph{Contributions.}
+The system contributes (i) a GPU-resident hot-data path that distributes one
+logical beam without frontier staging through host memory; (ii) exact
+monolithic global reduced-key top-$B$ semantics under the same score
+quantization, fixed-layout tie order, and stated 128-bit identity model, with
+no shard-local semantic caps; and (iii) separate evidence for near-billion
+retained capacity on eight GPUs and measured high-throughput execution on two
+GPUs.  Together, these contributions make this the first published
+high-throughput multi-GPU beam-search system with one physically sharded global
+frontier and the stated exactness contract.  The implementation admits at most
+128 ranks; throughput beyond two GPUs and execution beyond eight GPUs remain
+unmeasured.
+
+\section{Related Work and Gap}
+Parallel beam search long predates GPUs: custom speech accelerators were studied
+in 1986~\cite{anantharaman1986accelerator}.  Wijs and Lisser later distributed a
+single global beam over CPUs~\cite{wijs2007distributed}, and Chong et al. placed
+a data-parallel speech beam on one GPU~\cite{chong2008lvcsr}.  Thus, neither
+parallel, distributed, nor GPU beam search is new by itself.  Modern CPU work
+retains beams up to 20 million on a shared-memory machine, while MPI workers run
+independent randomized beams~\cite{frohner2022parallel}; Kuroiwa and Beck also
+study global and locally partitioned CPU variants~\cite{kuroiwa2024parallel}.
+
+For GPU and heuristic combinatorial search, GA* establishes single-GPU A*
+without a neural scorer~\cite{zhou2015gpuastar}, GPUAStar keeps neural A* on one
+H200~\cite{soltani2026gpuastar}, and HDA* establishes hash-distributed CPU
+best-first search~\cite{kishimoto2013hda}.  CayleyPy is the closest algorithmic
+predecessor: its large-cube agents use one GPU and $B=2^{24}$
+~\cite{chervov2025large,soibelman2025cayleypy}.  AlphaCube and DeepCubeA are
+single-device beam search and batched weighted A*, respectively
+~\cite{takano2023alphacube,agostinelli2019deepcubea}.
+
+The closest adjacent systems result is QiankunNet-cuSCI, which generates
+configurations, performs distributed global de-duplication, applies a neural
+Transformer, and selects top-$K$ on 64 A100 GPUs with 91.06\% reported
+strong-scaling efficiency~\cite{sun2026cunnqssci}.  It prevents a claim to the
+generic expand--deduplicate--infer--select pipeline, but the work is not
+reported as beam search.  It retains $K=32{,}000$ or $256{,}000$ selected SCI
+configurations from roughly one billion raw candidates, and its global barriers
+stage full candidate data through host memory.
+
+Other billion-scale results measure different objects.  GPUexplore 3.0 explores
+more than 3.15 billion reachable states on four GPUs but performs exhaustive
+exploration without score-ranked bounded top-$B$~\cite{wijs2024gpuexplore}.  PathWeaver
+pipelines approximate nearest-neighbor queries over a stored graph
+~\cite{kim2025pathweaver}; multi-GPU speech and language decoders distribute
+independent utterances, sentences, or model execution around tiny beams rather
+than physically sharding one state frontier
+~\cite{junczysdowmunt2016marian,braun2020gpuasr,chan2025trie}.
+
+Table~\ref{tab:prior_art} applies one scale taxonomy: retained beam width is not
+raw candidates, cumulative expansions, graph size, or a batch of independent
+queries.  Prior systems establish important subsets of parallel beam search,
+GPU execution, distributed search, or large-scale state exploration, but do
+not report their full conjunction in one system.  This work is the first
+published high-throughput multi-GPU beam-search system that combines one
+physically sharded logical frontier, a GPU-resident candidate/frontier hot-data
+path, global 128-bit-key de-duplication, no shard-local semantic caps, and exact
+monolithic global reduced-key top-$B$ under the stated quantization, tie order,
+and identity model at a near-billion retained-frontier request.  The priority
+claim applies only to this full system-level conjunction.
+
+\begin{table*}[t]
+\centering
+\footnotesize
+\caption{Closest prior systems under a common scale taxonomy.  ``Other scale''
+is deliberately not interpreted as retained beam width.}
+\label{tab:prior_art}
+\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}p{2.7cm}p{3.7cm}p{3.0cm}p{3.0cm}p{4.2cm}@{}}
+\toprule
+System & Platform and search object & Retained live beam & Other scale & Missing from the claimed conjunction \\
+\midrule
+Wijs--Lisser 2007 & distributed CPU; one global beam & 50,000 & 135.96M cumulative states & GPU data plane and device-resident scorer \\
+Chong et al. 2008 & one 8800 GTX; speech active set & 20,000 cap & 1M-state model & multi-GPU state frontier \\
+Frohner et al. 2022 & 46 CPU threads; one shared-memory beam & 20,000,000 & MPI: independent beams & GPU and distributed one-beam execution \\
+CayleyPy 2025 & one GPU; one Cayley-graph beam & $2^{24}$ & independent agents & multi-GPU global frontier \\
+GPUexplore 3.0 & four V100; exhaustive reachable set & not a beam & $>3.15$B states & ranked score and top-$B$ \\
+PathWeaver 2025 & four A6000; independent ANNS queries & not reported & 50M-vector dataset & exact layered semantics and large retained beam \\
+QiankunNet-cuSCI & 64 A100; selected SCI configurations & not a beam; $K=32{,}000/256{,}000$ & about 1B raw candidates & not reported as beam search; much smaller retained $K$; full-candidate host staging \\
+This work & eight A100; one sharded global beam & request 770,883,178; effective $\geq$ request & $\geq18.501$B nominal raw children/depth & summary-backed capacity; time and effective width not recorded \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{One Search Depth on Five GPU Streams}
+The input is a global beam $\frontier_{d-1}$ distributed over $p$ GPUs.  If GPU
+$r$ owns $N_r$ parents and the graph has $m$ moves, it generates $mN_r$
+logical candidates.  For $y=A_a(x)$, a candidate is represented before
+materialization by
+\begin{equation}
+ c=(z(y),s(x,a),i_{\mathrm{parent}},a,r_{\mathrm{src}}),
+ \label{eq:candidate}
+\end{equation}
+where $z(y)\in\{0,1\}^{128}$ is the child-state hash, $s(x,a)$ is a
+quantized candidate score, and $r_{\mathrm{src}}$ identifies the GPU that stores
+the parent.  The child state itself is reconstructed only for goal checking or
+after the final selection.
+
+\paragraph{Streams 1--2: score and identity.}
+Parents are divided into microbatches and placed in reusable ring slots.
+Streams~1 and~2 consume the same slot concurrently.  Stream~1 evaluates the
+chosen scoring oracle and writes only
+\begin{equation}
+ s(x,a)=\operatorname{rint}_{\mathrm{RN-even}}
+ \left(S\,\operatorname{clip}(\sigma(x,a),0,q_{\max})\right)
+ \in\mathbb{N},
+ \label{eq:score}
+\end{equation}
+not the floating-point output.  Here RN-even is the GPU path's default
+round-to-nearest, ties-to-even mode.  The scalar path evaluates child states, whereas
+the output-$m$ path obtains all $m$ action scores from each parent.  Stream~2
+applies every move in registers, checks the goal, and writes the 128-bit Zobrist
+hash.  Thus score evaluation and state manipulation overlap without storing the
+$mN_r$ child states.
+
+\paragraph{Stream 3: early reduction and ownership.}
+When a group of ring slots has both scores and hashes, Stream~3 removes scores
+above the current threshold $T$, compacts the survivors, sorts them by $z$, and
+reduces equal hashes.  For each hash it retains the lexicographically smallest
+pair $(s,\mathrm{payload})$, where the payload recovers the original parent and
+move.  It then assigns the unique candidate to
+\begin{equation}
+ o(x)=\operatorname{mix}(z(x))\bmod p.
+ \label{eq:owner}
+\end{equation}
+Local candidates enter the local collector; the rest are grouped by owner.
+Performing this first reduction before communication lowers traffic, but does
+not replace the later global deduplication.
+
+\paragraph{Stream 5: GPU-to-GPU exchange.}
+Stream~5 exchanges the owner-grouped metadata directly between GPUs using
+NCCL.  The owner rule implies
+\begin{equation}
+ z(x)=z(y)\Longrightarrow o(x)=o(y),
+ \label{eq:owner_invariant}
+\end{equation}
+so duplicates produced by different source GPUs eventually meet at one owner.
+Stream~5 performs communication only; received candidates re-enter the same
+collector as local candidates.
+
+\paragraph{Stream 4: persistent survivor set.}
+The collector partitions owned candidates into logical shards.  Each shard has
+two resident buffers: Stream~3 appends to one while Stream~4 cleans the other.
+A Stream~4 job merges the clean and newly appended regions, applies its snapshot
+of $T$, compacts, sorts by $z$, and retains the best metadata for each hash.
+There is no per-shard top-$k$ and no semantic shard quota: a shard may retain
+every candidate below $T$.  Consequently sharding does not approximate the
+score cut; only the equal-score boundary order is defined by the fixed layout.
+
+\paragraph{Classical top-$\beam$ versus monotone thresholding.}
+Let $C$ be the complete candidate multiset, write $s(c)$ for the quantized
+integer score in Eq.~\eqref{eq:score}, and let
+$U=\operatorname{Reduce}_{z}(C;\operatorname{lexmin}(s,\mathrm{payload}))$ be
+its one-entry-per-key reduction, carrying
+$s^*(z)=\min_{c:z(c)=z}s(c)$ and the associated best payload.  For fixed layout
+$L$, rank keys by $\kappa_L(z)=(s^*(z),\tau_L(z))$, where smaller score is
+better and $\tau_L$ is the implementation's deterministic
+rank-then-physical-order rule for equal scores.  A classical reference
+materializes $U$, sorts it by $\kappa_L$, and returns, for
+$b=\min(\beam,|U|)$,
+\begin{equation}
+ \operatorname{Top}_{\beam}(U)=
+ \{z\in U:\kappa_L(z)\leq \kappa_{L,(b)}(U)\}.
+ \label{eq:classical_topb}
+\end{equation}
+Our implementation never materializes $U$.  After update $j$, let
+$C_j\subseteq C_{j+1}\subseteq C$ be the candidates processed so far and
+$U_j=\operatorname{Reduce}_{z}(C_j)$.  The key domain of $U_j$ can only grow,
+while an existing key score $s_j^*(z)$ can only decrease.  Once
+$|\operatorname{dom}U_j|\geq\beam$, histograms of the current reduced scores
+define
+\begin{align}
+ \widehat T_j&=\min\left\{t:\sum_{u=0}^{t}H_j(u)\geq\beam\right\},\nonumber\\
+ T_j&=\min\{T_{j-1},\widehat T_j\},\qquad T_0=+\infty.
+ \label{eq:online_threshold}
+\end{align}
+While $|\operatorname{dom}U_j|<\beam$, $\widehat T_j=+\infty$.
+Streams~3 and~4 may discard only candidates with $s(c)>T_j$; the score boundary
+$s(c)=T_j$ is retained because its final membership depends on $\tau_L$.
+
+\paragraph{Exactness.}
+Processing another candidate either introduces a key or lowers an existing
+key's best score, so the $\beam$-th smallest reduced score cannot increase;
+hence $\widehat T_{j+1}\leq\widehat T_j$ and $T_{j+1}\leq T_j$.  If candidate
+$c$ is discarded at update $j$, then $s(c)>T_j$ and $U_j$ already contains at
+least $\beam$ distinct keys with current best scores at most $T_j$.  Those keys
+remain distinct and their final best scores can only decrease.  If $z(c)$ is
+among them, $c$ is worse than its stored representative; otherwise at least
+$\beam$ other keys are strictly better.  Thus $c$ cannot determine a selected
+final minimum.  Conversely, a candidate attaining the final minimum of a
+global top-$\beam$ key cannot be discarded, because that would require
+$\beam$ distinct keys already carrying strictly smaller scores.  Thresholding
+therefore preserves exactly the classical reduced-key score top-$\beam$ under
+the same quantization for fixed $L$, subject to the same fixed-layout tie rule
+at the boundary.
+
+\paragraph{Identity and exactness scope.}
+The proof is exact for the score quantization in Eq.~\eqref{eq:score}, the set
+keyed by the 128-bit Zobrist identifier, and the complete fixed-layout order
+$\kappa_L$.  The candidate data plane does not carry all 120
+logical state bytes, so equal 128-bit keys are treated as equal states rather
+than resolved by a full-state comparison.  Selection is therefore
+mathematically exact under this stated key model; the residual risk is a
+128-bit hash collision, not an approximation introduced by sharding,
+thresholding, or top-$\beam$.  Changing the GPU or shard layout can change
+$\tau_L$ and therefore which equal-score states occupy the boundary; the
+current implementation does not claim partition-invariant selected IDs.
+
+\paragraph{Final cut and materialization.}
+After all five streams are drained, the ranks combine the final histograms.  If
+$|U|\geq\beam$, they choose the smallest $T^*$ such that
+\begin{equation}
+ \sum_{u=0}^{T^*}H(u)\geq\beam.
+ \label{eq:threshold}
+\end{equation}
+All states below $T^*$ survive, and a deterministic tie-break cuts its boundary
+to exactly $\beam$ states.  If $|U|<\beam$, all available keys survive instead.
+Thus the next frontier always contains exactly $\min(\beam,|U|)$ states.  The
+selected metadata are load-balanced across GPUs.
+Only then does each source GPU reconstruct the requested children and send
+them directly to their target GPUs.  The CPU receives $O(p)$ count vectors plus
+compact selected-candidate metadata used to reconstruct ancestry, but no full
+state or frontier arrays.
+
+The five streams are readiness-driven rather than five serial phases.  Streams
+1--2 fill ring slots almost continuously while Streams~3 and~4 reduce earlier
+batches and Stream~5 exchanges remote survivors.  The mathematical invariant is
+that every hash surviving the final cut is reduced at its unique owner before
+Eq.~\eqref{eq:threshold}; hence, for a fixed layout, the distributed execution
+implements the same global reduced-key score top-$\beam$ as its monolithic
+reference under the same score quantization, without materializing the raw
+candidate layer.
+
+\section{Experiments}
+\paragraph{Protocol.}
+We evaluate computational cost rather than solution quality and report a
+measurement only with its hardware, workload, model contract, and scope.
+Production time includes generation, de-duplication, communication, selection,
+and history; it is not interchangeable with an isolated Stream~1 rate.  Empty
+cells mean ``not measured'', never an inferred value.  Table~\ref{tab:platforms}
+summarizes the strongest locally verified measurements.
+
+\begin{table*}[t]
+\centering
+\footnotesize
+\caption{Measured performance by platform.  E2E is the production critical
+path; micro is an isolated kernel pipeline; capacity has no timing claim.
+n/d: not derived; n/a: not applicable; n/r: not recorded.}
+\label{tab:platforms}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{2.0cm}p{2.4cm}p{3.8cm}p{3.2cm}p{1.8cm}p{1.8cm}@{}}
+\toprule
+Platform & Workload & Beam $B$ & Measurement & s/depth & Raw child rate \\
+\midrule
+RTX 3070 8GB & puzzle 0, depth 20 & $2^{22}$ & E2E complete; $60.623$ s total & 3.031 avg. & n/d \\
+RTX 3070 8GB & Stream 1, $B_\mu=4096$, $c=3$ & --- & micro complete & n/a & $48.142$ M/s \\
+Kaggle $2\times$T4 & puzzle 20, radius 4, limit 72 & $B_{\rm req}=82{,}615{,}524$; $B_{\rm eff}=82{,}837{,}504$ & solved; $350.402$ s; CSV+summary & 65.670 saturated & $30.274$ M/s \\
+$8\times$A100 40GB & puzzles 900/950/1000, depth 8 & $B_{\rm req}=770{,}883{,}178$; $B_{\rm eff}$ not recorded & stable; $39{,}745$ MiB/GPU; summary & n/r & n/r \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+In Table~\ref{tab:platforms}, the RTX value is total E2E wall divided by 20
+completed depths, whereas the Kaggle value is the summary-reported mean of
+saturated depths 7--10.  The T4 CSV records both requested and aligned effective
+widths; $30.274$ M/s is the explicit derivation
+$24\times82{,}837{,}504/65.670$ and counts logical children before
+de-duplication.  We do not derive an RTX E2E rate because its early depths are
+not saturated.  Kernel microbenchmarks and the A100 capacity-only summary do
+not define an E2E depth time and are therefore marked not applicable or not
+recorded.
+
+\paragraph{Local RTX 3070.}
+On the laptop GPU, the folded-input half2 kernel raised the best isolated
+Stream~1 rate from approximately $24.7$ to $48.142$ million candidates/s.  In
+Nsight, the changed kernel fell from $9.678$ to $3.232$ s over 1,202 launches
+($2.99\times$).  More importantly, the same production depth-20 workload fell
+from $115.334$ to $60.623$ s, a $1.90\times$ end-to-end improvement.  A legacy
+PyTorch run at depth 100 exhausted memory at depth 33 after $329.067$ s; we do
+not count this incomplete run as a speedup baseline.
+
+\paragraph{Kaggle $2\times$T4.}
+The two ranks jointly maintain one global beam.  For puzzle 20, requested
+$B_{\rm req}=82{,}615{,}524$ was aligned to
+$B_{\rm eff}=82{,}837{,}504$ and the radius-4-neighborhood run solved in
+$350.402$ s with 128 shards and $B_\mu=4096$.  At $B=2^{26}$, increasing the shard count from 8 to 64 reduced
+the mean time of saturated depths 7--9 from $69.365$ to $51.732$ s
+($1.34\times$) while retaining exact global selection.  The best isolated
+Stream~1 point was $40.60$ M candidates/s; it is not used as an E2E rate.
+
+\paragraph{$8\times$A100 capacity and scale-out limit.}
+The exact-scale autotune summary records stable depth-8 execution on
+three Megaminx instances for requested
+$B_{\rm req}=770{,}883{,}178$, peaking at $39{,}745$ MiB per GPU.  Runtime
+alignment makes $B_{\rm eff}\geq B_{\rm req}$, but the exact effective value,
+raw rank logs, runtime configuration, commit, checkpoint hash, and wall time
+were not preserved.  The summary therefore supports an eight-device capacity
+result and a nominal saturated scale of at least $18.501$ billion logical child
+candidates, not a near-billion speed result.  Performance is measured only
+through two GPUs and capacity through eight; static exchange tables currently
+admit at most 128 ranks, but execution beyond eight GPUs is unmeasured.
+
+\section{Comparison with CayleyPy and Megaminx Result}
+CayleyPy establishes empirically that wider beams improve success and solution
+quality, but its published examples remain single-device.  Its controlled
+$S_{20}$ experiment increases $W$ from $2^{10}$ (no solution) to $2^{20}$
+(the ideal length 190), while the large-cube paper uses $W=2^{24}$ so that an
+agent fits on one GPU~\cite{soibelman2025cayleypy,chervov2025large}.  Our
+requested $770{,}883{,}178$ configuration is $735.2\times$ wider than $2^{20}$ and
+$45.95\times$ wider than $2^{24}$.  It is also $38.54\times$ wider than the
+largest peer-reviewed retained beam located in our audit (20 million) and
+$30.84\times$ wider than the 25-million public HATETRIS
+implementation~\cite{hatetrispublic}.  These
+ratios compare systems scale, not
+solution difficulty across different graphs.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Published CayleyPy beam-width trend (Table 8 of
+\cite{soibelman2025cayleypy}).}
+\label{tab:cayleypy_width}
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+$W$ & $2^{10}$ & $2^{12}$ & $2^{14}$ & $2^{16}$ & $2^{20}$ \\
+\midrule
+Length & --- & 252 & 202 & 194 & 190 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+We additionally measured Pilgrim and our search implementation on the same
+Cube4 state, checkpoint, single GPU, beam, and ten layers.  The scorer is a
+3,383,064-parameter piece Transformer with 96 six-class positions,
+$d_{\rm model}=256$, four layers, eight heads, feed-forward width 1024, and 24
+Q outputs; inference uses FP16 and microbatches of 384.  Table~\ref{tab:cube4_pair}
+reports the tenth layer, where every saturated frontier expands $24B$ pairs.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{2pt}
+\caption{Matched Cube4 depth-10 computation at $B=4{,}194{,}304$.}
+\label{tab:cube4_pair}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+GPU & Implementation & s/depth (depth 10) & Pairs/s & Peak VRAM \\
+\midrule
+T4 & Pilgrim & 198.153 & 508,007 & 2.90 GiB reserved \\
+T4 & Ours & 181.282 & 555,293 & 1,949 MiB used \\
+P100 & Pilgrim & 314.487 & 320,087 & 2.90 GiB reserved \\
+P100 & Ours & 301.955 & 333,378 & 1,949 MiB used \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Native approach inventory and matched model families on one T4}
+Table~\ref{tab:four_t4} is an inventory, not a cross-row speed ranking.
+AlphaCube and DeepCubeA retain their released Cube3 models. Megaminx results
+form two disjoint matched families: scalar \texttt{output\_dim=1} (Pilgrim
+Searcher, native CayleyPy, MultiGPUBeamSearch) and native
+\texttt{output\_dim=24} (Pilgrim QSearcher, MultiGPUBeamSearch). Ratios require
+the identical checkpoint, architecture, head, state, generators, depth, width,
+dtype, and hardware. CayleyPy cannot consume the 24-output head and remains
+incompatible rather than transformed.
+The rate column contains only native counted nodes divided by solver wall time;
+it is never replaced by $B/t$.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{Exact neural architectures used by the reported tests. Parameter
+counts refer to the trainable source model before batch-normalization folding.}
+\label{tab:model_architectures}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrlp{10.8cm}@{}}
+\toprule
+Model family & Parameters & Used by & Ordered block sequence \\
+\midrule
+Cube3 AlphaCube 0.1.6 \texttt{large} & 118,939,666 & AlphaCube & one-hot 324 $\to$ $8\times$[Linear 4096, ReLU, BN] $\to$ Linear 18 \\
+Cube3 DeepCubeA official \texttt{cube3} & 14,663,001 & DeepCubeA & one-hot 324 $\to$ Linear 5000, BN, ReLU $\to$ Linear 1000, BN, ReLU $\to$ $4\times$[Linear 1000, BN, ReLU, Linear 1000, BN, residual add, ReLU] $\to$ Linear 1 \\
+Megaminx scalar MLP & 34,766,849 & Pilgrim Searcher; CayleyPy; MultiGPU & position--class $120\times120$ $\to$ EmbeddingBag-equivalent Linear 2048, BN, ReLU $\to$ Linear 512, BN, ReLU $\to$ $8\times$[Linear 512, BN, ReLU, Linear 512, BN, residual add, ReLU] $\to$ Linear 1 \\
+Megaminx QMLP2RB & 23,978,008 & Pilgrim QSearcher; MultiGPU & position--class $120\times120$ $\to$ EmbeddingBag-equivalent Linear 1536, BN, ReLU $\to$ Linear 512, BN, ReLU $\to$ $2\times$[Linear 512, BN, ReLU, Linear 512, BN, residual add, ReLU] $\to$ Linear 24 \\
+Cube4 Q Transformer & 3,383,064 & matched Cube4 only & 96 tokens / 6 classes $\to$ projection + CLS $\to$ $4\times$[pre-LN, 8-head attention ($d=256$), residual, pre-LN, FFN 256--1024--256 ReLU, residual] $\to$ LN $\to$ Linear 24 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+For the matched Megaminx rows, all listed implementations load the same bytes:
+the scalar checkpoint has SHA-256 \texttt{7f5071e6...a539b759}, while the
+output-24 checkpoint has SHA-256 \texttt{e7bda332...5d2ca670}. The latter is
+not derived from the scalar model. The Cube4 Transformer is a separate matched
+comparison and is never mixed into the Megaminx capacity sweep.
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{Native search inventory on one visible T4. Rows with different model
+contracts are not performance comparisons; ``Max complete'' is measured.}
+\label{tab:four_t4}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllrrrl@{}}
+\toprule
+Approach & Workload / native scale & Max complete & Wall (s) & s/native step & Nodes/s & Boundary/status \\
+\midrule
+AlphaCube 0.1.6 & Cube3 \texttt{large}, beam & 1,572,864 & 461.488 & 27.146/depth & 42,387 & 1,703,936 host SIGKILL \\
+DeepCubeA & Cube3 A*, 55 iterations & n/a & 146.474 & 2.663/iteration & 41,880 & complete, length 21 \\
+Pilgrim Searcher & Megaminx scalar beam, depth 8 & 5,898,240 & 1,462.557 & 182.820/depth & not measured & 6,291,456 OOM \\
+Pilgrim QSearcher & Megaminx output-24 beam, depth 8 & 20,971,520 & 197.358 & 24.670/depth & not measured & 23,068,672 OOM \\
+native CayleyPy & Megaminx scalar beam, depth 8 & 20,971,520 & 4,258.602 & 532.325/depth & not measured & broad: $2^{24}$ complete, $2^{25}$ OOM \\
+MultiGPUBeamSearch & Megaminx scalar beam, depth 8 & 29,360,128 & 2,817.158 & 352.145/depth & not measured & 31,457,280 OOM \\
+MultiGPUBeamSearch & Megaminx output-24 beam, depth 8 & 29,360,128 & 116.904 & 14.613/depth & not measured & 33,554,432 OOM \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\small
+\caption{AlphaCube 1xT4 completed sweep.}
+\label{tab:alpha_curve}
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+$B$ & Wall (s) & s/depth & Nodes & Nodes/s \\
+\midrule
+1,024 & 1.034 & 0.052 & 18,720 & 18,108 \\
+4,096 & 1.199 & 0.060 & 73,484 & 61,309 \\
+16,384 & 5.014 & 0.251 & 282,380 & 56,321 \\
+65,536 & 18.543 & 1.091 & 903,448 & 48,722 \\
+131,072 & 37.818 & 2.224 & 1,755,416 & 46,418 \\
+262,144 & 79.166 & 4.657 & 3,459,352 & 43,698 \\
+524,288 & 170.671 & 10.039 & 6,867,224 & 40,237 \\
+786,432 & 228.938 & 13.467 & 10,124,136 & 44,222 \\
+1,048,576 & 303.870 & 17.875 & 13,269,864 & 43,670 \\
+1,310,720 & 382.158 & 22.480 & 16,415,592 & 42,955 \\
+1,572,864 & 461.488 & 27.146 & 19,561,320 & 42,387 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Completed native CayleyPy 1xT4 powers-of-two sweep. Memory is the
+PyTorch CUDA allocator peak; the final row is the first broad-grid failure.}
+\label{tab:cayleypy_curve}
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+$B$ & Wall (s) & s/depth & Allocated (MiB) & Reserved (MiB) & Status \\
+\midrule
+1,024 & 0.930 & 0.116 & 85.9 & 92.0 & complete \\
+2,048 & 1.237 & 0.155 & 96.3 & 112.0 & complete \\
+4,096 & 2.189 & 0.274 & 117.3 & 128.0 & complete \\
+8,192 & 3.828 & 0.478 & 158.6 & 230.0 & complete \\
+16,384 & 6.776 & 0.847 & 241.5 & 292.0 & complete \\
+32,768 & 13.722 & 1.715 & 407.5 & 510.0 & complete \\
+65,536 & 31.399 & 3.925 & 739.3 & 858.0 & complete \\
+131,072 & 63.664 & 7.958 & 772.2 & 1,180.0 & complete \\
+262,144 & 114.551 & 14.319 & 834.8 & 1,168.0 & complete \\
+524,288 & 219.991 & 27.499 & 962.1 & 2,156.0 & complete \\
+1,048,576 & 430.789 & 53.849 & 1,216.7 & 3,234.0 & complete \\
+2,097,152 & 745.341 & 93.168 & 1,726.0 & 2,740.0 & complete \\
+4,194,304 & 1,320.000 & 165.000 & 2,745.2 & 4,492.0 & complete \\
+8,388,608 & 2,489.356 & 311.169 & 5,155.3 & 6,462.0 & complete \\
+16,777,216 & 4,741.581 & 592.698 & 10,233.7 & 14,652.0 & complete \\
+33,554,432 & --- & --- & 12,922.2 & 14,484.0 & CUDA OOM \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+For AlphaCube, s/depth is solver wall divided by the completed search depth
+reported by the returned solution (20 for the first three rows and 17 for the
+remaining rows).  For both Megaminx implementations it is wall divided by the
+fixed eight completed depths.  These averages include startup and early
+unsaturated layers; they complement, rather than replace, nodes/s.
+
+Pilgrim's widest scalar completion, $B=5{,}898{,}240$, took 1,462.557 s
+(182.820 s/depth) with a 14,433 MiB device peak; $B=6{,}291{,}456$ CUDA-OOMed.
+For output-24, $B=20{,}971{,}520$ completed in 197.358 s
+(24.670 s/depth) at 12,333 MiB, whereas $B=23{,}068{,}672$ CUDA-OOMed. The
+measured brackets are therefore 5,898,240--6,291,456 and
+20,971,520--23,068,672, respectively.
+
+The final collaborator-run MultiGPU pass and scalar-only v27 confirmation now
+give measured complete/OOM pairs for both heads. Scalar completed at
+29,360,128 and CUDA-OOMed at 31,457,280; native output-24 completed through
+29,360,128 and CUDA-OOMed at 33,554,432.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Final MultiGPU 1xT4 scalar boundary points.}
+\label{tab:multigpu_v11_partial}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}rrrrl@{}}
+\toprule
+$B$ & Wall (s) & s/depth & Peak device (MiB) & Status \\
+\midrule
+25,165,824 & 3,027.673 & 378.459 & 12,267 & complete \\
+27,262,976 & 3,080.206 & 385.026 & 13,241 & complete \\
+29,360,128 & 2,817.158 & 352.145 & 14,215 & complete \\
+31,457,280 & --- & --- & 14,909 & CUDA OOM \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The scalar OOM recurred for every row-budget profile from 49,152 through 24.
+The common primary metric is total wall divided by eight, 352.145 s/depth;
+the auxiliary final-depth time was 1,644.13 s.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Final MultiGPU 1xT4 native output-24 sweep.}
+\label{tab:multigpu_output24}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}rrrrl@{}}
+\toprule
+$B$ & Wall (s) & s/depth & Peak device (MiB) & Status \\
+\midrule
+1,048,576 & 8.296 & 1.037 & 773 & complete \\
+4,194,304 & 22.735 & 2.842 & 2,253 & complete \\
+8,388,608 & 41.091 & 5.136 & 4,159 & complete \\
+16,777,216 & 77.460 & 9.683 & 7,983 & complete \\
+20,971,520 & 96.124 & 12.015 & 9,893 & complete \\
+25,165,824 & 111.130 & 13.891 & 11,799 & complete \\
+29,360,128 & 116.904 & 14.613 & 13,717 & complete \\
+33,554,432 & 1.563 & --- & 14,909 & CUDA OOM \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+The output-24 OOM recurred while the runtime descended its row-budget profiles
+from 2,048 to 1. Its 1.563-s field is the final failed attempt, not a completed
+depth time.
+
+\begin{table}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\caption{Matched 1xT4 Megaminx scalar sweep. Neither implementation exposes a
+valid node counter for these points.}
+\label{tab:megaminx_curve}
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+& \multicolumn{2}{c}{MultiGPU} & \multicolumn{2}{c}{CayleyPy} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-5}
+$B$ & Wall (s) & s/depth & Wall (s) & s/depth \\
+\midrule
+65,536     & 12.537    & 1.567   & 31.399    & 3.925 \\
+262,144    & 39.935    & 4.992   & 114.551   & 14.319 \\
+1,048,576  & 152.604   & 19.076  & 430.789   & 53.849 \\
+4,194,304  & 476.007   & 59.501  & 1,320.000 & 165.000 \\
+8,388,608  & 892.948   & 111.619 & 2,489.356 & 311.169 \\
+16,777,216 & 1,728.460 & 216.058 & 4,741.581 & 592.698 \\
+20,971,520 & 2,179.990 & 272.499 & 4,258.602 & 532.325 \\
+25,165,824 & 2,416.150 & 302.019 & ---       & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+AlphaCube materializes all $18B$ Cube3 children in host NumPy arrays before
+sorting; consequently its first failure is a host-memory kill even though GPU
+reservation is only 4.685~GiB.  Its measured rate settles near 40--44 thousand
+nodes/s at the widest completed points.  DeepCubeA has no persistent beam: it
+is weighted A* and its native scale is search/NN batch 10,000/10,000, so
+inventing a frontier maximum for it would be incorrect.  Its completed T4 run
+performed 55 search iterations in 146.474 s, or 2.663 s per native A* iteration;
+this is not a beam-depth measurement.  The same run expanded 6,134,352 nodes
+at 41,880 nodes/s and returned a length-21 solution.
+
+For the matched scalar Megaminx pair, CayleyPy commit \texttt{5b2b53f} uses
+iterated search with \texttt{history\_depth=0}. The broad protocol completed
+every power of two from $2^{10}$ through $2^{24}$ and CUDA-OOMed at $2^{25}$;
+the memory-trend estimate equalled $2^{24}$, so no redundant confirmation was
+scheduled. Earlier targeted evidence with the same contract retains the finer
+20,971,520-complete versus 21,037,056-OOM bracket, but is not presented as part
+of the broad-grid policy. Its internal expansion path
+bypassed the public counter hook, so only wall time and memory are valid.  The
+MultiGPU likewise retained end-to-end wall but no valid node counter. The
+final scalar pass measured 29,360,128 complete at 14,215 MiB versus
+31,457,280 CUDA OOM at 14,909 MiB. The matched output-24 pass measured
+29,360,128 complete versus 33,554,432 CUDA OOM. Superseded static
+profile failures and the cancelled v10/v11 runs remain excluded.
+At the latest broad-grid matched width, CayleyPy took 4,741.581 s and the
+historical MultiGPU run took 1,728.460 s at $B=16{,}777{,}216$ (2.74x lower).
+At the older targeted $B=20{,}971{,}520$ point, MultiGPU wall is 1.95x lower.
+These are matched
+end-to-end wall ratios, not inferred node-throughput ratios.
+
+The scalar ratios above use one identical scalar model contract and must not be
+compared with the faster Pilgrim QSearcher row. The 24-output model evaluates
+all 24 actions per parent and has a different architecture; scalar-versus-Q
+timing is therefore a model-contract difference, not an algorithmic speedup.
+The separate Cube4 comparison uses the identical 24-output Q checkpoint for
+Pilgrim and MultiGPUBeamSearch. No output-24 CayleyPy value is inferred.
+
+Thus, at the matched Pilgrim point our
+tenth-layer throughput is $1.093\times$ on T4
+and $1.042\times$ on P100.  PyTorch allocator reservation and device-wide
+\texttt{nvidia-smi} usage are different memory metrics, so the table does not
+claim a memory ratio; it establishes that both implementations complete 4M.
+
+For the Megaminx superflip instance, the located public chronology improves
+from 55 through 54 and 53 to 51 moves; the immediately preceding public value
+was therefore 53, not 55~\cite{megaminxsuperflip53,megaminxsuperflip51}.  The
+51-step path uses the same 24-generator signed 72-degree face-turn metric and
+has public wall time $22{,}600.2$ s.  Independent CPU replay of the recorded
+submission reaches the exact central state with zero differences; its path
+and file SHA-256 values are recorded in the accompanying evidence audit.
+The cited public chronology contains no shorter same-metric path, but no
+formal registry or optimality proof exists.  We therefore call it the shortest
+public same-metric solution located, not an unqualified world record.  Its
+missing run manifest is kept separate from the summary-backed
+$770{,}883{,}178$-requested-state depth-8 capacity report.
+
+\section{Code and Artifacts}
+Paper sources, the evidence index, and machine-readable tables are public at
+\url{https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper}.  Release v1.0.0
+contains both PDFs and the matched checkpoints:
+\url{https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper/releases/tag/v1.0.0}.
+Solver source and its GPU-ready Megaminx release are public at
+\url{https://github.com/TryDotAtwo/MultiGPUBeamSearch} and
+\url{https://github.com/TryDotAtwo/MultiGPUBeamSearch/releases/tag/megaminx-native-cluster-latest}.
+The public self-contained one-T4 reproduction dataset is
+\url{https://www.kaggle.com/datasets/trydotatwo/gpu-beam-search-paper-1xt4-reviewer-notebooks}.
+Four importable notebook sources for the Pilgrim and MultiGPUBeamSearch broad
+sweeps and boundary confirmations, together with CayleyPy, AlphaCube, and
+DeepCubeA runners, are versioned in the paper repository.  They consume the
+public dataset through Kaggle's normal Import Notebook and Save Version
+workflow and do not depend on the visibility of an owner's saved kernel page.
+The eight-A100 record supplies capacity and memory evidence but no wall time or
+exact effective width; the two-T4 record separately supplies measured
+throughput.  No missing timing, capacity, or scaling metric is inferred from a
+different run.
+
+\section{Conclusion}
+This work establishes one GPU-resident distributed beam search rather than a
+collection of local surrogates.  For a fixed layout, its streamed
+expand--de-duplicate--select path, with no shard-local semantic caps, is
+mathematically equivalent to monolithic global reduced-key top-$B$ under the
+same score quantization, tie order, and stated 128-bit identity model.  The
+eight-A100 result establishes a requested frontier of $770{,}883{,}178$
+retained states and at least $18.501$ billion nominal pre-de-duplication
+children per saturated depth; it does not provide wall time or exact effective
+width.  The separate two-T4 result measures $30.274$ million logical children/s
+end to end, so high-throughput execution is demonstrated through two GPUs while
+stronger scaling remains unmeasured.  The project also provides a replay-valid
+51-move Megaminx-superflip path, the shortest public same-metric solution
+identified in the supporting evidence.  This is the first published
+high-throughput multi-GPU beam-search system with one physically sharded global
+frontier and the stated exactness contract at near-billion retained-frontier
+scale.
+
+\begingroup
+\footnotesize
+\enlargethispage{4\baselineskip}
+\bibliographystyle{abbrv}
+\bibliography{references}
+\endgroup
+\end{document}

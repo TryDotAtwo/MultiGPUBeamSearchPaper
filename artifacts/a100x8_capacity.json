@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "evidence_class": "summary_backed_capacity_only",
+  "system": "MultiGPUBeamSearch",
+  "hardware": {
+    "gpu_count": 8,
+    "gpu_model": "NVIDIA A100 40GB",
+    "peak_device_memory_mib_per_gpu": 39745
+  },
+  "workload": {
+    "domain": "Megaminx",
+    "generator_count": 24,
+    "completed_depth": 8
+  },
+  "frontier": {
+    "requested_width": 770883178,
+    "effective_width_relation": ">= requested_width",
+    "exact_effective_width": null
+  },
+  "derived": {
+    "minimum_nominal_children_per_saturated_depth": 18501196272,
+    "derivation": "24 * 770883178"
+  },
+  "timing": {
+    "wall_seconds": null,
+    "logical_children_per_second": null
+  },
+  "unavailable": [
+    "raw rank logs",
+    "exact effective width",
+    "wall time",
+    "runtime configuration",
+    "implementation commit",
+    "checkpoint SHA-256"
+  ],
+  "source_note": "A100x8 job 33363 measured the requested width on Megaminx puzzles 900, 950, and 1000 with stable depth-8 execution. This record supports capacity only."
+}

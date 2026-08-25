@@ -1,0 +1,31 @@
+# Local release staging. Published as GitHub Release assets, not Git blobs.
+/release_assets/
+
+# LaTeX build products.
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Raw benchmark logs are evidence, not LaTeX build products.
+!artifacts/**/*.log
+
+# Python and notebook scratch.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Never vendor literature PDFs or downloaded source archives here.
+/paper/sources/
+*.tar
+*.tar.gz
+*.zip
+
+# Small deterministic payload consumed by the self-contained notebooks.
+!reproduce/data/bundle_payload.zip
