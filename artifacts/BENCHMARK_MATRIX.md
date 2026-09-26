@@ -13,8 +13,13 @@ results compare complete implementations rather than isolate a single kernel.
 DeepCubeA is weighted A* and is indexed by its actual search/NN batches, never
 by a fictitious beam width.
 
-The paper's separate scale headline is not a cell in the one-T4 comparison:
-the available eight-A100 capacity summary records requested
+The paper's separate scale headline is not a cell in the one-T4 comparison.
+The eight-H200 Cube4 raw logs establish a requested 2,900,000,000-state beam,
+aligned retained width 2,900,361,216, and one saturated depth-8 step completed
+in 931.266 s across all eight ranks. With 24 generators, the nominal raw
+parent-action count is 69,608,669,184 and derived end-to-end rate is
+74.746M pairs/s. Puzzle 1000 was stopped during depth 9 without a solution.
+The older eight-A100 capacity summary records requested
 `B_req=770,883,178`, depth 8, and `39,745 MiB/GPU`. Runtime alignment makes
 `B_eff >= B_req`, but exact effective width and wall time are unavailable.
 Thus `24 * B_req = 18,501,196,272` is reported as the minimum nominal logical
@@ -22,7 +27,14 @@ child-candidate scale of a saturated depth, not as a timed rate. The two-T4
 speed point instead records requested `82,615,524`, effective `82,837,504`,
 and `65.670 s` per saturated depth, giving `30.274M` logical children/s.
 Novelty scope, counterexamples, and the retained-beam/raw-candidate taxonomy
-are audited in packaged [`PRIOR_ART.md`](PRIOR_ART.md).
+are audited in `test_results/paper_prior_art_novelty_audit_2026-08-25.md`.
+The H200 raw-log audit and exact evidence paths are in
+`test_results/h200_paper_evidence_2026-09-26.md`. Cube4/H200 and Megaminx/T4
+are different workloads, not a strong-scaling pair.
+
+| Platform | Puzzle/model | Requested / effective retained beam | Completed timed step | Derived nominal rate | Peak device-wide used VRAM | Boundary and outcome |
+|---|---|---:|---:|---:|---:|---|
+| 8xH200, 143,771 MiB each | Cube4 puzzle 1000, FP16 24-output piece Transformer, 3,383,064 parameters, 24 moves | 2,900,000,000 / 2,900,361,216 | depth 8, 931.266 s on all eight ranks | 74,746,280 parent-action pairs/s | 141,820 MiB/GPU | depth 9 interrupted by request, unsolved; 2.94B first NCCL count exchange failed, 3.00B static budget gate; neither classified as CUDA OOM |
 
 - Local GPU: NVIDIA GeForce RTX 3070 Laptop GPU, 8192 MiB, driver 572.70.
 - Runtime: Python 3.11.5, PyTorch 2.8.0+cu128, CUDA runtime 12.8.
@@ -110,12 +122,10 @@ The `2^25` OOM attempted a 1.96-GiB allocation. The monkey-patched public
 `get_neighbors` method did not intercept
 CayleyPy's internal iterated implementation, so its frontier/candidate counters
 remained zero.  Consequently nodes/s is **not measured** and no rate is derived
-from those counters.  The packaged [`results.json`](results/cayleypy_t4/results.json)
-contains the older targeted bracket, and the corresponding public runner is
-[`one_width.py`](results/cayleypy_t4/one_width.py).  The broad-grid raw JSON and
-per-width logs are not staged in this public package; their parent-repository-local
-provenance remains
-`test_results/paper_benchmarks/broad_sweeps_2026-08-15/cayleypy_v9_complete/`.
+from those counters.  Raw JSON and per-width logs are retained under
+`test_results/paper_benchmarks/broad_sweeps_2026-08-15/cayleypy_v9_complete/`;
+the older targeted bracket remains under
+`test_results/paper_benchmarks/cayleypy_native_t4_history0_v5_complete/`.
 
 ## Paired Cube4 protocol: Pilgrim versus ours
 
@@ -154,12 +164,9 @@ point records had been written; this terminal error is not the failure class
 of either retained point. For output-24,
 20,971,520 completed in 197.358 s (24.670 s/depth) at 12,333 MiB, while
 23,068,672 CUDA-OOMed. The measured output-24 bracket is therefore 20,971,520
-complete versus 23,068,672 OOM. The packaged v5 rows are available as
-[`results.csv`](results/pilgrim_t4/results.csv),
-[`results.jsonl`](results/pilgrim_t4/results.jsonl), and
-[`summary.json`](results/pilgrim_t4/summary.json).  The later scalar upper-failure
-raw artifacts are not staged in this public package; their
-parent-repository-local provenance remains
+complete versus 23,068,672 OOM. Raw v5 artifacts are under
+`test_results/paper_benchmarks/pilgrim_boundary_v5_2026-08-18/`.
+The scalar upper-failure artifacts are under
 `test_results/paper_benchmarks/pilgrim_latest_error2_2026-08-18/`.
 
 The corrected collaborator-run MultiGPU pass and the final scalar-only v27
@@ -187,19 +194,16 @@ failure. The complete confirmation recorded per-depth times
 0.613, 0.572, 0.580, 0.866, 5.075, 71.692, 1,087.45, and 1,644.13 s; the
 primary common metric remains total wall / 8 = 352.145 s/depth. The failed
 probe spent 164.414 s across all fallback attempts; its final attempt lasted
-1.374 s and is not a completed-depth time. Packaged v27 evidence is available
-as [`summary.json`](results/multigpu_scalar_t4/summary.json),
-[`results.csv`](results/multigpu_scalar_t4/results.csv), and
-[`results.jsonl`](results/multigpu_scalar_t4/results.jsonl).
+1.374 s and is not a completed-depth time. Raw v27 evidence is under
+`test_results/paper_benchmarks/multigpu_scalar_boundary_v27_2026-08-24/`.
 
 The output-24 OOM was reproduced while the runtime descended its row-budget
 profiles from 2,048 to 1. The recorded 1.563 s is the final failed search
 attempt, not a completed depth time. After persisting all point records, the
 notebook failed closed because the scalar checkpoint was visible both inside
 the self-contained dataset and as a separately attached model. This terminal
-error does not change the retained point classifications. Packaged point records
-are available as [`results.csv`](results/multigpu_output24_t4/results.csv) and
-[`results.jsonl`](results/multigpu_output24_t4/results.jsonl).
+error does not change the retained point classifications. Raw evidence is under
+`test_results/paper_benchmarks/multigpu_latest_error_2026-08-18/`.
 
 At the matched broad-grid Megaminx width 16,777,216, the latest CayleyPy wall
 is 4,741.581 s versus the historical MultiGPU wall 1,728.460 s (2.74x lower).
@@ -360,14 +364,9 @@ The process was terminated by the benchmark timeout, not by CUDA OOM. DeepCubeA 
 
 ## Raw evidence
 
-Packaged paired T4 and P100 evidence is under
-[`results/alphacube_deepcubea_t4/`](results/alphacube_deepcubea_t4/) and
-[`results/alphacube_deepcubea_p100/`](results/alphacube_deepcubea_p100/).
-Packaged capacity evidence is under
-[`results/alphacube_capacity_t4/`](results/alphacube_capacity_t4/) and
-[`results/alphacube_capacity_p100/`](results/alphacube_capacity_p100/).
-The RTX 3070 AlphaCube raw directory is not staged in this public package; its
-parent-repository-local provenance remains
-`test_results/paper_benchmarks/rtx3070_alphacube_docker/`. Earlier parent-local
-DeepCubeA timeout attempts are likewise not staged; they are superseded for the
+Local AlphaCube JSON is under `test_results/paper_benchmarks/rtx3070_alphacube_docker/`.
+Downloaded Kaggle evidence is under `test_results/paper_benchmarks/kaggle_t4_v2/`
+and `test_results/paper_benchmarks/kaggle_p100_v3/`; T4 capacity evidence is
+under `test_results/paper_benchmarks/kaggle_t4_capacity_v1/`. Earlier local DeepCubeA
+timeout attempts remain documented separately; they are superseded for the
 paired remote table by the completed T4/P100 runs above.

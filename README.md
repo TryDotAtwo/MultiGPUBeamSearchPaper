@@ -2,7 +2,7 @@
 
 This repository is the public evidence and reproduction package for the paper
 **“One Global Beam Across Many GPUs: Exact High-Throughput Beam Search at
-Near-Billion Frontier Scale.”** The CUDA/C++ implementation lives in the
+Billion-State Frontier Scale.”** The CUDA/C++ implementation lives in the
 separate [MultiGPUBeamSearch repository](https://github.com/TryDotAtwo/MultiGPUBeamSearch).
 
 The system physically shards one logical beam across GPUs. Its candidate and
@@ -15,13 +15,18 @@ and identity model. There are no shard-local semantic caps.
 
 | Evidence | Hardware | Retained frontier | Work per saturated depth | Measured execution |
 |---|---|---:|---:|---:|
+| Capacity and throughput | 8× NVIDIA H200 | requested 2,900,000,000; effective 2,900,361,216 | 69,608,669,184 nominal parent-action pairs at 24 generators | completed depth 8 in 931.266 s; derived 74.746 million nominal pairs/s |
 | Capacity | 8× NVIDIA A100 40GB | requested \(B_{req}=770,883,178\); \(B_{eff}\ge B_{req}\) | at least 18,501,196,272 nominal children at 24 generators | wall time and exact \(B_{eff}\) unavailable |
 | Throughput | 2× NVIDIA T4 | \(B_{eff}=82,837,504\) | 1,988,100,096 nominal children | 65.670 s per saturated depth; 30.274 million logical children/s |
 
-These are deliberately separate claims. The eight-A100 record establishes
-capacity, not speed. The two-T4 record measures end-to-end throughput, not
-strong scaling beyond two GPUs. The implementation permits at most 128 ranks;
-execution beyond eight GPUs has not been measured.
+The eight-H200 Cube4 run measures a completed search depth, not a solved puzzle;
+its nominal pair rate is derived from retained width times 24 generators, not
+a native distinct-state counter. Its raw rank logs and device telemetry are in
+[`artifacts/results/h200_8x_cube4`](artifacts/results/h200_8x_cube4/EVIDENCE.md).
+The A100 record establishes capacity only. The two-T4 Megaminx result is a
+different workload, so these points do not establish strong-scaling speedup.
+The implementation permits at most 128 ranks; execution beyond eight GPUs
+has not been measured.
 
 ## What is public here
 

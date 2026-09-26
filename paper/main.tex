@@ -5,9 +5,8 @@
 \usepackage{amsmath,amssymb,booktabs,graphicx,microtype,url}
 \usepackage[hidelinks]{hyperref}
 
-\title{One Global Beam Across Many GPUs:\\
-Exact High-Throughput Beam Search at Near-Billion Frontier Scale}
-\author{Anonymous authors}
+\title{One Global Beam Across Many GPUs: Exact High-Throughput Beam Search at Billion-State Frontier Scale}
+\author{Ivan Litvak\\Independent researcher\\\href{mailto:vanya.litvak@gmail.com}{vanya.litvak@gmail.com}}
 \date{}
 
 \newcommand{\beam}{B}
@@ -25,17 +24,16 @@ de-duplication, routing, and frontier storage remain on the GPUs; only compact
 control and ancestry metadata reach the host.  With no shard-local semantic
 caps, the streamed procedure returns the same global reduced-key top-$B$ as a
 monolithic implementation under the same score quantization, fixed-layout tie
-order, and stated 128-bit identity model.  On eight A100 40GB GPUs, the
-capacity result records a requested retained frontier of
-$B_{\rm req}=770{,}883{,}178$; alignment gives
-$B_{\rm eff}\geq B_{\rm req}$ and therefore at least
-$18{,}501{,}196{,}272$ nominal pre-de-duplication children per saturated depth
-for 24 generators.  That result contains no wall time or exact $B_{\rm eff}$
-and is used only as capacity evidence.  Separately, a measured two-T4 run at
+order, and stated 128-bit identity model.  On eight H200 GPUs, a Cube4 run
+completed one saturated depth with a physically sharded retained frontier of
+$B_{\rm eff}=2{,}900{,}361{,}216$ states in $931.266$ s.  With 24 generators,
+this is $69{,}608{,}669{,}184$ nominal pre-de-duplication parent-action pairs,
+or $74.746$ million pairs/s end to end.  The run was stopped during the next
+depth and did not solve the puzzle.  Separately, a measured two-T4 run at
 $B_{\rm eff}=82{,}837{,}504$ has $1{,}988{,}100{,}096$ nominal children per
 saturated depth; depths 7--10 averaged $65.670$ s, or $30.274$ million logical
-children/s end to end.  This throughput result covers two GPUs and does not
-establish strong scaling beyond them.  The novelty is the full system-level
+children/s end to end.  These runs use different tasks and models, so they do
+not establish strong scaling.  The novelty is the full system-level
 conjunction, not parallel, GPU, or distributed beam search in isolation.
 \end{abstract}
 
@@ -72,10 +70,10 @@ de-duplication keeps the best candidate for each key before the global cut.
 For a saturated layer in which every retained parent is expanded by all $m$
 generators, the nominal pre-de-duplication count is $m\beam_{\rm eff}$.  Since
 runtime alignment gives $\beam_{\rm eff}\geq\beam_{\rm req}$, the measured
-capacity request $\beam_{\rm req}=770{,}883{,}178$ with $m=24$ implies at least
-$18{,}501{,}196{,}272$ nominal logical children in one depth.
-Materializing its full 120-byte logical child states would require at least
-$2.220$ TB before metadata; the design avoids that host staging and any
+H200 frontier $\beam_{\rm eff}=2{,}900{,}361{,}216$ with $m=24$ implies
+$69{,}608{,}669{,}184$ nominal logical children in one saturated depth.
+Materializing its full 96-byte Cube4 child states would require over
+$6.68$ TB before metadata; the design avoids that host staging and any
 single-device global sort.
 
 Our requirement is stronger than GPU-accelerated heuristic evaluation.  During
@@ -92,13 +90,13 @@ The system contributes (i) a GPU-resident hot-data path that distributes one
 logical beam without frontier staging through host memory; (ii) exact
 monolithic global reduced-key top-$B$ semantics under the same score
 quantization, fixed-layout tie order, and stated 128-bit identity model, with
-no shard-local semantic caps; and (iii) separate evidence for near-billion
-retained capacity on eight GPUs and measured high-throughput execution on two
-GPUs.  Together, these contributions make this the first published
+no shard-local semantic caps; and (iii) a measured saturated billion-state
+frontier depth on eight H200 GPUs, with a separate two-T4 production result.
+Together, these contributions make this the first published
 high-throughput multi-GPU beam-search system with one physically sharded global
 frontier and the stated exactness contract.  The implementation admits at most
-128 ranks; throughput beyond two GPUs and execution beyond eight GPUs remain
-unmeasured.
+128 ranks; execution beyond eight GPUs and strong scaling at a fixed workload
+remain unmeasured.
 
 \section{Related Work and Gap}
 Parallel beam search long predates GPUs: custom speech accelerators were studied
@@ -146,7 +144,7 @@ published high-throughput multi-GPU beam-search system that combines one
 physically sharded logical frontier, a GPU-resident candidate/frontier hot-data
 path, global 128-bit-key de-duplication, no shard-local semantic caps, and exact
 monolithic global reduced-key top-$B$ under the stated quantization, tie order,
-and identity model at a near-billion retained-frontier request.  The priority
+and identity model at a measured billion-state retained frontier. The priority
 claim applies only to this full system-level conjunction.
 
 \begin{table*}[t]
@@ -167,7 +165,7 @@ CayleyPy 2025 & one GPU; one Cayley-graph beam & $2^{24}$ & independent agents &
 GPUexplore 3.0 & four V100; exhaustive reachable set & not a beam & $>3.15$B states & ranked score and top-$B$ \\
 PathWeaver 2025 & four A6000; independent ANNS queries & not reported & 50M-vector dataset & exact layered semantics and large retained beam \\
 QiankunNet-cuSCI & 64 A100; selected SCI configurations & not a beam; $K=32{,}000/256{,}000$ & about 1B raw candidates & not reported as beam search; much smaller retained $K$; full-candidate host staging \\
-This work & eight A100; one sharded global beam & request 770,883,178; effective $\geq$ request & $\geq18.501$B nominal raw children/depth & summary-backed capacity; time and effective width not recorded \\
+This work & eight H200; one sharded global beam & 2,900,361,216 effective & 69.609B nominal raw pairs/depth & completed depth 8; full solve and fixed-workload strong scaling unmeasured \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -346,6 +344,7 @@ RTX 3070 8GB & puzzle 0, depth 20 & $2^{22}$ & E2E complete; $60.623$ s total & 
 RTX 3070 8GB & Stream 1, $B_\mu=4096$, $c=3$ & --- & micro complete & n/a & $48.142$ M/s \\
 Kaggle $2\times$T4 & puzzle 20, radius 4, limit 72 & $B_{\rm req}=82{,}615{,}524$; $B_{\rm eff}=82{,}837{,}504$ & solved; $350.402$ s; CSV+summary & 65.670 saturated & $30.274$ M/s \\
 $8\times$A100 40GB & puzzles 900/950/1000, depth 8 & $B_{\rm req}=770{,}883{,}178$; $B_{\rm eff}$ not recorded & stable; $39{,}745$ MiB/GPU; summary & n/r & n/r \\
+$8\times$H200 & Cube4 puzzle 1000, depth 8 & $B_{\rm req}=2.900$B; $B_{\rm eff}=2{,}900{,}361{,}216$ & E2E depth complete; $\sim141{,}820$ MiB/GPU used & 931.266 & $74.746$ M/s \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -358,7 +357,8 @@ $24\times82{,}837{,}504/65.670$ and counts logical children before
 de-duplication.  We do not derive an RTX E2E rate because its early depths are
 not saturated.  Kernel microbenchmarks and the A100 capacity-only summary do
 not define an E2E depth time and are therefore marked not applicable or not
-recorded.
+recorded. The H200 rate is the nominal $24B_{\rm eff}/931.266$; it counts
+parent-action pairs, not distinct children after de-duplication.
 
 \paragraph{Local RTX 3070.}
 On the laptop GPU, the folded-input half2 kernel raised the best isolated
@@ -386,23 +386,41 @@ alignment makes $B_{\rm eff}\geq B_{\rm req}$, but the exact effective value,
 raw rank logs, runtime configuration, commit, checkpoint hash, and wall time
 were not preserved.  The summary therefore supports an eight-device capacity
 result and a nominal saturated scale of at least $18.501$ billion logical child
-candidates, not a near-billion speed result.  Performance is measured only
-through two GPUs and capacity through eight; static exchange tables currently
+candidates, not a timed A100 result. The separate H200 run below provides
+eight-GPU performance on a different puzzle. Static exchange tables currently
 admit at most 128 ranks, but execution beyond eight GPUs is unmeasured.
+
+\paragraph{$8\times$H200 billion-state depth.}
+On one Vast instance with eight H200 GPUs (143,771 MiB each), the Cube4
+24-generator puzzle-1000 run requested $B=2{,}900{,}000{,}000$ and aligned to
+$B_{\rm eff}=2{,}900{,}361{,}216$, or $362{,}545{,}152$ retained states per
+rank. All eight ranks completed saturated depth 8 in $931.266$ s. This is
+$3.114$ million parents/s or $74.746$ million nominal parent-action pairs/s
+end to end, including scoring, global reduction, exchange, selection, and
+history handling. The scorer was the 24-output, 3,383,064-parameter FP16 Cube4
+piece Transformer (four 256-wide, eight-head blocks; 1024-wide feed-forward),
+with model-manifest SHA-256 prefix \texttt{03f55e5b} (full digest in the
+evidence manifest).
+The implementation revision was \texttt{3b756afe}; the run used 64 shards per
+GPU and device-wide usage of about 141,820 MiB/GPU. At 2.94 billion requested
+states the first NCCL count exchange failed; 3.00 billion failed a static
+memory-budget gate. Neither is classified as CUDA OOM. Puzzle 1000 was
+intentionally stopped during depth 9, so depth 8 is a completed-step timing,
+not a complete solve. The Cube4 workload and model differ from the Megaminx
+two-T4 run; the two rates are not a strong-scaling comparison.
 
 \section{Comparison with CayleyPy and Megaminx Result}
 CayleyPy establishes empirically that wider beams improve success and solution
 quality, but its published examples remain single-device.  Its controlled
 $S_{20}$ experiment increases $W$ from $2^{10}$ (no solution) to $2^{20}$
 (the ideal length 190), while the large-cube paper uses $W=2^{24}$ so that an
-agent fits on one GPU~\cite{soibelman2025cayleypy,chervov2025large}.  Our
-requested $770{,}883{,}178$ configuration is $735.2\times$ wider than $2^{20}$ and
-$45.95\times$ wider than $2^{24}$.  It is also $38.54\times$ wider than the
-largest peer-reviewed retained beam located in our audit (20 million) and
-$30.84\times$ wider than the 25-million public HATETRIS
-implementation~\cite{hatetrispublic}.  These
-ratios compare systems scale, not
-solution difficulty across different graphs.
+agent fits on one GPU~\cite{soibelman2025cayleypy,chervov2025large}. The
+measured H200 retained width of $2{,}900{,}361{,}216$ is $172.875\times$
+wider than $2^{24}$, $145.02\times$ wider than the largest peer-reviewed
+retained beam located in our audit (20 million), and $116.01\times$ wider than
+the 25-million public HATETRIS implementation~\cite{hatetrispublic}. These
+ratios compare retained capacity, not speed or solution difficulty across
+different graphs.
 
 \begin{table}[t]
 \centering
@@ -715,8 +733,8 @@ $770{,}883{,}178$-requested-state depth-8 capacity report.
 
 \section{Code and Artifacts}
 Paper sources, the evidence index, and machine-readable tables are public at
-\url{https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper}.  Release v1.0.0
-contains both PDFs and the matched checkpoints:
+\url{https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper}.  The baseline
+v1.0.0 release contains matched checkpoints and earlier PDFs:
 \url{https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper/releases/tag/v1.0.0}.
 Solver source and its GPU-ready Megaminx release are public at
 \url{https://github.com/TryDotAtwo/MultiGPUBeamSearch} and
@@ -730,8 +748,12 @@ public dataset through Kaggle's normal Import Notebook and Save Version
 workflow and do not depend on the visibility of an owner's saved kernel page.
 The eight-A100 record supplies capacity and memory evidence but no wall time or
 exact effective width; the two-T4 record separately supplies measured
-throughput.  No missing timing, capacity, or scaling metric is inferred from a
-different run.
+throughput. The eight-H200 Cube4 run additionally supplies a completed
+billion-state depth with full rank logs, device telemetry, and an evidence
+manifest at
+\url{https://github.com/TryDotAtwo/MultiGPUBeamSearchPaper/tree/main/artifacts/results/h200_8x_cube4}.
+The manifest specifies the implementation, model, and interrupted follow-on
+depth. No speedup ratio across these different workloads is inferred.
 
 \section{Conclusion}
 This work establishes one GPU-resident distributed beam search rather than a
@@ -739,16 +761,16 @@ collection of local surrogates.  For a fixed layout, its streamed
 expand--de-duplicate--select path, with no shard-local semantic caps, is
 mathematically equivalent to monolithic global reduced-key top-$B$ under the
 same score quantization, tie order, and stated 128-bit identity model.  The
-eight-A100 result establishes a requested frontier of $770{,}883{,}178$
-retained states and at least $18.501$ billion nominal pre-de-duplication
-children per saturated depth; it does not provide wall time or exact effective
-width.  The separate two-T4 result measures $30.274$ million logical children/s
-end to end, so high-throughput execution is demonstrated through two GPUs while
-stronger scaling remains unmeasured.  The project also provides a replay-valid
+eight-H200 Cube4 result establishes a physically sharded retained frontier of
+$2{,}900{,}361{,}216$ states and measures one completed saturated depth at
+$74.746$ million nominal parent-action pairs/s end to end. The separate two-T4
+Megaminx result measures $30.274$ million logical children/s; these different
+workloads do not establish strong scaling. The eight-A100 capacity-only report
+has no preserved wall time. The project also provides a replay-valid
 51-move Megaminx-superflip path, the shortest public same-metric solution
 identified in the supporting evidence.  This is the first published
 high-throughput multi-GPU beam-search system with one physically sharded global
-frontier and the stated exactness contract at near-billion retained-frontier
+frontier and the stated exactness contract at billion-state retained-frontier
 scale.
 
 \begingroup

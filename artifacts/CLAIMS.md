@@ -19,10 +19,11 @@ is packaged as [PRIOR_ART.md](PRIOR_ART.md).
 
 | Measurement | Source evidence | Exact interpretation |
 |---|---|---|
+| Eight-H200 completed Cube4 depth | [Raw rank logs and evidence audit](results/h200_8x_cube4/EVIDENCE.md): requested width 2,900,000,000; aligned retained width 2,900,361,216; all eight ranks completed depth 8 in 931.266 s. | 69,608,669,184 nominal parent-action pairs and derived 74.746M pairs/s for the saturated depth. The puzzle was not solved; depth 9 was stopped. The rate is not a native distinct-state counter. Peak observed device-wide usage was 141,820 MiB of 143,771 MiB per GPU. |
 | Eight-A100 capacity | Packaged summary [`a100x8_capacity.json`](a100x8_capacity.json): job 33363, three Megaminx instances, requested beam 770,883,178, depth 8 stable, peak 39,745 MiB/GPU. | Summary-backed capacity result. Runtime rounds B_req upward to B_eff, but raw rank logs/config, exact B_eff, commit, checkpoint SHA, and wall time are not available in the supporting capacity record. Write B_req=770,883,178 and B_eff >= B_req, not an exact retained runtime count or speed measurement. |
 | Nominal raw layer at A100 capacity request | Exact arithmetic: 24 * 770,883,178 = 18,501,196,272. | At least 18.501B nominal logical child candidates for a saturated 24-generator depth because alignment rounds effective width upward. This is a candidate count, not 18.501B distinct neural forward invocations. |
 | Two-T4 end-to-end point | Packaged [`beam_run_results.csv`](results/multigpu_2xt4/beam_run_results.csv): requested 82,615,524, effective 82,837,504, solve 350.402 s; packaged [`saturated_depth_summary.md`](results/multigpu_2xt4/saturated_depth_summary.md): saturated depths 7--10 mean 65.670 s. | 24 * 82,837,504 = 1,988,100,096 logical children and 30.274M/s when normalized by effective saturated width. The total solve uses the valid radius-4 solved-neighborhood shortcut and must be labelled accordingly. Saturated-depth time is summary-backed; the original raw rank logs are absent. |
-| Scale-out extent | Production execution is measured at two GPUs; capacity is reported at eight GPUs. The pinned public [`cuda/dispatcher.cu`](https://github.com/TryDotAtwo/MultiGPUBeamSearch/blob/a1db0e6d9bb5458c8a842b37dfa99572d3025667/cuda/dispatcher.cu) statically permits at most 128 ranks. | Say measured speed through two GPUs and capacity through eight. The 128-rank value is an implementation bound, not evidence of scaling to 100+ GPUs. |
+| Scale-out extent | Completed-depth production execution is measured on eight H200 GPUs, and Megaminx execution on two T4 GPUs. The implementation statically permits at most 128 ranks. | Say measured eight-GPU execution, not measured strong scaling from two to eight: the Cube4/H200 and Megaminx/T4 workloads differ. The 128-rank value is an implementation bound, not evidence of scaling to 100+ GPUs. |
 | Relative speed | Matched scalar and output-24 rows and the Cube4 comparison are retained in the packaged [benchmark matrix](BENCHMARK_MATRIX.md). | Claim only the explicitly matched ratios. Do not claim global fastest or superiority without a matched workload/model/hardware result. |
 
 ## Novelty audit
@@ -52,9 +53,10 @@ The defensible priority sentence is:
 > a 128-bit state-key identity model, and returns the exact monolithic
 > reduced-key score top-B under the same GPU score quantization and fixed-layout
 > order without shard-local semantic caps. The full conjunction is demonstrated
-> at a requested retained width of B_req=770,883,178; the exact aligned B_eff
-> and wall time are unavailable. With 24 generators, the request corresponds to
-> at least 18,501,196,272 nominal logical children in a saturated depth.
+> at an effective retained width of 2,900,361,216 on eight H200 GPUs; a
+> saturated Cube4 depth completed in 931.266 s, corresponding to 69,608,669,184
+> nominal parent-action pairs and a derived 74.746M pairs/s. This is a completed
+> depth, not a solved puzzle, and does not by itself establish strong scaling.
 
 The downstream Streams 2--5 contract is scorer-agnostic provided Stream 1
 emits deterministic quantized `score_key` values.  The shipped production
