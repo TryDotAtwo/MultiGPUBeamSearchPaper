@@ -6,6 +6,12 @@
 \usepackage[russian,english]{babel}
 \usepackage[margin=0.72in]{geometry}
 \usepackage{amsmath,amssymb,booktabs,graphicx,microtype,url}
+\usepackage{array,tabularx}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\textfraction}{0.08}
+\setcounter{dbltopnumber}{3}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit}
 \microtypesetup{expansion=false}
@@ -20,6 +26,7 @@
 \newcommand{\cand}{\mathcal{C}}
 
 \begin{document}
+\raggedbottom
 \selectlanguage{russian}
 \maketitle
 
@@ -144,7 +151,7 @@ $69{,}608{,}669{,}184$ номинальных логических потомк�
  node distance=0.3cm]
 \node[box] (front) {$\frontier_{d-1}$\\один логический луч};
 \node[box,right=of front] (batch) {GPU 0, 1, 2, $\ldots$\\локальные батчи};
-\node[box,right=of batch] (route) {компактные записи\\владелец $o(z)$};
+\node[box,right=of batch] (route) {компактные записи\\маршрут по ключу $z$};
 \node[box,right=of route] (reduce) {редукция владельца\\общий порог $T^*$};
 \node[box,right=of reduce] (next) {$\frontier_d$\\новый общий луч};
 \draw[->] (front) -- (batch);
@@ -367,8 +374,10 @@ $U=\operatorname{Reduce}_{z}(C;\operatorname{lexmin}(s,\mathrm{payload}))$ ---
 Для фиксированной раскладки $L$ ключи упорядочиваются по
 $\kappa_L(z)=(s^*(z),\tau_L(z))$, где меньшая оценка лучше, а $\tau_L$ ---
 детерминированное правило реализации: сначала ранг, затем физический порядок
-для равных оценок. Классическая эталонная реализация материализует $U$,
-сортирует его по $\kappa_L$ и при $b=\min(\beam,|U|)$ возвращает
+для равных оценок. Классическая эталонная реализация материализует $U$
+и сортирует его по $\kappa_L$. При $U=\varnothing$ положим
+$\operatorname{Top}_{\beam}(U)=\varnothing$.
+При $b=\min(\beam,|U|)>0$ эталон возвращает
 \begin{equation}
  \operatorname{Top}_{\beam}(U)=
  \{z\in U:\kappa_L(z)\leq \kappa_{L,(b)}(U)\}.
@@ -568,9 +577,10 @@ $W$ & $2^{10}$ & $2^{12}$ & $2^{14}$ & $2^{16}$ & $2^{20}$ \\
 
 Дополнительно мы измерили Pilgrim и нашу реализацию поиска на одном
 состоянии Cube4, одном checkpoint, одной GPU, одинаковом луче и десяти слоях.
-Scorer --- piece Transformer с 3 383 064 параметрами, 96 позициями из шести
-классов, $d_{\rm model}=256$, четырьмя слоями, восемью головами, шириной
-feed-forward 1024 и 24 Q-выходами; inference использует FP16 и microbatch 384.
+Scorer --- piece Transformer с 3 383 064 параметрами: 96 позиций из шести
+классов кодируются 56 токенами деталей плюс CLS. $d_{\rm model}=256$,
+четыре слоя, восемь голов, ширина feed-forward 1024 и 24 Q-выхода;
+inference использует FP16 и microbatch 384.
 Таблица~\ref{tab:cube4_pair} показывает десятый слой, где насыщенный frontier
 разворачивает $24B$ пар.
 
@@ -578,20 +588,19 @@ feed-forward 1024 и 24 Q-выходами; inference использует FP16 
 \centering
 \small
 \setlength{\tabcolsep}{2pt}
-\caption{Согласованное вычисление глубины 10 для Cube4 при $B=4{,}194{,}304$.}
+\caption{Согласованное вычисление глубины 10 для Cube4 при $B=4{,}194{,}304$.
+Время относится к десятому слою; res./used --- резерв аллокатора/занятая память устройства.}
 \label{tab:cube4_pair}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}llrrr@{}}
 \toprule
-GPU & Реализация & с/глубину (глубина 10) & Пар/с & Пик VRAM \\
+GPU & Поиск & Время (с) & Пар/с & Пик VRAM \\
 \midrule
-T4 & Pilgrim & 198.153 & 508,007 & 2.90 GiB reserved \\
+T4 & Pilgrim & 198.153 & 508,007 & 2.90 GiB res. \\
 T4 & Наша & 181.282 & 555,293 & 1,949 MiB used \\
-P100 & Pilgrim & 314.487 & 320,087 & 2.90 GiB reserved \\
+P100 & Pilgrim & 314.487 & 320,087 & 2.90 GiB res. \\
 P100 & Наша & 301.955 & 333,378 & 1,949 MiB used \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \subsection{Инвентаризация подходов и согласованные семейства моделей на одной T4}
@@ -614,8 +623,8 @@ time; они никогда не заменяются величиной~$B/t$.
 \caption{Точные архитектуры нейронных сетей в приведённых тестах. Число
 параметров относится к обучаемой исходной модели до свёртки batch normalization.}
 \label{tab:model_architectures}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lrlp{10.8cm}@{}}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}L{2.6cm}rL{2.8cm}Y@{}}
 \toprule
 Семейство модели & Параметры & Где используется & Последовательность блоков \\
 \midrule
@@ -623,10 +632,9 @@ Cube3 AlphaCube 0.1.6 \texttt{large} & 118,939,666 & AlphaCube & one-hot 324 $\t
 Cube3 DeepCubeA official \texttt{cube3} & 14,663,001 & DeepCubeA & one-hot 324 $\to$ Linear 5000, BN, ReLU $\to$ Linear 1000, BN, ReLU $\to$ $4\times$[Linear 1000, BN, ReLU, Linear 1000, BN, сложение residual, ReLU] $\to$ Linear 1 \\
 Megaminx scalar MLP & 34,766,849 & Pilgrim Searcher; CayleyPy; MultiGPU & позиция--класс $120\times120$ $\to$ эквивалент EmbeddingBag Linear 2048, BN, ReLU $\to$ Linear 512, BN, ReLU $\to$ $8\times$[Linear 512, BN, ReLU, Linear 512, BN, сложение residual, ReLU] $\to$ Linear 1 \\
 Megaminx QMLP2RB & 23,978,008 & Pilgrim QSearcher; MultiGPU & позиция--класс $120\times120$ $\to$ эквивалент EmbeddingBag Linear 1536, BN, ReLU $\to$ Linear 512, BN, ReLU $\to$ $2\times$[Linear 512, BN, ReLU, Linear 512, BN, сложение residual, ReLU] $\to$ Linear 24 \\
-Cube4 Q Transformer & 3,383,064 & только согласованный Cube4 & 96 токенов / 6 классов $\to$ проекция + CLS $\to$ $4\times$[pre-LN, 8-головое attention ($d=256$), residual, pre-LN, FFN 256--1024--256 ReLU, residual] $\to$ LN $\to$ Linear 24 \\
+Cube4 Q Transformer & 3,383,064 & согласованный Cube4; $8\times$H200 & 96 позиций состояния по 6 классов $\to$ 56 локальных эмбеддингов деталей и проекций + эмбеддинги позиции/типа $\to$ CLS (57 токенов), входной LN $\to$ $4\times$[pre-LN, 8-головое attention ($d=256$), residual, pre-LN, FFN 256--1024--256 ReLU, residual] $\to$ выбор CLS, LN $\to$ Linear 24 \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabularx}
 \end{table*}
 
 В согласованных строках Megaminx все перечисленные реализации загружают одни
@@ -641,23 +649,25 @@ capacity sweep Megaminx.
 \small
 \setlength{\tabcolsep}{3pt}
 \caption{Инвентаризация нативных измерений на одной видимой T4. Строки с
-разными контрактами моделей не сравниваются; максимум измерен.}
+разными контрактами моделей не сравниваются; максимум измерен.
+Шаг означает глубину луча, кроме DeepCubeA (итерация A*).
+Прочерк в столбце узлы/с означает отсутствие измерения.
+MultiGPU обозначает MultiGPUBeamSearch.}
 \label{tab:four_t4}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lllrrrl@{}}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}L{2.45cm}L{2.45cm}rrrrY@{}}
 \toprule
-Подход & Нагрузка / нативный масштаб & Макс. complete & Время (с) & с/нативный шаг & Узлы/с & Граница/статус \\
+Подход & Нагрузка & Макс. complete & Время (с) & с/шаг & Узлы/с & Граница/статус \\
 \midrule
-AlphaCube 0.1.6 & Cube3 \texttt{large}, beam & 1,572,864 & 461.488 & 27.146/глубину & 42,387 & 1,703,936 host SIGKILL \\
-DeepCubeA & Cube3 A*, 55 итераций & н/п & 146.474 & 2.663/итерацию & 41,880 & complete, длина 21 \\
-Pilgrim Searcher & Megaminx scalar beam, глубина 8 & 5,898,240 & 1,462.557 & 182.820/глубину & не измерено & 6,291,456 OOM \\
-Pilgrim QSearcher & Megaminx output-24 beam, глубина 8 & 20,971,520 & 197.358 & 24.670/глубину & не измерено & 23,068,672 OOM \\
-нативный CayleyPy & Megaminx scalar beam, глубина 8 & 20,971,520 & 4,258.602 & 532.325/глубину & не измерено & broad: $2^{24}$ complete, $2^{25}$ OOM \\
-MultiGPUBeamSearch & Megaminx scalar beam, глубина 8 & 29,360,128 & 2,817.158 & 352.145/глубину & не измерено & 31,457,280 OOM \\
-MultiGPUBeamSearch & Megaminx output-24 beam, глубина 8 & 29,360,128 & 116.904 & 14.613/глубину & не измерено & 33,554,432 OOM \\
+AlphaCube 0.1.6 & Cube3 \texttt{large}, beam & 1,572,864 & 461.488 & 27.146 & 42,387 & 1,703,936 host SIGKILL \\
+DeepCubeA & Cube3 A*, 55 итераций & н/п & 146.474 & 2.663 & 41,880 & complete, длина 21 \\
+Pilgrim Searcher & Megaminx scalar beam, глубина 8 & 5,898,240 & 1,462.557 & 182.820 & --- & 6,291,456 OOM \\
+Pilgrim QSearcher & Megaminx output-24 beam, глубина 8 & 20,971,520 & 197.358 & 24.670 & --- & 23,068,672 OOM \\
+нативный CayleyPy & Megaminx scalar beam, глубина 8 & 20,971,520 & 4,258.602 & 532.325 & --- & broad: $2^{24}$ complete, $2^{25}$ OOM \\
+MultiGPU & Megaminx scalar beam, глубина 8 & 29,360,128 & 2,817.158 & 352.145 & --- & 31,457,280 OOM \\
+MultiGPU & Megaminx output-24 beam, глубина 8 & 29,360,128 & 116.904 & 14.613 & --- & 33,554,432 OOM \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabularx}
 \end{table*}
 
 \begin{table}[t]
@@ -718,19 +728,20 @@ $B$ & Время (с) & с/глубину & Allocated (MiB) & Reserved (MiB) & �
 
 Для AlphaCube с/глубину равно solver wall time, делённому на завершённую
 глубину поиска из возвращённого решения (20 для первых трёх строк и 17 для
-остальных). Для обеих реализаций Megaminx wall time делится на фиксированные
-восемь завершённых глубин. Эти средние включают запуск и ранние ненасыщенные
-слои и дополняют, а не заменяют, узлы/с.
+остальных). Для завершённых прогонов Megaminx до глубины 8 основная метрика
+равна чистому времени поиска, делённому на восемь завершённых нативных шагов.
+Она усредняет ранние ненасыщенные и поздние насыщенные глубины, а не измеряет
+последнюю глубину.
 
 Самая широкая скалярная точка Pilgrim, $B=5{,}898{,}240$, завершилась за
 1,462.557 с (182.820 с/глубину) с пиком устройства 14,433 MiB;
 $B=6{,}291{,}456$ дал CUDA OOM. Для output-24 $B=20{,}971{,}520$ завершился за
 197.358 с
 (24.670 с/глубину) при 12,333 MiB, тогда как $B=23{,}068{,}672$ дал CUDA OOM.
-Измеренные интервалы равны соответственно 5,898,240--6,291,456 и
-20,971,520--23,068,672.
+Эти интервалы являются наблюдёнными парами complete/OOM, а не точными
+максимумами ёмкости.
 
-Финальный MultiGPU-прогон соавтора и скалярное подтверждение v27 теперь дают
+Финальный прогон MultiGPU и скалярное подтверждение v27 теперь дают
 измеренные пары complete/OOM для обеих голов. Скалярный запуск завершился при
 29,360,128 и дал CUDA OOM при 31,457,280; нативная серия output-24 завершилась
 до 29,360,128 и дала CUDA OOM при 33,554,432.
@@ -738,20 +749,20 @@ $B=6{,}291{,}456$ дал CUDA OOM. Для output-24 $B=20{,}971{,}520$ заве�
 \begin{table}[t]
 \centering
 \small
-\caption{Финальные скалярные граничные точки MultiGPU на 1xT4.}
+\setlength{\tabcolsep}{2pt}
+\caption{Финальная серия скалярных граничных измерений MultiGPU на 1xT4 (C2).
+Пик --- занятая память устройства в MiB; C: complete, OOM: CUDA OOM.}
 \label{tab:multigpu_v11_partial}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}rrrrl@{}}
 \toprule
-$B$ & Время (с) & с/глубину & Пик устройства (MiB) & Статус \\
+$B$ & Время (с) & с/шаг & Пик & Статус \\
 \midrule
-25,165,824 & 3,027.673 & 378.459 & 12,267 & complete \\
-27,262,976 & 3,080.206 & 385.026 & 13,241 & complete \\
-29,360,128 & 2,817.158 & 352.145 & 14,215 & complete \\
-31,457,280 & --- & --- & 14,909 & CUDA OOM \\
+25,165,824 & 3,027.673 & 378.459 & 12,267 & C \\
+27,262,976 & 3,080.206 & 385.026 & 13,241 & C \\
+29,360,128 & 2,817.158 & 352.145 & 14,215 & C \\
+31,457,280 & --- & --- & 14,909 & OOM \\
 \bottomrule
 \end{tabular}
-}
 \end{table}
 
 Скалярный OOM повторился для каждого профиля row budget от 49,152 до 24.
@@ -761,24 +772,24 @@ $B$ & Время (с) & с/глубину & Пик устройства (MiB) & 
 \begin{table}[t]
 \centering
 \small
-\caption{Финальный нативный output-24 sweep MultiGPU на 1xT4.}
+\setlength{\tabcolsep}{2pt}
+\caption{Финальный нативный output-24 sweep MultiGPU на 1xT4.
+Пик --- занятая память устройства в MiB; C: complete, OOM: CUDA OOM.}
 \label{tab:multigpu_output24}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}rrrrl@{}}
 \toprule
-$B$ & Время (с) & с/глубину & Пик устройства (MiB) & Статус \\
+$B$ & Время (с) & с/шаг & Пик & Статус \\
 \midrule
-1,048,576 & 8.296 & 1.037 & 773 & complete \\
-4,194,304 & 22.735 & 2.842 & 2,253 & complete \\
-8,388,608 & 41.091 & 5.136 & 4,159 & complete \\
-16,777,216 & 77.460 & 9.683 & 7,983 & complete \\
-20,971,520 & 96.124 & 12.015 & 9,893 & complete \\
-25,165,824 & 111.130 & 13.891 & 11,799 & complete \\
-29,360,128 & 116.904 & 14.613 & 13,717 & complete \\
-33,554,432 & 1.563 & --- & 14,909 & CUDA OOM \\
+1,048,576 & 8.296 & 1.037 & 773 & C \\
+4,194,304 & 22.735 & 2.842 & 2,253 & C \\
+8,388,608 & 41.091 & 5.136 & 4,159 & C \\
+16,777,216 & 77.460 & 9.683 & 7,983 & C \\
+20,971,520 & 96.124 & 12.015 & 9,893 & C \\
+25,165,824 & 111.130 & 13.891 & 11,799 & C \\
+29,360,128 & 116.904 & 14.613 & 13,717 & C \\
+33,554,432 & 1.563 & --- & 14,909 & OOM \\
 \bottomrule
 \end{tabular}
-}
 \end{table}
 
 OOM output-24 повторялся при снижении runtime-профиля row budget от 2,048 до
@@ -787,16 +798,17 @@ OOM output-24 повторялся при снижении runtime-профил�
 
 \begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{Согласованный скалярный Megaminx-sweep на 1xT4. Ни одна реализация
-не предоставляет валидный счётчик узлов для этих точек.}
+\small
+\setlength{\tabcolsep}{2pt}
+\caption{Согласованная скалярная серия сравнения на 1xT4 (C1), отдельная от
+финальных граничных прогонов. Ни одна реализация не предоставляет валидный
+счётчик узлов для этих точек.}
 \label{tab:megaminx_curve}
 \begin{tabular}{@{}rrrrr@{}}
 \toprule
 & \multicolumn{2}{c}{MultiGPU} & \multicolumn{2}{c}{CayleyPy} \\
 \cmidrule(lr){2-3}\cmidrule(l){4-5}
-$B$ & Время (с) & с/глубину & Время (с) & с/глубину \\
+$B$ & Время (с) & с/шаг & Время (с) & с/шаг \\
 \midrule
 65,536     & 12.537    & 1.567   & 31.399    & 3.925 \\
 262,144    & 39.935    & 4.992   & 114.551   & 14.319 \\
@@ -814,8 +826,8 @@ AlphaCube материализует все $18B$ дочерних состоя�
 на хосте до сортировки; поэтому первый отказ является исчерпанием памяти хоста,
 хотя GPU reserved составляет лишь 4.685~GiB. На самых широких завершённых
 точках измеренная скорость стабилизируется около 40--44 тысяч узлов/с.
-DeepCubeA не имеет постоянного луча: это weighted A*, а его нативным масштабом
-служат search/NN batch 10,000/10,000, поэтому приписывать ему максимальный
+DeepCubeA не имеет постоянного луча: это weighted A* с весом $0.6$, а его
+нативным масштабом служат search/NN batch 10,000/10,000, поэтому приписывать ему максимальный
 фронт было бы некорректно. Завершённый T4-запуск выполнил 55 поисковых
 итераций за 146.474 с, то есть 2.663 с на одну нативную A*-итерацию; это не
 измерение beam-глубины. За запуск обработано 6,134,352 узла со скоростью
@@ -830,15 +842,21 @@ $2^{25}$; оценка по тренду памяти совпала с $2^{24}$
 CUDA OOM, но не выдаётся за часть широкой сетки. Внутренний путь
 расширения обошёл публичный hook счётчика, поэтому валидны только wall time и
 память. MultiGPU также сохранил end-to-end wall, но не валидный счётчик узлов.
-Финальный скалярный прогон измерил 29,360,128 complete при 14,215 MiB против
-31,457,280 CUDA OOM при 14,909 MiB. Согласованный прогон output-24 измерил
-29,360,128 complete против 33,554,432 CUDA OOM.
 Отказы устаревшего статического профиля и отменённые v10/v11 исключены. В
 последней согласованной
 точке широкой сетки CayleyPy занял 4,741.581 с, а исторический MultiGPU-запуск
 1,728.460 с при $B=16{,}777{,}216$ (wall ниже в 2.74 раза). На более ранней
 целевой точке $B=20{,}971{,}520$ wall MultiGPU ниже в 1.95 раза; это отношения
 согласованного end-to-end wall, а не восстановленные отношения nodes/s.
+
+Серия C1 использует исторический сравнительный запуск MultiGPU, а C2 ---
+последующие граничные прогоны. При $B=25{,}165{,}824$ зарегистрированное время равно
+соответственно 2,416.150 и 3,027.673 с. C1 использует внутренний таймер поиска;
+C2 измеряет исполнение программы, включая инициализацию, но исключая сборку и экспорт.
+Оба времени делятся на восемь завершённых шагов; эта нормировка не устраняет различие границ таймеров.
+Сопроводительный файл
+\path{artifacts/SCALAR_COHORTS.md} связывает каждую серию с сырыми логами
+и записями результатов; серии сохраняются раздельно.
 
 Эти скалярные отношения используют один идентичный контракт скалярной модели и
 не сравниваются с более быстрой строкой Pilgrim QSearcher. 24-выходная модель
@@ -912,6 +930,7 @@ $2{,}900{,}361{,}216$ состояний и измеряет одну завер
 заявленным контрактом точности при масштабе удерживаемого frontier в миллиарды
 состояний.
 
+\clearpage
 \begingroup
 \small
 \bibliographystyle{abbrv}

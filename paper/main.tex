@@ -3,6 +3,12 @@
 \documentclass[10pt,twocolumn]{article}
 \usepackage[margin=0.72in]{geometry}
 \usepackage{amsmath,amssymb,booktabs,graphicx,microtype,url}
+\usepackage{array,tabularx}
+\renewcommand{\dbltopfraction}{0.9}
+\renewcommand{\textfraction}{0.08}
+\setcounter{dbltopnumber}{3}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,positioning,fit}
 \usepackage[hidelinks]{hyperref}
@@ -16,6 +22,7 @@
 \newcommand{\cand}{\mathcal{C}}
 
 \begin{document}
+\raggedbottom
 \maketitle
 
 \begin{abstract}
@@ -130,7 +137,7 @@ local survivor quota: all ranks contribute to one global score cut.
  node distance=0.3cm]
 \node[box] (front) {$\frontier_{d-1}$\\one logical beam};
 \node[box,right=of front] (batch) {GPU 0, 1, 2, $\ldots$\\local parent batches};
-\node[box,right=of batch] (route) {compact records\\owner $o(z)$};
+\node[box,right=of batch] (route) {compact records\\route by key $z$};
 \node[box,right=of route] (reduce) {owner reduction\\global threshold $T^*$};
 \node[box,right=of reduce] (next) {$\frontier_d$\\distributed next beam};
 \draw[->] (front) -- (batch);
@@ -344,8 +351,9 @@ $s^*(z)=\min_{c:z(c)=z}s(c)$ and the associated best payload.  For fixed layout
 $L$, rank keys by $\kappa_L(z)=(s^*(z),\tau_L(z))$, where smaller score is
 better and $\tau_L$ is the implementation's deterministic
 rank-then-physical-order rule for equal scores.  A classical reference
-materializes $U$, sorts it by $\kappa_L$, and returns, for
-$b=\min(\beam,|U|)$,
+materializes $U$ and sorts it by $\kappa_L$.
+For $U=\varnothing$, define $\operatorname{Top}_{\beam}(U)=\varnothing$.
+For $b=\min(\beam,|U|)>0$, the reference returns
 \begin{equation}
  \operatorname{Top}_{\beam}(U)=
  \{z\in U:\kappa_L(z)\leq \kappa_{L,(b)}(U)\}.
@@ -539,7 +547,8 @@ Length & --- & 252 & 202 & 194 & 190 \\
 
 We additionally measured Pilgrim and our search implementation on the same
 Cube4 state, checkpoint, single GPU, beam, and ten layers.  The scorer is a
-3,383,064-parameter piece Transformer with 96 six-class positions,
+3,383,064-parameter piece Transformer with 96 six-class positions encoded as
+56 piece tokens plus CLS,
 $d_{\rm model}=256$, four layers, eight heads, feed-forward width 1024, and 24
 Q outputs; inference uses FP16 and microbatches of 384.  Table~\ref{tab:cube4_pair}
 reports the tenth layer, where every saturated frontier expands $24B$ pairs.
@@ -548,20 +557,19 @@ reports the tenth layer, where every saturated frontier expands $24B$ pairs.
 \centering
 \small
 \setlength{\tabcolsep}{2pt}
-\caption{Matched Cube4 depth-10 computation at $B=4{,}194{,}304$.}
+\caption{Matched Cube4 depth-10 computation at $B=4{,}194{,}304$.
+Wall is the tenth-layer time; res./used denote allocator reservation/device usage.}
 \label{tab:cube4_pair}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}llrrr@{}}
 \toprule
-GPU & Implementation & s/depth (depth 10) & Pairs/s & Peak VRAM \\
+GPU & Solver & Wall (s) & Pairs/s & Peak VRAM \\
 \midrule
-T4 & Pilgrim & 198.153 & 508,007 & 2.90 GiB reserved \\
+T4 & Pilgrim & 198.153 & 508,007 & 2.90 GiB res. \\
 T4 & Ours & 181.282 & 555,293 & 1,949 MiB used \\
-P100 & Pilgrim & 314.487 & 320,087 & 2.90 GiB reserved \\
+P100 & Pilgrim & 314.487 & 320,087 & 2.90 GiB res. \\
 P100 & Ours & 301.955 & 333,378 & 1,949 MiB used \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \subsection{Native approach inventory and matched model families on one T4}
@@ -583,8 +591,8 @@ it is never replaced by $B/t$.
 \caption{Exact neural architectures used by the reported tests. Parameter
 counts refer to the trainable source model before batch-normalization folding.}
 \label{tab:model_architectures}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lrlp{10.8cm}@{}}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}L{2.6cm}rL{2.8cm}Y@{}}
 \toprule
 Model family & Parameters & Used by & Ordered block sequence \\
 \midrule
@@ -592,10 +600,9 @@ Cube3 AlphaCube 0.1.6 \texttt{large} & 118,939,666 & AlphaCube & one-hot 324 $\t
 Cube3 DeepCubeA official \texttt{cube3} & 14,663,001 & DeepCubeA & one-hot 324 $\to$ Linear 5000, BN, ReLU $\to$ Linear 1000, BN, ReLU $\to$ $4\times$[Linear 1000, BN, ReLU, Linear 1000, BN, residual add, ReLU] $\to$ Linear 1 \\
 Megaminx scalar MLP & 34,766,849 & Pilgrim Searcher; CayleyPy; MultiGPU & position--class $120\times120$ $\to$ EmbeddingBag-equivalent Linear 2048, BN, ReLU $\to$ Linear 512, BN, ReLU $\to$ $8\times$[Linear 512, BN, ReLU, Linear 512, BN, residual add, ReLU] $\to$ Linear 1 \\
 Megaminx QMLP2RB & 23,978,008 & Pilgrim QSearcher; MultiGPU & position--class $120\times120$ $\to$ EmbeddingBag-equivalent Linear 1536, BN, ReLU $\to$ Linear 512, BN, ReLU $\to$ $2\times$[Linear 512, BN, ReLU, Linear 512, BN, residual add, ReLU] $\to$ Linear 24 \\
-Cube4 Q Transformer & 3,383,064 & matched Cube4 only & 96 tokens / 6 classes $\to$ projection + CLS $\to$ $4\times$[pre-LN, 8-head attention ($d=256$), residual, pre-LN, FFN 256--1024--256 ReLU, residual] $\to$ LN $\to$ Linear 24 \\
+Cube4 Q Transformer & 3,383,064 & matched Cube4; $8\times$H200 & 96 six-class state positions $\to$ 56 piece-local embeddings and projections + position/type embeddings $\to$ CLS (57 tokens), input LN $\to$ $4\times$[pre-LN, 8-head attention ($d=256$), residual, pre-LN, FFN 256--1024--256 ReLU, residual] $\to$ CLS pooling, LN $\to$ Linear 24 \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabularx}
 \end{table*}
 
 For the matched Megaminx rows, all listed implementations load the same bytes:
@@ -609,23 +616,24 @@ comparison and is never mixed into the Megaminx capacity sweep.
 \small
 \setlength{\tabcolsep}{3pt}
 \caption{Native search inventory on one visible T4. Rows with different model
-contracts are not performance comparisons; ``Max complete'' is measured.}
+contracts are not performance comparisons; ``Max complete'' is measured.
+Step means a beam depth, except for DeepCubeA (an A* iteration).
+A dash in Nodes/s means not measured. MultiGPU denotes MultiGPUBeamSearch.}
 \label{tab:four_t4}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{@{}lllrrrl@{}}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\textwidth}{@{}L{2.45cm}L{2.45cm}rrrrY@{}}
 \toprule
-Approach & Workload / native scale & Max complete & Wall (s) & s/native step & Nodes/s & Boundary/status \\
+Approach & Workload & Max complete & Wall (s) & s/step & Nodes/s & Boundary/status \\
 \midrule
-AlphaCube 0.1.6 & Cube3 \texttt{large}, beam & 1,572,864 & 461.488 & 27.146/depth & 42,387 & 1,703,936 host SIGKILL \\
-DeepCubeA & Cube3 A*, 55 iterations & n/a & 146.474 & 2.663/iteration & 41,880 & complete, length 21 \\
-Pilgrim Searcher & Megaminx scalar beam, depth 8 & 5,898,240 & 1,462.557 & 182.820/depth & not measured & 6,291,456 OOM \\
-Pilgrim QSearcher & Megaminx output-24 beam, depth 8 & 20,971,520 & 197.358 & 24.670/depth & not measured & 23,068,672 OOM \\
-native CayleyPy & Megaminx scalar beam, depth 8 & 20,971,520 & 4,258.602 & 532.325/depth & not measured & broad: $2^{24}$ complete, $2^{25}$ OOM \\
-MultiGPUBeamSearch & Megaminx scalar beam, depth 8 & 29,360,128 & 2,817.158 & 352.145/depth & not measured & 31,457,280 OOM \\
-MultiGPUBeamSearch & Megaminx output-24 beam, depth 8 & 29,360,128 & 116.904 & 14.613/depth & not measured & 33,554,432 OOM \\
+AlphaCube 0.1.6 & Cube3 \texttt{large}, beam & 1,572,864 & 461.488 & 27.146 & 42,387 & 1,703,936 host SIGKILL \\
+DeepCubeA & Cube3 A*, 55 iterations & n/a & 146.474 & 2.663 & 41,880 & complete, length 21 \\
+Pilgrim Searcher & Megaminx scalar beam, depth 8 & 5,898,240 & 1,462.557 & 182.820 & --- & 6,291,456 OOM \\
+Pilgrim QSearcher & Megaminx output-24 beam, depth 8 & 20,971,520 & 197.358 & 24.670 & --- & 23,068,672 OOM \\
+native CayleyPy & Megaminx scalar beam, depth 8 & 20,971,520 & 4,258.602 & 532.325 & --- & broad: $2^{24}$ complete, $2^{25}$ OOM \\
+MultiGPU & Megaminx scalar beam, depth 8 & 29,360,128 & 2,817.158 & 352.145 & --- & 31,457,280 OOM \\
+MultiGPU & Megaminx output-24 beam, depth 8 & 29,360,128 & 116.904 & 14.613 & --- & 33,554,432 OOM \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabularx}
 \end{table*}
 
 \begin{table}[t]
@@ -685,18 +693,17 @@ $B$ & Wall (s) & s/depth & Allocated (MiB) & Reserved (MiB) & Status \\
 
 For AlphaCube, s/depth is solver wall divided by the completed search depth
 reported by the returned solution (20 for the first three rows and 17 for the
-remaining rows).  For both Megaminx implementations it is wall divided by the
-fixed eight completed depths.  These averages include startup and early
-unsaturated layers; they complement, rather than replace, nodes/s.
+remaining rows). For completed depth-8 Megaminx runs, the primary metric is
+clean search wall divided by eight completed native steps. It averages early
+unsaturated and later saturated depths; it is not the final-depth time.
 
 Pilgrim's widest scalar completion, $B=5{,}898{,}240$, took 1,462.557 s
 (182.820 s/depth) with a 14,433 MiB device peak; $B=6{,}291{,}456$ CUDA-OOMed.
 For output-24, $B=20{,}971{,}520$ completed in 197.358 s
 (24.670 s/depth) at 12,333 MiB, whereas $B=23{,}068{,}672$ CUDA-OOMed. The
-measured brackets are therefore 5,898,240--6,291,456 and
-20,971,520--23,068,672, respectively.
+brackets are observed complete/OOM pairs, not exact capacity maxima.
 
-The final collaborator-run MultiGPU pass and scalar-only v27 confirmation now
+The final MultiGPU run and scalar-only v27 confirmation now
 give measured complete/OOM pairs for both heads. Scalar completed at
 29,360,128 and CUDA-OOMed at 31,457,280; native output-24 completed through
 29,360,128 and CUDA-OOMed at 33,554,432.
@@ -704,20 +711,20 @@ give measured complete/OOM pairs for both heads. Scalar completed at
 \begin{table}[t]
 \centering
 \small
-\caption{Final MultiGPU 1xT4 scalar boundary points.}
+\setlength{\tabcolsep}{2pt}
+\caption{Final MultiGPU 1xT4 scalar boundary cohort (C2).
+Peak is device-used MiB; C: complete, OOM: CUDA OOM.}
 \label{tab:multigpu_v11_partial}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}rrrrl@{}}
 \toprule
-$B$ & Wall (s) & s/depth & Peak device (MiB) & Status \\
+$B$ & Wall (s) & s/step & Peak & Status \\
 \midrule
-25,165,824 & 3,027.673 & 378.459 & 12,267 & complete \\
-27,262,976 & 3,080.206 & 385.026 & 13,241 & complete \\
-29,360,128 & 2,817.158 & 352.145 & 14,215 & complete \\
-31,457,280 & --- & --- & 14,909 & CUDA OOM \\
+25,165,824 & 3,027.673 & 378.459 & 12,267 & C \\
+27,262,976 & 3,080.206 & 385.026 & 13,241 & C \\
+29,360,128 & 2,817.158 & 352.145 & 14,215 & C \\
+31,457,280 & --- & --- & 14,909 & OOM \\
 \bottomrule
 \end{tabular}
-}
 \end{table}
 
 The scalar OOM recurred for every row-budget profile from 49,152 through 24.
@@ -727,24 +734,24 @@ the auxiliary final-depth time was 1,644.13 s.
 \begin{table}[t]
 \centering
 \small
-\caption{Final MultiGPU 1xT4 native output-24 sweep.}
+\setlength{\tabcolsep}{2pt}
+\caption{Final MultiGPU 1xT4 native output-24 sweep.
+Peak is device-used MiB; C: complete, OOM: CUDA OOM.}
 \label{tab:multigpu_output24}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{@{}rrrrl@{}}
 \toprule
-$B$ & Wall (s) & s/depth & Peak device (MiB) & Status \\
+$B$ & Wall (s) & s/step & Peak & Status \\
 \midrule
-1,048,576 & 8.296 & 1.037 & 773 & complete \\
-4,194,304 & 22.735 & 2.842 & 2,253 & complete \\
-8,388,608 & 41.091 & 5.136 & 4,159 & complete \\
-16,777,216 & 77.460 & 9.683 & 7,983 & complete \\
-20,971,520 & 96.124 & 12.015 & 9,893 & complete \\
-25,165,824 & 111.130 & 13.891 & 11,799 & complete \\
-29,360,128 & 116.904 & 14.613 & 13,717 & complete \\
-33,554,432 & 1.563 & --- & 14,909 & CUDA OOM \\
+1,048,576 & 8.296 & 1.037 & 773 & C \\
+4,194,304 & 22.735 & 2.842 & 2,253 & C \\
+8,388,608 & 41.091 & 5.136 & 4,159 & C \\
+16,777,216 & 77.460 & 9.683 & 7,983 & C \\
+20,971,520 & 96.124 & 12.015 & 9,893 & C \\
+25,165,824 & 111.130 & 13.891 & 11,799 & C \\
+29,360,128 & 116.904 & 14.613 & 13,717 & C \\
+33,554,432 & 1.563 & --- & 14,909 & OOM \\
 \bottomrule
 \end{tabular}
-}
 \end{table}
 
 The output-24 OOM recurred while the runtime descended its row-budget profiles
@@ -753,16 +760,17 @@ depth time.
 
 \begin{table}[t]
 \centering
-\scriptsize
-\setlength{\tabcolsep}{3pt}
-\caption{Matched 1xT4 Megaminx scalar sweep. Neither implementation exposes a
-valid node counter for these points.}
+\small
+\setlength{\tabcolsep}{2pt}
+\caption{Matched 1xT4 Megaminx scalar comparison cohort (C1), separate from the
+final boundary runs. Neither implementation exposes a valid node counter for
+these points.}
 \label{tab:megaminx_curve}
 \begin{tabular}{@{}rrrrr@{}}
 \toprule
 & \multicolumn{2}{c}{MultiGPU} & \multicolumn{2}{c}{CayleyPy} \\
 \cmidrule(lr){2-3}\cmidrule(l){4-5}
-$B$ & Wall (s) & s/depth & Wall (s) & s/depth \\
+$B$ & Wall (s) & s/step & Wall (s) & s/step \\
 \midrule
 65,536     & 12.537    & 1.567   & 31.399    & 3.925 \\
 262,144    & 39.935    & 4.992   & 114.551   & 14.319 \\
@@ -780,7 +788,8 @@ AlphaCube materializes all $18B$ Cube3 children in host NumPy arrays before
 sorting; consequently its first failure is a host-memory kill even though GPU
 reservation is only 4.685~GiB.  Its measured rate settles near 40--44 thousand
 nodes/s at the widest completed points.  DeepCubeA has no persistent beam: it
-is weighted A* and its native scale is search/NN batch 10,000/10,000, so
+is weighted A* with weight $0.6$ and its native scale is search/NN batch
+10,000/10,000, so
 inventing a frontier maximum for it would be incorrect.  Its completed T4 run
 performed 55 search iterations in 146.474 s, or 2.663 s per native A* iteration;
 this is not a beam-depth measurement.  The same run expanded 6,134,352 nodes
@@ -794,16 +803,21 @@ scheduled. Earlier targeted evidence with the same contract retains the finer
 20,971,520-complete versus 21,037,056-OOM bracket, but is not presented as part
 of the broad-grid policy. Its internal expansion path
 bypassed the public counter hook, so only wall time and memory are valid.  The
-MultiGPU likewise retained end-to-end wall but no valid node counter. The
-final scalar pass measured 29,360,128 complete at 14,215 MiB versus
-31,457,280 CUDA OOM at 14,909 MiB. The matched output-24 pass measured
-29,360,128 complete versus 33,554,432 CUDA OOM. Superseded static
+MultiGPU likewise retained end-to-end wall but no valid node counter. Superseded static
 profile failures and the cancelled v10/v11 runs remain excluded.
 At the latest broad-grid matched width, CayleyPy took 4,741.581 s and the
 historical MultiGPU run took 1,728.460 s at $B=16{,}777{,}216$ (2.74x lower).
 At the older targeted $B=20{,}971{,}520$ point, MultiGPU wall is 1.95x lower.
 These are matched
 end-to-end wall ratios, not inferred node-throughput ratios.
+
+Cohort C1 uses the historical MultiGPU comparison run; C2 uses the later
+boundary runs. At $B=25{,}165{,}824$, their reported wall times are respectively
+2,416.150 and 3,027.673 s. C1 uses the solver's internal timer; C2 times the
+executable, including initialization but excluding build and export. Both are
+divided by eight completed steps; this normalization does not remove the timer-scope difference.
+The companion \path{artifacts/SCALAR_COHORTS.md}
+maps each series to its raw logs and result records; the series are kept separate.
 
 The scalar ratios above use one identical scalar model contract and must not be
 compared with the faster Pilgrim QSearcher row. The 24-output model evaluates
@@ -873,9 +887,9 @@ high-throughput multi-GPU beam-search system with one physically sharded global
 frontier and the stated exactness contract at billion-state retained-frontier
 scale.
 
+\clearpage
 \begingroup
 \footnotesize
-\enlargethispage{4\baselineskip}
 \bibliographystyle{abbrv}
 \bibliography{references}
 \endgroup

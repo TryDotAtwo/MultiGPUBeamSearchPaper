@@ -34,11 +34,11 @@ and verify:
 |---|---|---:|---|
 | `weights_megaminx2048_512_8_e4000.pth` | 120×120 position-class input → 2048 → 512 → 8 residual blocks of 512→512 → scalar | 34,766,849 | `7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759` |
 | `p900-t000-q-sym_1777988767_best.pth` | 120×120 position-class input → 1536 → 512 → 2 residual blocks of 512→512 → 24 outputs | 23,978,008 | `e7bda332b53acc9363edd8ec682a211c1a8b8a315ec26ff8e8928efa5d2ca670` |
-| `cube4_piece_transformer_24out.pth` | 96 tokens / 6 classes → projection + CLS → 4×[pre-LN, 8-head attention, residual, pre-LN, 256→1024→256 ReLU FFN, residual] → LN → 24 outputs | 3,383,064 | `58af301a4f2b77d503b6e12d450589c64c076624d3e1ff291128c23663ad3164` |
+| `cube4_piece_transformer_24out.pth` | 96 six-class state positions → 56 piece embeddings/projections + position/type embeddings → CLS (57 tokens) → input LN → 4×[pre-LN, 8-head attention (width 256), residual, pre-LN, 256→1024→256 ReLU FFN, residual] → CLS pooling → output LN → Linear(256,24) | 3,383,064 | `58af301a4f2b77d503b6e12d450589c64c076624d3e1ff291128c23663ad3164` |
 
 Both members of each matched comparison use the same byte-identical
 checkpoint. Scalar and output-24 rows are separate model contracts. The Cube4
-checkpoint is used only by the matched Cube4 Pilgrim/MultiGPU comparison.
+checkpoint is used by the matched Cube4 Pilgrim/MultiGPU comparison. The 8×H200 run uses the same model architecture; its exported-weight identity is recorded separately in the H200 evidence, not inferred from this checkpoint-file SHA.
 
 ## Native CUDA implementation
 

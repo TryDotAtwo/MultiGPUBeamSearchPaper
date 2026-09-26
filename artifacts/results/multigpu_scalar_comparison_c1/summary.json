@@ -1,0 +1,263 @@
+{
+  "hardware": {
+    "gpu_visible": "Tesla T4, 15360, 580.159.04",
+    "physical_gpu_rows": [
+      "Tesla T4, 15360, 580.159.04",
+      "Tesla T4, 15360, 580.159.04"
+    ],
+    "cuda_visible_devices": "0",
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "platform": "Linux-6.12.90+-x86_64-with-glibc2.35",
+    "bundle_manifest": {
+      "manifest_version": 1,
+      "move_count": 24,
+      "output_dims": [
+        1,
+        24
+      ],
+      "fixed_state": "pilgrim_runtime/paper_state.pt",
+      "checkpoints": {
+        "1": {
+          "model_glob": "**/weights_megaminx2048_512_8_e4000.pth",
+          "sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+          "architecture": "Pilgrim MLP hd1=2048 hd2=512 nrd=8 scalar head",
+          "output_dim": 1,
+          "training_run_id": "megaminx2048-512-8-e4000",
+          "native_head": true
+        },
+        "24": {
+          "model_glob": "**/p900-t000-q-sym_1777988767_best.pth",
+          "sha256": "e7bda332b53acc9363edd8ec682a211c1a8b8a315ec26ff8e8928efa5d2ca670",
+          "architecture": "Pilgrim QMLP2RB hd1=1536 hd2=512 nrd=2 24-action head",
+          "output_dim": 24,
+          "training_run_id": "p900-t000-q-sym-1777988767",
+          "native_head": true
+        }
+      },
+      "sha256": {
+        "pilgrim_runtime/model_output1.json": "d1c7cc6f7fea72fa5a277b50d6842c340a9111f84fa4722702857fed5fdedc56",
+        "pilgrim_runtime/model_output24.json": "c2b83d65855c095ec84505ce97cfadb904ad8d23ca586cc343123b8e614ab3ad",
+        "pilgrim_runtime/paper_state.pt": "8cbf1d728c44ca820a59990e768da78fc5ebcb6f3105a0d822c3808bfda6cc75",
+        "pilgrim_runtime/test.py": "c7f808e9b2ca53d5a7e34d29cfb497ba98dabf387dcb55b180a17c0537892ef3",
+        "pilgrim_runtime/generators/p900.json": "3e38e75ee4f3387c33917393068b2fadf7959b3490f86d6e924f266960f45dbd",
+        "pilgrim_runtime/pilgrim/best_first.py": "515ecde8a0da52d53d6ab4c27bc55581a2ddd6b61400be3684268a857388ea32",
+        "pilgrim_runtime/pilgrim/factory.py": "e10ea69d990e7b525de40de01121f1a8c728c4ab371512fa9dfcb5af49406797",
+        "pilgrim_runtime/pilgrim/model.py": "9375dd52c31686d5b4f3e27d189403d8243537dd4599a07b0e126701c637b674",
+        "pilgrim_runtime/pilgrim/parallel.py": "ffd7019ab0106d469dbf8ee14947a00b93a28a16f73522d068d434cd709a6ebb",
+        "pilgrim_runtime/pilgrim/qsearcher.py": "f8431a14d9a241a3791ad315796096ab4a112eead7236ccf3210025f507efeb1",
+        "pilgrim_runtime/pilgrim/searcher.py": "87167785c8b7d522b8a8b062649f9292e859fb095308caffa6ce4d2ccc314525",
+        "pilgrim_runtime/pilgrim/trainer.py": "e7690652157d61ad58a7e1666c630d32e4e636dc0968535bb50fa419aa0b7310",
+        "pilgrim_runtime/pilgrim/utils.py": "799d05c2cff63db97feaca474c3baa0ddf914fea8db428dc7340ef14fd293a02",
+        "pilgrim_runtime/pilgrim/__init__.py": "67eaf966d39d2030999f7930c43f6c8ef2867741916b510fe26f191f3fbc677e",
+        "pilgrim_runtime/targets/p900-t000.pt": "1781d00c063e7acd98be2f0a26600b7030cb18001bc5467f8a37dd87bacdb2a1",
+        "pilgrim_runtime/unified_training/config.py": "45018af80ec4c6705259f644ba47f7f99d5c273eca8995c557d614800edc074b",
+        "pilgrim_runtime/unified_training/cube4.py": "2ca43f8ff683e302d9792037124bb425c93337c5994fe0999b21ac179017ec1e",
+        "pilgrim_runtime/unified_training/models.py": "5824ae0a5af3922e2512ff87f19d8e6a9d21a619e215ccdb3bd5882e068d3328",
+        "pilgrim_runtime/unified_training/problem.py": "d2903fed5a9adaaa54d17d7a58fa50808399c1b4d2409819ce26dc5f60ba5be4",
+        "pilgrim_runtime/unified_training/__init__.py": "949854eae35dbc05e557e4e0e2c7450d8009ef9b26754fd200adb8a5491143be",
+        "workers/multigpu_beam_search.py": "1661e8fb7d74b04ec487429e0ed477169e9e7a2e60ea37fadc50dce01bbdc58e",
+        "workers/pilgrim.py": "df1c66f7a76d2ef42953b93c201af11b9339fedf528c936abfb2b24f7bbe67b4"
+      }
+    }
+  },
+  "series": [
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "max_tested_complete": 25165824,
+      "first_failure": 29360128,
+      "first_reproducible_failure": 29360128,
+      "rows": 10
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 24,
+      "max_tested_complete": null,
+      "first_failure": 65536,
+      "first_reproducible_failure": 65536,
+      "rows": 2
+    }
+  ],
+  "rows": [
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 65536,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 158.04793548583984,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam65536_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 262144,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 41.010359048843384,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam262144_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 1048576,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 153.921142578125,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam1048576_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 4194304,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 478.0002386569977,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam4194304_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 8388608,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 895.9619338512421,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam8388608_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 16777216,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 1733.6022562980652,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam16777216_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 20971520,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 2186.1136758327484,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam20971520_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 25165824,
+      "attempt": 1,
+      "status": "completed",
+      "returncode": 0,
+      "orchestrator_wall_s": 2423.368221759796,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam25165824_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 29360128,
+      "attempt": 1,
+      "status": "cuda_oom",
+      "returncode": -6,
+      "orchestrator_wall_s": 2.605724334716797,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam29360128_attempt1/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 1,
+      "beam_width": 29360128,
+      "attempt": 2,
+      "status": "cuda_oom",
+      "returncode": -6,
+      "orchestrator_wall_s": 2.5484611988067627,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out1_beam29360128_attempt2/combined.log",
+      "checkpoint_sha256": "7f5071e6155c4eb7718539bf990a4234404f06c2979307d8e3cdcd37a539b759",
+      "observed_output_dim": 1,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 24,
+      "beam_width": 65536,
+      "attempt": 1,
+      "status": "process_exit",
+      "returncode": -6,
+      "orchestrator_wall_s": 3.588397979736328,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out24_beam65536_attempt1/combined.log",
+      "checkpoint_sha256": "e7bda332b53acc9363edd8ec682a211c1a8b8a315ec26ff8e8928efa5d2ca670",
+      "observed_output_dim": 24,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    },
+    {
+      "method": "multigpu_beam_search",
+      "output_dim": 24,
+      "beam_width": 65536,
+      "attempt": 2,
+      "status": "process_exit",
+      "returncode": -6,
+      "orchestrator_wall_s": 0.9338541030883789,
+      "log_path": "/kaggle/working/paper_paired_sweep/multigpu_beam_search_out24_beam65536_attempt2/combined.log",
+      "checkpoint_sha256": "e7bda332b53acc9363edd8ec682a211c1a8b8a315ec26ff8e8928efa5d2ca670",
+      "observed_output_dim": 24,
+      "move_count": 24,
+      "implementation": "MultiGPUBeamSearch WORLD_SIZE=1",
+      "commit": "a1db0e6d9bb5458c8a842b37dfa99572d3025667"
+    }
+  ]
+}

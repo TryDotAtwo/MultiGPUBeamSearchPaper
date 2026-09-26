@@ -1,0 +1,11 @@
+stream1_mode=model
+stream1_executor=native_cuda_graph
+runtime_ring_count=897
+runtime_ring_slot_count=8
+runtime_ring_slot_physical_jobs=7176
+runtime_ring_graph_execs_per_lane_requested=
+runtime_ring_graph_debug_sync=
+stream1_backend=mlp
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  cudaGraphInstantiate: out of memory
+

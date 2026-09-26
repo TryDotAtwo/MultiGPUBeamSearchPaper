@@ -1,0 +1,280 @@
+Cloning into '/tmp/paper_multigpu_repo'...
+From https://github.com/TryDotAtwo/MultiGPUBeamSearch
+ * branch            a1db0e6d9bb5458c8a842b37dfa99572d3025667 -> FETCH_HEAD
+HEAD is now at a1db0e6 Unify 2xT4 final materialization chunks
+Cloning into '/tmp/cutlass'...
+stream1_export_done out_dir=/tmp/paper_stream1_weights_out1 hd1=2048 hd2=512 original_hd1=2048 original_hd2=512 nrd=8 output_dim=1
+-- Beam state logical bytes: 120
+-- Beam state physical bytes: 128
+-- Beam state alignment: 16
+-- Beam move count: 24
+-- The CXX compiler identification is GNU 11.4.0
+-- The CUDA compiler identification is NVIDIA 12.8.93 with host compiler GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Check for working CUDA compiler: /usr/local/cuda/bin/nvcc - skipped
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Configuring done (3.5s)
+-- Generating done (0.1s)
+-- Build files have been written to: /tmp/paper_build_sm75
+[1/23] Building CXX object CMakeFiles/beam_core.dir/src/state.cpp.o
+[2/23] Building CXX object CMakeFiles/beam_core.dir/src/config.cpp.o
+[3/23] Building CXX object CMakeFiles/beam_core.dir/src/history.cpp.o
+[4/23] Building CXX object CMakeFiles/beam_core.dir/src/hash.cpp.o
+[5/23] Building CXX object CMakeFiles/beam_core.dir/src/stream4.cpp.o
+In file included from /usr/include/c++/11/bits/stl_algo.h:61,
+                 from /usr/include/c++/11/vector:62,
+                 from /tmp/paper_multigpu_repo/src/stream4.hpp:5,
+                 from /tmp/paper_multigpu_repo/src/stream4.cpp:1:
+/usr/include/c++/11/bits/stl_heap.h: In function ‘constexpr void std::__adjust_heap(_RandomAccessIterator, _Distance, _Distance, _Tp, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<beam::CandidateMeta*, std::vector<beam::CandidateMeta> >; _Distance = long int; _Tp = beam::CandidateMeta; _Compare = __gnu_cxx::__ops::_Iter_comp_iter<beam::stream4_threshold_sort_dedup(const std::vector<beam::CandidateMeta>&, uint32_t)::<lambda(const beam::CandidateMeta&, const beam::CandidateMeta&)> >]’:
+/usr/include/c++/11/bits/stl_heap.h:223:5: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6
+  223 |     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,
+      |     ^~~~~~~~~~~~~
+[6/23] Building CXX object CMakeFiles/beam_core.dir/src/stream3.cpp.o
+[7/23] Building CXX object CMakeFiles/beam_core.dir/src/frontier_cpu.cpp.o
+In file included from /usr/include/c++/11/bits/stl_algo.h:61,
+                 from /usr/include/c++/11/vector:62,
+                 from /tmp/paper_multigpu_repo/src/state.hpp:5,
+                 from /tmp/paper_multigpu_repo/src/frontier_cpu.hpp:4,
+                 from /tmp/paper_multigpu_repo/src/frontier_cpu.cpp:1:
+/usr/include/c++/11/bits/stl_heap.h: In function ‘constexpr void std::__adjust_heap(_RandomAccessIterator, _Distance, _Distance, _Tp, _Compare) [with _RandomAccessIterator = __gnu_cxx::__normal_iterator<beam::CandidateMeta*, std::vector<beam::CandidateMeta> >; _Distance = long int; _Tp = beam::CandidateMeta; _Compare = __gnu_cxx::__ops::_Iter_comp_iter<beam::expand_depth_cpu_reference(const std::vector<beam::StatePacked>&, const std::vector<std::array<unsigned char, 128> >&, const State128&, const ZobristTable&, uint32_t, uint64_t)::<lambda(const beam::CandidateMeta&, const beam::CandidateMeta&)> >]’:
+/usr/include/c++/11/bits/stl_heap.h:223:5: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6
+  223 |     __adjust_heap(_RandomAccessIterator __first, _Distance __holeIndex,
+      |     ^~~~~~~~~~~~~
+[8/23] Linking CXX static library libbeam_core.a
+[9/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1.cu.o
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+         ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                                  ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+         ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                                  ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(221): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+      pad_d(std::get<0>(padding)[0]), stride_d(stride[0]), dilation_d(dilation[0])
+            ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(224): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        Z = ((D + pad_d + std::get<1>(padding)[0] - T * dilation_d) / stride_d) + 1;
+                          ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                    ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                                             ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                    ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                                             ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(221): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+      pad_d(std::get<0>(padding)[0]), stride_d(stride[0]), dilation_d(dilation[0])
+                       ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(224): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        Z = ((D + pad_d + std::get<1>(padding)[0] - T * dilation_d) / stride_d) + 1;
+                                     ^
+
+[10/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1_transformer_fmha.cu.o
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+         ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                                  ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+         ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                                  ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(221): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+      pad_d(std::get<0>(padding)[0]), stride_d(stride[0]), dilation_d(dilation[0])
+            ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(224): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        Z = ((D + pad_d + std::get<1>(padding)[0] - T * dilation_d) / stride_d) + 1;
+                          ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                    ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                                             ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                    ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                                             ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(221): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+      pad_d(std::get<0>(padding)[0]), stride_d(stride[0]), dilation_d(dilation[0])
+                       ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(224): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        Z = ((D + pad_d + std::get<1>(padding)[0] - T * dilation_d) / stride_d) + 1;
+                                     ^
+
+[11/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream2.cu.o
+[12/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream3.cu.o
+/tmp/paper_multigpu_repo/cuda/stream3.cu(129): warning #177-D: function "beam::<unnamed>::stream3_debug_store_count_kernel" was declared but never referenced
+  __attribute__((global)) void stream3_debug_store_count_kernel(
+                               ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+[13/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream1_transformer.cu.o
+/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __device__ annotation is ignored on a function("StaticPersistentTileScheduler100") that is explicitly defaulted on its first declaration
+    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))
+                                                             ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __host__ annotation is ignored on a function("StaticPersistentTileScheduler100") that is explicitly defaulted on its first declaration
+    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))
+                                                                                     ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+         ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                                  ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+         ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                                  ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(221): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+      pad_d(std::get<0>(padding)[0]), stride_d(stride[0]), dilation_d(dilation[0])
+            ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(224): warning #20013-D: calling a constexpr __host__ function("get") from a __host__ __device__ function("Conv3dProblemSize") is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        Z = ((D + pad_d + std::get<1>(padding)[0] - T * dilation_d) / stride_d) + 1;
+                          ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                    ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(215): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        {std::get<0>(padding)[1], std::get<1>(padding)[1],
+                                             ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                    ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(216): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+         std::get<0>(padding)[2], std::get<1>(padding)[2]},
+                                             ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(221): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+      pad_d(std::get<0>(padding)[0]), stride_d(stride[0]), dilation_d(dilation[0])
+                       ^
+
+/tmp/cutlass/include/cutlass/conv/conv3d_problem_size.h(224): warning #20015-D: calling a constexpr __host__ function from a __host__ __device__ function is not allowed. The experimental flag '--expt-relaxed-constexpr' can be used to allow this.
+        Z = ((D + pad_d + std::get<1>(padding)[0] - T * dilation_d) / stride_d) + 1;
+                                     ^
+
+/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __device__ annotation is ignored on a function("StaticPersistentTileScheduler100") that is explicitly defaulted on its first declaration
+    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))
+                                                             ^
+
+/tmp/cutlass/include/cutlass/gemm/kernel/sm100_static_tile_scheduler.hpp(53): warning #20012-D: __host__ annotation is ignored on a function("StaticPersistentTileScheduler100") that is explicitly defaulted on its first declaration
+    __inline__ __attribute__((always_inline)) __attribute__((device)) __attribute__((host))
+                                                                                     ^
+
+[14/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream5.cu.o
+[15/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/threshold.cu.o
+[16/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/stream4.cu.o
+[17/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/final_materialize.cu.o
+[18/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/dispatcher.cu.o
+[19/23] Building CXX object CMakeFiles/beam_cuda.dir/cuda/runtime_config.cpp.o
+[20/23] Building CUDA object CMakeFiles/production_runner.dir/tools/production_runner.cu.o
+/tmp/paper_multigpu_repo/tools/production_runner.cu(4576): warning #177-D: variable "tracked_solution" was declared but never referenced
+      TrackedSolutionPrefix tracked_solution;
+                            ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+/tmp/paper_multigpu_repo/tools/production_runner.cu(1389): warning #177-D: function "<unnamed>::build_solved_neighborhood_runtime" was declared but never referenced
+  SolvedNeighborhoodRuntime build_solved_neighborhood_runtime(
+                            ^
+
+/tmp/paper_multigpu_repo/tools/production_runner.cu(1432): warning #177-D: function "<unnamed>::RepairSolvedNeighborhoodPrefetch::enabled" was declared but never referenced
+      bool enabled() const {
+           ^
+
+/tmp/paper_multigpu_repo/tools/production_runner.cu(1688): warning #177-D: function "<unnamed>::track_location_name" was declared but never referenced
+  const char* track_location_name(std::uint32_t location) {
+              ^
+
+/tmp/paper_multigpu_repo/tools/production_runner.cu(1705): warning #177-D: function "<unnamed>::track_stream4_phase_name" was declared but never referenced
+  const char* track_stream4_phase_name(std::uint32_t phase) {
+              ^
+
+/tmp/paper_multigpu_repo/tools/production_runner.cu(4082): warning #177-D: function "<unnamed>::NcclRuntime::operator=(<unnamed>::NcclRuntime &&) noexcept" was declared but never referenced
+      NcclRuntime& operator=(NcclRuntime&& other) noexcept {
+                   ^
+
+[21/23] Building CUDA object CMakeFiles/beam_cuda.dir/cuda/static_memory.cu.o
+[22/23] Linking CXX static library libbeam_cuda.a
+[23/23] Linking CXX executable production_runner
+PROFILE_ATTEMPT row_budget=49152 returncode=0
+stream1_mode=model
+stream1_executor=native_cuda_graph
+runtime_ring_count=128
+runtime_ring_slot_count=8
+runtime_ring_slot_physical_jobs=1024
+runtime_ring_graph_execs_per_lane_requested=
+runtime_ring_graph_debug_sync=
+stream1_backend=mlp
+runtime_ring_slot_graph_windowed=0
+runtime_ring_slot_graph_window_rings=128
+runtime_ring_slot_graph_window_jobs=1024
+runtime_ring_slot_graph_physical_jobs=1024
+puzzle_solved=0 puzzle_id=0 seconds=3023.58 solution_length=-1 solution=
+

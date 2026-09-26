@@ -37,15 +37,15 @@
     {
       "name": "main.pdf",
       "path": "paper/main.pdf",
-      "sha256": "c300d51beddab17c0f86cd8462abbb08da83e82b7791fbed2e9f8773977e14ac",
-      "bytes": 438917,
+      "sha256": "4ac256222f20f3a33db3a9b6d54f8891c2926c9a3d7413ab0399da8bc5473d69",
+      "bytes": 440239,
       "language": "English"
     },
     {
       "name": "main_ru.pdf",
       "path": "paper/main_ru.pdf",
-      "sha256": "413bdcf37563afd936aa96664e22a6a114ef01c0fbbb15c3928415e9f5b607e2",
-      "bytes": 533587,
+      "sha256": "e07cffedd7346685f2dd827b3d5d8f160cb4e41f125ef1903b0535329c43802f",
+      "bytes": 530065,
       "language": "Russian"
     }
   ],
@@ -56,5 +56,6 @@
   "prior_art_audit": "artifacts/PRIOR_ART.md",
   "raw_result_root": "artifacts/results",
   "superflip_submission": "artifacts/superflip/submission_69749.csv",
-  "reproduction_root": "reproduce"
+  "reproduction_root": "reproduce",
+  "scalar_cohort_provenance": "artifacts/SCALAR_COHORTS.md"
 }
