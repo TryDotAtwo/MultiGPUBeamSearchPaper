@@ -30,7 +30,9 @@ has not been measured.
 
 ## What is public here
 
-- `paper/`: English and Russian LaTeX sources, bibliography, and built PDFs.
+- `paper/`: English and Russian LaTeX sources, bibliography, and built PDFs;
+  both versions contain the same three vector explanations of a global beam,
+  overlapping streams, and duplicate reduction/top-$B$ selection.
 - `artifacts/`: benchmark matrix, claim ledger, prior-art audit, compact raw
   JSON/JSONL/CSV results, and the explicit capacity record.
 - `reproduce/notebooks/`: self-contained Kaggle notebooks for the final one-T4

@@ -37,15 +37,15 @@
     {
       "name": "main.pdf",
       "path": "paper/main.pdf",
-      "sha256": "5a9b8a55b706bb9034f1c4da3fcb9231c224055b343c3409c20045fc0af1a94e",
-      "bytes": 409618,
+      "sha256": "c300d51beddab17c0f86cd8462abbb08da83e82b7791fbed2e9f8773977e14ac",
+      "bytes": 438917,
       "language": "English"
     },
     {
       "name": "main_ru.pdf",
       "path": "paper/main_ru.pdf",
-      "sha256": "d74d8e8c447ddd178e80b2511a53b1aa453f91d547fb2e7615458cd9800fb716",
-      "bytes": 497866,
+      "sha256": "413bdcf37563afd936aa96664e22a6a114ef01c0fbbb15c3928415e9f5b607e2",
+      "bytes": 533587,
       "language": "Russian"
     }
   ],

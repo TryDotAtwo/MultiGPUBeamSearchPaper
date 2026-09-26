@@ -3,6 +3,8 @@
 \documentclass[10pt,twocolumn]{article}
 \usepackage[margin=0.72in]{geometry}
 \usepackage{amsmath,amssymb,booktabs,graphicx,microtype,url}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit}
 \usepackage[hidelinks]{hyperref}
 
 \title{One Global Beam Across Many GPUs: Exact High-Throughput Beam Search at Billion-State Frontier Scale}
@@ -38,6 +40,38 @@ conjunction, not parallel, GPU, or distributed beam search in isolation.
 \end{abstract}
 
 \section{Introduction and Problem}
+Beam search keeps a limited set of current states, called the beam. At each
+step it applies legal moves, merges duplicate states, and retains at most $B$
+records with the smallest scores. If fewer than $B$ distinct keys exist, it
+retains all of them. Here an owner is the GPU assigned by a state key, so
+copies from different devices meet. Exact top-$B$ means agreement under the
+same quantized scores, 128-bit keys, and fixed-layout tie order; it does not
+guarantee a shortest solution because beam search discards some directions.
+Figure~\ref{fig:beam_step} follows one small example through duplicate
+reduction, global selection, and a separate equal-score boundary.
+
+\begin{figure}[t]
+\centering
+\setlength{\fboxsep}{4pt}
+\begin{tabular}{c@{\hspace{4pt}}c}
+\fbox{\begin{tabular}{c}GPU 0\\$A{:}2,\ B{:}7,\ C{:}4$\end{tabular}} &
+\fbox{\begin{tabular}{c}GPU 1\\$A{:}2,\ D{:}3,\ E{:}8$\end{tabular}}\\[5pt]
+\multicolumn{2}{c}{$\Downarrow$ same key $A$ meets at one owner}\\[3pt]
+\multicolumn{2}{c}{\fbox{$A{:}2,\ B{:}7,\ C{:}4,\ D{:}3,\ E{:}8$}}\\[5pt]
+\multicolumn{2}{c}{$\Downarrow\quad B=3\quad\Downarrow$}\\[3pt]
+\multicolumn{2}{c}{\fbox{$A{:}2,\ D{:}3,\ C{:}4$}}\\[7pt]
+\multicolumn{2}{c}{\begin{tabular}{c}
+\scriptsize Boundary example: $1,2,3,3$ with $B=3$ and $T=3$\\
+\scriptsize both $3$s survive $s\leq T$; the fixed tie rule picks one
+\end{tabular}}
+\end{tabular}
+\caption{One illustrative beam-search step with $B=3$; smaller scores are
+better. Equal keys are merged across GPUs before the global cut. The two $A$
+records occupy one place; state identity here follows the 128-bit key model.
+At a tied boundary, both records survive pruning before the final cut.}
+\label{fig:beam_step}
+\end{figure}
+
 Beam search becomes a distributed-systems problem once the retained frontier
 exceeds one GPU's memory.  Expansion, scoring, de-duplication, global
 selection, and ancestry must be distributed without turning one search into
@@ -84,6 +118,36 @@ Here ``one coherent search'' has an operational meaning: every GPU contributes
 to Eq.~\eqref{eq:beam}, and the ranks collectively commit disjoint shards of
 one globally defined next frontier.  It is not an ensemble of independent
 beams or replicas.
+
+Figure~\ref{fig:global_beam} shows where the complete candidate data stays and
+where only compact control metadata reaches the host. No GPU has a guaranteed
+local survivor quota: all ranks contribute to one global score cut.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[>=Stealth, every node/.style={font=\small,align=center},
+ box/.style={draw,rounded corners,text width=2.05cm,minimum height=1.05cm,font=\scriptsize},
+ node distance=0.3cm]
+\node[box] (front) {$\frontier_{d-1}$\\one logical beam};
+\node[box,right=of front] (batch) {GPU 0, 1, 2, $\ldots$\\local parent batches};
+\node[box,right=of batch] (route) {compact records\\owner $o(z)$};
+\node[box,right=of route] (reduce) {owner reduction\\global threshold $T^*$};
+\node[box,right=of reduce] (next) {$\frontier_d$\\distributed next beam};
+\draw[->] (front) -- (batch);
+\draw[->] (batch) -- (route);
+\draw[->] (route) -- (reduce);
+\draw[->] (reduce) -- (next);
+\node[draw,dashed,below=0.65cm of reduce,font=\scriptsize,align=center] (cpu)
+ {CPU: compact counts and ancestry metadata};
+\draw[->,dashed] (reduce) -- (cpu);
+\node[draw,dotted,fit=(front)(batch)(route)(reduce)(next),inner sep=0.12cm] {};
+\end{tikzpicture}
+\caption{One global beam physically distributed across GPUs. Equal keys
+route to one owner; the threshold and final top-$B$ apply to the combined
+candidate set, without shard-local semantic caps. Solid arrows carry GPU
+hot data; the dashed arrow carries only compact host metadata.}
+\label{fig:global_beam}
+\end{figure*}
 
 \paragraph{Contributions.}
 The system contributes (i) a GPU-resident hot-data path that distributes one
@@ -171,6 +235,41 @@ This work & eight H200; one sharded global beam & 2,900,361,216 effective & 69.6
 \end{table*}
 
 \section{One Search Depth on Five GPU Streams}
+The five streams overlap work on different microbatches rather than forming
+five sequential passes. Figure~\ref{fig:overlap} is a conceptual schedule,
+not a profiler trace or a measurement of individual stage durations.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[x=1.05cm,y=0.48cm,>=Stealth,
+ every node/.style={font=\scriptsize}]
+\foreach \name/\y in {$S_1$/5,$S_2$/4,$S_3$/3,$S_4$/2,$S_5$/1}
+  {\node[anchor=east] at (0,\y) {\name}; \draw[gray!50] (0.2,\y) -- (8.2,\y);}
+\draw[fill=gray!25] (0.3,4.7) rectangle (2.2,5.25);
+\draw[fill=gray!25] (2.4,4.7) rectangle (4.25,5.25);
+\draw[fill=gray!25] (0.3,3.7) rectangle (2.0,4.25);
+\draw[fill=gray!25] (2.4,3.7) rectangle (4.1,4.25);
+\draw[fill=gray!45] (2.45,2.7) rectangle (3.55,3.25);
+\draw[fill=gray!45] (4.5,2.7) rectangle (5.6,3.25);
+\draw[fill=gray!65] (3.7,1.7) rectangle (5.0,2.25);
+\draw[fill=gray!65] (5.85,1.7) rectangle (7.1,2.25);
+\draw[fill=gray!65] (3.7,0.7) rectangle (5.0,1.25);
+\draw[fill=gray!65] (5.85,0.7) rectangle (7.1,1.25);
+\foreach \x/\y/\tag in {1.25/5/$b_1$,3.3/5/$b_2$,1.15/4/$b_1$,3.25/4/$b_2$,3.0/3/$b_1$,5.05/3/$b_2$,4.35/2/$b_1$,6.48/2/$b_2$,4.35/1/$b_1$,6.48/1/$b_2$}
+  {\node at (\x,\y) {\tag};}
+\draw[->] (2.2,4.6) -- (2.45,3.3);
+\draw[->] (2.0,3.6) -- (2.45,3.3);
+\draw[dashed] (7.35,0.55) -- (7.35,5.45);
+\node[anchor=west] at (7.43,3) {drain};
+\end{tikzpicture}
+\caption{Conceptual overlap, not a measured trace. Streams 1 and 2 score
+and identify a batch before Stream 3 consumes it; later batches can run while
+earlier records are reduced or exchanged. Stream 5 communicates with owners,
+whose Stream 4 collector handles local and received records; the final cut
+follows the drain. Bar lengths do not encode measured times.}
+\label{fig:overlap}
+\end{figure*}
+
 The input is a global beam $\frontier_{d-1}$ distributed over $p$ GPUs.  If GPU
 $r$ owns $N_r$ parents and the graph has $m$ moves, it generates $mN_r$
 logical candidates.  For $y=A_a(x)$, a candidate is represented before
@@ -181,8 +280,9 @@ materialization by
 \end{equation}
 where $z(y)\in\{0,1\}^{128}$ is the child-state hash, $s(x,a)$ is a
 quantized candidate score, and $r_{\mathrm{src}}$ identifies the GPU that stores
-the parent.  The child state itself is reconstructed only for goal checking or
-after the final selection.
+ the parent. Temporary child states may be formed for goal checking or scalar
+score evaluation; the full expanded child layer is not stored. Selected child
+states are reconstructed for the next beam after the global cut.
 
 \paragraph{Streams 1--2: score and identity.}
 Parents are divided into microbatches and placed in reusable ring slots.
@@ -232,7 +332,7 @@ two resident buffers: Stream~3 appends to one while Stream~4 cleans the other.
 A Stream~4 job merges the clean and newly appended regions, applies its snapshot
 of $T$, compacts, sorts by $z$, and retains the best metadata for each hash.
 There is no per-shard top-$k$ and no semantic shard quota: a shard may retain
-every candidate below $T$.  Consequently sharding does not approximate the
+every candidate with $s\leq T$. Consequently sharding does not approximate the
 score cut; only the equal-score boundary order is defined by the fixed layout.
 
 \paragraph{Classical top-$\beam$ versus monotone thresholding.}
